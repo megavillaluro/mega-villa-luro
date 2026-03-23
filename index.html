@@ -105,18 +105,18 @@ table.tot tr.tr td.c{text-align:center}
 </head>
 <body>
 <div class="tabs">
-  <button class="tab active" onclick="showT('rojo')" style="--tc:#dc2626">🔴 Rojo</button>
-  <button class="tab" onclick="showT('negro')" style="--tc:#374151">⚫ Negro</button>
-  <button class="tab" onclick="showT('blanco')" style="--tc:#475569">⚪ Blanco</button>
-  <button class="tab" onclick="showT('violeta')" style="--tc:#7c3aed">🟣 Violeta</button>
-  <button class="tab" onclick="showT('verde')" style="--tc:#16a34a">🟢 Verde</button>
-  <button class="tab" onclick="showT('peques')" style="--tc:#0891b2">🔵 Peques</button>
-  <button class="tab" onclick="showT('total')" style="--tc:#1a1a1a">📊 Total</button>
+  <button class="tab active" onclick="showT('total')" style="--tc:#1a1a1a">📊 TOTAL</button>
+  <button class="tab" onclick="showT('blanco')" style="--tc:#475569">⚪ BLANCO</button>
+  <button class="tab" onclick="showT('negro')" style="--tc:#374151">⚫ NEGRO</button>
+  <button class="tab" onclick="showT('rojo')" style="--tc:#dc2626">🔴 ROJO</button>
+  <button class="tab" onclick="showT('violeta')" style="--tc:#7c3aed">🟣 VIOLETA</button>
+  <button class="tab" onclick="showT('verde')" style="--tc:#16a34a">🟢 VERDE</button>
+  <button class="tab" onclick="showT('peques')" style="--tc:#0891b2">🔵 PEQUES</button>
 </div>
 <div id="root"></div>
 
 <!-- TOTAL TAB -->
-<div class="dash" id="dash-total" style="--tc:#1a1a1a">
+<div class="dash active" id="dash-total" style="--tc:#1a1a1a">
   <div class="header" style="background:#1a1a1a"><div class="hn">Resumen General</div><div class="hs">Temporada 2026 · Mega Villa Luro · Todas las tiras</div></div>
   <div class="kpis">
     <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Partidos</div><div class="kv">39</div></div>
@@ -339,7 +339,7 @@ const TIRAS = {
   }
 };
 
-const TIDX = {rojo:0,negro:1,blanco:2,violeta:3,verde:4,peques:5,total:6};
+const TIDX = {total:0,blanco:1,negro:2,rojo:3,violeta:4,verde:5,peques:6};
 const CHART_QUEUE = [];
 
 const SCHEDULE = {
@@ -471,38 +471,6 @@ function buildTira(key, T) {
       const barH = Math.max(80, nonTodo.length * 50 + 50);
       CHART_QUEUE.push({id1: donutId, id2: barId, g: o?.g||0, e: o?.e||0, p: o?.p||0, labels: catLabels, gf: catGF, gc: catGC});
 
-      const rows = nonTodo.map(nck => {
-        const cd = T.cats[nck];
-        if (!cd) return '';
-        const dif = cd.gf - cd.gc;
-        const difHtml = dif > 0 ? `<span class="dp">+${dif}</span>` : dif < 0 ? `<span class="dn">${dif}</span>` : '0';
-        return `<tr>
-          <td>${nck}</td>
-          <td class="cg">${cd.g}</td><td class="ce">${cd.e}</td><td class="cp">${cd.p}</td>
-          <td>${cd.pj}</td><td>${cd.gf}</td><td>${cd.gc}</td><td>${difHtml}</td>
-          <td>${cd.pj>0?(cd.gf/cd.pj).toFixed(1):'-'}</td>
-          <td>${cd.pj>0?(cd.gc/cd.pj).toFixed(1):'-'}</td>
-        </tr>`;
-      }).join('');
-      const tG=nonTodo.reduce((s,k)=>s+(T.cats[k]?.g||0),0);
-      const tE=nonTodo.reduce((s,k)=>s+(T.cats[k]?.e||0),0);
-      const tP=nonTodo.reduce((s,k)=>s+(T.cats[k]?.p||0),0);
-      const tPJ=nonTodo.reduce((s,k)=>s+(T.cats[k]?.pj||0),0);
-      const tGF=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gf||0),0);
-      const tGC=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gc||0),0);
-      const tDif=tGF-tGC;
-
-      const compId = `ch-comp-${key}`;
-      const compH = Math.max(80, nonTodo.length * 45 + 60);
-      CHART_QUEUE.push({
-        type: 'comp',
-        id3: compId,
-        labels: catLabels,
-        g: nonTodo.map(k => T.cats[k]?.g || 0),
-        e: nonTodo.map(k => T.cats[k]?.e || 0),
-        p: nonTodo.map(k => T.cats[k]?.p || 0)
-      });
-
       csHtml = `
         <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin-bottom:12px">
           <div class="panel" style="margin-bottom:0">
@@ -522,27 +490,7 @@ function buildTira(key, T) {
               <div style="position:relative;height:${barH}px"><canvas id="${barId}"></canvas></div>
             </div>
           </div>
-        </div>
-        <div class="panel" style="margin-bottom:12px">
-          <div class="ph">Comparativa por categoría — G / E / P</div>
-          <div style="padding:10px 12px">
-            <div style="position:relative;height:${compH}px"><canvas id="${compId}"></canvas></div>
-          </div>
-        </div>
-        <div class="panel"><div class="ph">Rendimiento por categoría</div><div class="pb" style="padding:0">
-          <table class="cs">
-            <thead><tr><th>Categoría</th><th>G</th><th>E</th><th>P</th><th>PJ</th><th>GF</th><th>GC</th><th>Dif.</th><th>GF/PJ</th><th>GC/PJ</th></tr></thead>
-            <tbody>${rows}</tbody>
-            <tfoot><tr>
-              <td>TOTAL</td>
-              <td class="cg">${tG}</td><td class="ce">${tE}</td><td class="cp">${tP}</td>
-              <td>${tPJ}</td><td>${tGF}</td><td>${tGC}</td>
-              <td>${tDif>0?'+'+tDif:tDif}</td>
-              <td>${tPJ>0?(tGF/tPJ).toFixed(1):'-'}</td>
-              <td>${tPJ>0?(tGC/tPJ).toFixed(1):'-'}</td>
-            </tr></tfoot>
-          </table>
-        </div></div>`;
+        </div>`;
     }
 
     // 3 player tables
@@ -592,7 +540,7 @@ function buildTira(key, T) {
     </div>`;
   });
 
-  return `<div class="dash${key==='rojo'?' active':''}" id="dash-${key}" style="--tc:${color}">
+  return `<div class="dash${key==='total'?' active':''}" id="dash-${key}" style="--tc:${color}">
     <div class="header"><div class="hn">${T.label}</div><div class="hs">${T.sub}</div></div>
     ${pillsHtml}
     ${cvsHtml}
