@@ -3,173 +3,155 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboards Mega Villa Luro 2026</title>
+<title>Mega Villa Luro 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: Arial, sans-serif; background: #f5f5f0; color: #222; }
-
-/* ---- TIRA TABS ---- */
-.tira-tabs { display: flex; background: #1a1a1a; flex-wrap: wrap; }
-.tira-btn { flex: 1; min-width: 72px; padding: 11px 5px; border: none; cursor: pointer; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45); background: transparent; transition: all 0.2s; white-space: nowrap; letter-spacing: 0.2px; }
-.tira-btn:hover { color: rgba(255,255,255,0.8); }
-.tira-btn.active { color: #fff; border-bottom: 3px solid var(--tc); }
-
-.dashboard { display: none; padding: 16px; }
-.dashboard.active { display: block; }
-
-.header-strip { padding: 14px 18px; border-radius: 10px; margin-bottom: 14px; background: var(--tc); color: #fff; }
-.tira-name { font-size: 21px; font-weight: 700; }
-.tira-sub { font-size: 11px; opacity: 0.82; margin-top: 2px; }
-
-/* ---- KPI ROW ---- */
-.kpi-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 12px; }
-.kpi-card { background: #fff; border-radius: 9px; padding: 11px 12px; border-left: 4px solid var(--tc); box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
-.kpi-label { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-.kpi-value { font-size: 21px; font-weight: 700; color: #222; line-height: 1.1; }
-.kpi-sub { font-size: 10px; color: #bbb; margin-top: 2px; }
-
-/* ---- CATEGORY PILLS ---- */
-.cat-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.cat-pill { padding: 5px 13px; border-radius: 20px; border: 1.5px solid var(--tc); background: #fff; color: var(--tc); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
-.cat-pill:hover { background: var(--tc); color: #fff; opacity: 0.85; }
-.cat-pill.active { background: var(--tc); color: #fff; }
-
-/* ---- CATEGORY VIEW ---- */
-.cat-view { display: none; }
-.cat-view.active { display: block; }
-.cat-kpi-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 12px; }
-.cat-kpi { background: #fff; border-radius: 8px; padding: 10px 12px; border-top: 3px solid var(--tc); box-shadow: 0 1px 3px rgba(0,0,0,0.06); text-align: center; }
-.cat-kpi .lbl { font-size: 9px; color: #aaa; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
-.cat-kpi .val { font-size: 18px; font-weight: 700; }
-.cat-kpi .sub { font-size: 9px; color: #ccc; margin-top: 1px; }
-
-/* ---- LAYOUT ---- */
-.row2 { display: grid; grid-template-columns: 180px 1fr; gap: 12px; margin-bottom: 12px; }
-.panel { background: #fff; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.07); overflow: hidden; }
-.panel-head { padding: 8px 13px; font-size: 10px; font-weight: 700; color: #fff; background: var(--tc); text-transform: uppercase; letter-spacing: 0.3px; }
-.panel-body { padding: 12px; }
-
-/* ---- DONUT ---- */
-.donut-wrap { display: flex; flex-direction: column; align-items: center; padding: 8px 6px; }
-.donut-wrap canvas { max-width: 120px; max-height: 120px; }
-.legend-col { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; width: 100%; }
-.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
-.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-.legend-val { margin-left: auto; font-weight: 700; font-size: 11px; color: #333; }
-
-/* ---- RESULT TABLE ---- */
-.jornada-hd { font-size: 10px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.4px; padding: 3px 0 5px; border-bottom: 1px solid #eee; margin: 10px 0 5px; }
-.jornada-hd:first-child { margin-top: 0; }
-table.compact { width: 100%; border-collapse: collapse; font-size: 12px; }
-table.compact th { background: #f8f8f6; padding: 5px 8px; font-size: 9px; color: #aaa; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid #eee; }
-table.compact th.c, table.compact td.c { text-align: center; }
-table.compact td { padding: 5px 8px; border-bottom: 1px solid #f2f2f0; color: #333; font-size: 12px; }
-table.compact tr:last-child td { border-bottom: none; }
-.badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; }
-.badge-G { background: #dcfce7; color: #166534; }
-.badge-E { background: #fef9c3; color: #854d0e; }
-.badge-P { background: #fee2e2; color: #991b1b; }
-
-/* ---- PLAYER TABLES ---- */
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 0; }
-.stats-subhead { font-size: 10px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 0.4px; padding: 7px 12px; border-radius: 7px 7px 0 0; background: var(--tc); }
-.stats-block { border: 1px solid #e8e8e5; border-radius: 8px; overflow: hidden; }
-.srch { width: 100%; padding: 6px 10px; border: none; border-bottom: 1px solid #eee; font-size: 12px; outline: none; color: #333; background: #fafaf8; }
-.srch:focus { background: #fff; border-bottom-color: var(--tc); }
-.tbl-wrap { max-height: 280px; overflow-y: auto; }
-table.players { width: 100%; border-collapse: collapse; font-size: 12px; }
-table.players thead { position: sticky; top: 0; z-index: 1; }
-table.players th { background: #f3f3f0; padding: 6px 8px; font-size: 9px; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid #e8e8e5; white-space: nowrap; }
-table.players th.sortable { cursor: pointer; user-select: none; }
-table.players th.sortable:hover { background: #eaeaea; }
-table.players th .sa { margin-left: 2px; opacity: 0.35; font-size: 8px; }
-table.players th.sorted .sa { opacity: 1; }
-table.players td { padding: 6px 8px; border-bottom: 1px solid #f0f0ee; }
-table.players td.num { text-align: center; font-weight: 600; }
-table.players td.goles { color: var(--tc); font-weight: 700; text-align: center; }
-table.players td.nov { color: #e45454; font-weight: 700; text-align: center; }
-table.players td.xv { color: #d97706; font-weight: 700; text-align: center; }
-table.players td.sum { color: #b45309; font-weight: 700; text-align: center; }
-table.players td.zero { color: #ccc; text-align: center; }
-table.players tr:hover td { background: #fafaf8; }
-.tbl-footer { font-size: 10px; color: #bbb; padding: 5px 8px; text-align: right; background: #fafaf8; border-top: 1px solid #f0f0ee; }
-.no-data-row { text-align: center; color: #ccc; font-size: 12px; padding: 16px 8px; font-style: italic; }
-@media(max-width:700px){ .stats-grid{grid-template-columns:1fr} }
-
-/* ---- TOTAL TAB ---- */
-table.summary { width: 100%; border-collapse: collapse; font-size: 13px; }
-table.summary th { background: #1a1a1a; color: #fff; padding: 9px 11px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.3px; }
-table.summary th.c { text-align: center; }
-table.summary td { padding: 9px 11px; border-bottom: 1px solid #eee; }
-table.summary td.c { text-align: center; font-weight: 600; }
-table.summary tr.total-row td { background: #1a1a1a; color: #fff; font-weight: 700; }
-table.summary tr.total-row td.c { text-align: center; }
-.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
-.info-banner { background: #f0f4ff; border: 1px solid #c7d7f7; border-radius: 8px; padding: 11px 14px; font-size: 12px; color: #444; margin-bottom: 12px; }
-
-@media(max-width:700px){ .kpi-grid,.cat-kpi-row{grid-template-columns:repeat(3,1fr)} .row2{grid-template-columns:1fr} }
-@media(max-width:450px){ .kpi-grid,.cat-kpi-row{grid-template-columns:repeat(2,1fr)} }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f5f0;color:#222}
+.tabs{display:flex;background:#1a1a1a;flex-wrap:wrap}
+.tab{flex:1;min-width:65px;padding:10px 4px;border:none;cursor:pointer;font-size:11px;font-weight:700;color:rgba(255,255,255,.45);background:transparent;transition:all .2s;white-space:nowrap}
+.tab:hover{color:rgba(255,255,255,.8)}
+.tab.active{color:#fff;border-bottom:3px solid var(--tc)}
+.dash{display:none;padding:15px}
+.dash.active{display:block}
+.header{padding:13px 18px;border-radius:10px;margin-bottom:13px;background:var(--tc);color:#fff}
+.hn{font-size:21px;font-weight:700}
+.hs{font-size:11px;opacity:.82;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:#fff;border-radius:9px;padding:11px 12px;border-left:4px solid var(--tc);box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.kl{font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.kv{font-size:20px;font-weight:700;color:#222;line-height:1.1}
+.ks{font-size:10px;color:#bbb;margin-top:2px}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pill{padding:5px 13px;border-radius:20px;border:1.5px solid var(--tc);background:#fff;color:var(--tc);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
+.pill:hover,.pill.active{background:var(--tc);color:#fff}
+.cv{display:none}
+.cv.active{display:block}
+.catkpis{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px}
+.ck{background:#fff;border-radius:8px;padding:10px 12px;border-top:3px solid var(--tc);box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center}
+.ck .l{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.ck .v{font-size:18px;font-weight:700}
+.ck .s{font-size:9px;color:#ccc;margin-top:1px}
+.panel{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden;margin-bottom:12px}
+.ph{padding:8px 13px;font-size:10px;font-weight:700;color:#fff;background:var(--tc);text-transform:uppercase;letter-spacing:.3px}
+.pb{padding:12px}
+.row2{display:grid;grid-template-columns:175px 1fr;gap:12px;margin-bottom:12px}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 6px}
+.donut-wrap canvas{max-width:120px;max-height:120px}
+.leg{display:flex;flex-direction:column;gap:5px;margin-top:8px;width:100%}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
+.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.lv{margin-left:auto;font-weight:700;font-size:11px;color:#333}
+.jh{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;padding:3px 0 5px;border-bottom:1px solid #eee;margin:8px 0 5px}
+.jh:first-child{margin-top:0}
+table.ct{width:100%;border-collapse:collapse;font-size:12px}
+table.ct th{background:#f8f8f6;padding:5px 8px;font-size:9px;color:#aaa;font-weight:700;text-transform:uppercase;border-bottom:1px solid #eee}
+table.ct th.c,table.ct td.c{text-align:center}
+table.ct td{padding:5px 8px;border-bottom:1px solid #f2f2f0;color:#333;font-size:12px}
+table.ct tr:last-child td{border-bottom:none}
+.bg{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.bg-G{background:#dcfce7;color:#166534}
+.bg-E{background:#fef9c3;color:#854d0e}
+.bg-P{background:#fee2e2;color:#991b1b}
+/* cat summary */
+table.cs{width:100%;border-collapse:collapse;font-size:12px}
+table.cs thead th{background:var(--tc);color:#fff;padding:7px 10px;font-size:10px;font-weight:700;text-transform:uppercase;text-align:center}
+table.cs thead th:first-child{text-align:left}
+table.cs tbody td{padding:7px 10px;border-bottom:1px solid #f0f0ee;text-align:center}
+table.cs tbody td:first-child{text-align:left;font-weight:700;color:#333}
+table.cs tbody tr:hover td{background:#fafaf8}
+table.cs tfoot td{background:#f3f3f0;padding:7px 10px;font-size:11px;font-weight:700;text-align:center;border-top:2px solid #e0e0dd}
+table.cs tfoot td:first-child{text-align:left;color:#555}
+.cg{color:#16a34a;font-weight:700}
+.ce{color:#d97706;font-weight:700}
+.cp{color:#dc2626;font-weight:700}
+.dp{color:#16a34a;font-weight:700}
+.dn{color:#dc2626;font-weight:700}
+/* 3-table stats grid */
+.sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.sb{border:1px solid #e8e8e5;border-radius:8px;overflow:hidden}
+.ssh{font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.4px;padding:7px 12px;background:var(--tc)}
+.srch{width:100%;padding:6px 10px;border:none;border-bottom:1px solid #eee;font-size:12px;outline:none;color:#333;background:#fafaf8}
+.srch:focus{background:#fff;border-bottom-color:var(--tc)}
+.tw{max-height:280px;overflow-y:auto}
+table.pt{width:100%;border-collapse:collapse;font-size:12px}
+table.pt thead{position:sticky;top:0;z-index:1}
+table.pt th{background:#f3f3f0;padding:6px 8px;font-size:9px;color:#999;font-weight:700;text-transform:uppercase;border-bottom:2px solid #e8e8e5;white-space:nowrap;cursor:pointer;user-select:none}
+table.pt th:hover{background:#eaeaea}
+table.pt th .sa{margin-left:2px;opacity:.35;font-size:8px}
+table.pt th.srt .sa{opacity:1}
+table.pt td{padding:6px 8px;border-bottom:1px solid #f0f0ee}
+table.pt td.n{text-align:center;font-weight:600}
+table.pt td.g{color:var(--tc);font-weight:700;text-align:center}
+table.pt td.no{color:#e45454;font-weight:700;text-align:center}
+table.pt td.x{color:#d97706;font-weight:700;text-align:center}
+table.pt td.sm{color:#b45309;font-weight:700;text-align:center}
+table.pt td.z{color:#ccc;text-align:center}
+table.pt tr:hover td{background:#fafaf8}
+.tf{font-size:10px;color:#bbb;padding:5px 8px;text-align:right;background:#fafaf8;border-top:1px solid #f0f0ee}
+.nd{text-align:center;color:#ccc;font-size:12px;padding:16px 8px;font-style:italic}
+/* total */
+table.tot{width:100%;border-collapse:collapse;font-size:13px}
+table.tot th{background:#1a1a1a;color:#fff;padding:9px 11px;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+table.tot th.c{text-align:center}
+table.tot td{padding:9px 11px;border-bottom:1px solid #eee}
+table.tot td.c{text-align:center;font-weight:600}
+table.tot tr.tr td{background:#1a1a1a;color:#fff;font-weight:700}
+table.tot tr.tr td.c{text-align:center}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+@media(max-width:700px){.kpis,.catkpis{grid-template-columns:repeat(3,1fr)}.row2{grid-template-columns:1fr}.sg{grid-template-columns:1fr}}
+@media(max-width:450px){.kpis,.catkpis{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-
-<div class="tira-tabs">
-  <button class="tira-btn active" onclick="showTira('rojo')" style="--tc:#dc2626">🔴 Rojo</button>
-  <button class="tira-btn" onclick="showTira('negro')" style="--tc:#374151">⚫ Negro</button>
-  <button class="tira-btn" onclick="showTira('blanco')" style="--tc:#475569">⚪ Blanco</button>
-  <button class="tira-btn" onclick="showTira('violeta')" style="--tc:#7c3aed">🟣 Violeta</button>
-  <button class="tira-btn" onclick="showTira('verde')" style="--tc:#16a34a">🟢 Verde</button>
-  <button class="tira-btn" onclick="showTira('peques')" style="--tc:#0891b2">🔵 Peques</button>
-  <button class="tira-btn" onclick="showTira('total')" style="--tc:#1a1a1a">📊 Total</button>
+<div class="tabs">
+  <button class="tab active" onclick="showT('rojo')" style="--tc:#dc2626">🔴 Rojo</button>
+  <button class="tab" onclick="showT('negro')" style="--tc:#374151">⚫ Negro</button>
+  <button class="tab" onclick="showT('blanco')" style="--tc:#475569">⚪ Blanco</button>
+  <button class="tab" onclick="showT('violeta')" style="--tc:#7c3aed">🟣 Violeta</button>
+  <button class="tab" onclick="showT('verde')" style="--tc:#16a34a">🟢 Verde</button>
+  <button class="tab" onclick="showT('peques')" style="--tc:#0891b2">🔵 Peques</button>
+  <button class="tab" onclick="showT('total')" style="--tc:#1a1a1a">📊 Total</button>
 </div>
+<div id="root"></div>
 
-<!-- ===== Each tira is generated by JS ===== -->
-<div id="tira-containers"></div>
-
-<!-- TOTAL TAB (static) -->
-<div class="dashboard" id="dash-total" style="--tc:#1a1a1a">
-  <div class="header-strip" style="background:#1a1a1a">
-    <div class="tira-name">Resumen General · Todas las Tiras</div>
-    <div class="tira-sub">Temporada 2026 · Mega Villa Luro</div>
+<!-- TOTAL TAB -->
+<div class="dash" id="dash-total" style="--tc:#1a1a1a">
+  <div class="header" style="background:#1a1a1a"><div class="hn">Resumen General</div><div class="hs">Temporada 2026 · Mega Villa Luro · Todas las tiras</div></div>
+  <div class="kpis">
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Partidos</div><div class="kv">36</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">17</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Empates</div><div class="kv" style="color:#d97706">3</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">16</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles a favor</div><div class="kv">134</div><div class="ks">Prom: 3.7/partido</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles en contra</div><div class="kv">109</div><div class="ks">Prom: 3.0/partido</div></div>
   </div>
-  <div class="kpi-grid">
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Total partidos</div><div class="kpi-value">35</div></div>
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Ganados</div><div class="kpi-value" style="color:#16a34a">17</div></div>
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Empates</div><div class="kpi-value" style="color:#d97706">2</div></div>
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Perdidos</div><div class="kpi-value" style="color:#dc2626">15</div></div>
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Goles a favor</div><div class="kpi-value">130</div><div class="kpi-sub">Prom: 3.7 / partido</div></div>
-    <div class="kpi-card" style="border-left-color:#1a1a1a"><div class="kpi-label">Goles en contra</div><div class="kpi-value">102</div><div class="kpi-sub">Prom: 2.9 / partido</div></div>
-  </div>
-  <div class="panel" style="margin-bottom:12px">
-    <div class="panel-head" style="background:#1a1a1a">Comparativa por tira</div>
-    <div class="panel-body" style="padding:0">
-      <table class="summary">
+  <div class="panel">
+    <div class="ph" style="background:#1a1a1a">Comparativa por tira</div>
+    <div class="pb" style="padding:0">
+      <table class="tot">
         <thead><tr><th>Tira</th><th class="c">PJ</th><th class="c">G</th><th class="c">E</th><th class="c">P</th><th class="c">GF</th><th class="c">GC</th><th class="c">Dif.</th><th class="c">GF/PJ</th><th class="c">GC/PJ</th></tr></thead>
         <tbody>
-          <tr><td><span class="dot" style="background:#dc2626"></span>Mega Rojo</td><td class="c">10</td><td class="c" style="color:#16a34a;font-weight:700">5</td><td class="c">2</td><td class="c" style="color:#dc2626;font-weight:700">3</td><td class="c">53</td><td class="c">27</td><td class="c" style="color:#16a34a;font-weight:700">+26</td><td class="c">5.3</td><td class="c">2.7</td></tr>
-          <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td class="c">10</td><td class="c" style="color:#16a34a;font-weight:700">3</td><td class="c">0</td><td class="c" style="color:#dc2626;font-weight:700">6</td><td class="c">17</td><td class="c">36</td><td class="c" style="color:#dc2626;font-weight:700">−19</td><td class="c">1.7</td><td class="c">3.6</td></tr>
-          <tr><td><span class="dot" style="background:#475569"></span>Mega Blanco</td><td class="c">9</td><td class="c" style="color:#16a34a;font-weight:700">4</td><td class="c">0</td><td class="c" style="color:#dc2626;font-weight:700">5</td><td class="c">35</td><td class="c">25</td><td class="c" style="color:#16a34a;font-weight:700">+10</td><td class="c">3.9</td><td class="c">2.8</td></tr>
-          <tr><td><span class="dot" style="background:#7c3aed"></span>Mega Violeta</td><td class="c">4</td><td class="c" style="color:#16a34a;font-weight:700">4</td><td class="c">0</td><td class="c" style="color:#dc2626;font-weight:700">0</td><td class="c">18</td><td class="c">1</td><td class="c" style="color:#16a34a;font-weight:700">+17</td><td class="c">4.5</td><td class="c">0.2</td></tr>
-          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td class="c">2</td><td class="c" style="color:#16a34a;font-weight:700">1</td><td class="c">0</td><td class="c" style="color:#dc2626;font-weight:700">1</td><td class="c">7</td><td class="c">13</td><td class="c" style="color:#dc2626;font-weight:700">−6</td><td class="c">3.5</td><td class="c">6.5</td></tr>
-          <tr class="total-row"><td>⚽ TOTAL</td><td class="c">35</td><td class="c">17</td><td class="c">2</td><td class="c">15</td><td class="c">130</td><td class="c">102</td><td class="c">+28</td><td class="c">3.7</td><td class="c">2.9</td></tr>
+          <tr><td><span class="dot" style="background:#dc2626"></span>Mega Rojo</td><td class="c">10</td><td class="c cg">5</td><td class="c">2</td><td class="c cp">3</td><td class="c">53</td><td class="c">27</td><td class="c dp">+26</td><td class="c">5.3</td><td class="c">2.7</td></tr>
+          <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td class="c">10</td><td class="c cg">3</td><td class="c">0</td><td class="c cp">7</td><td class="c">17</td><td class="c">39</td><td class="c dn">−22</td><td class="c">1.7</td><td class="c">3.9</td></tr>
+          <tr><td><span class="dot" style="background:#475569"></span>Mega Blanco</td><td class="c">9</td><td class="c cg">4</td><td class="c">0</td><td class="c cp">5</td><td class="c">35</td><td class="c">25</td><td class="c dp">+10</td><td class="c">3.9</td><td class="c">2.8</td></tr>
+          <tr><td><span class="dot" style="background:#7c3aed"></span>Mega Violeta</td><td class="c">4</td><td class="c cg">4</td><td class="c">0</td><td class="c cp">0</td><td class="c">18</td><td class="c">1</td><td class="c dp">+17</td><td class="c">4.5</td><td class="c">0.2</td></tr>
+          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td class="c">2</td><td class="c cg">1</td><td class="c">0</td><td class="c cp">1</td><td class="c">7</td><td class="c">13</td><td class="c dn">−6</td><td class="c">3.5</td><td class="c">6.5</td></tr>
+          <tr><td><span class="dot" style="background:#0891b2"></span>Mega Peques</td><td class="c">1</td><td class="c">0</td><td class="c ce">1</td><td class="c">0</td><td class="c">4</td><td class="c">4</td><td class="c">0</td><td class="c">4.0</td><td class="c">4.0</td></tr>
+          <tr class="tr"><td>⚽ TOTAL</td><td class="c">36</td><td class="c">17</td><td class="c">3</td><td class="c">16</td><td class="c">134</td><td class="c">109</td><td class="c">+25</td><td class="c">3.7</td><td class="c">3.0</td></tr>
         </tbody>
       </table>
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div class="panel">
-      <div class="panel-head" style="background:#1a1a1a">GF vs GC por tira</div>
-      <div class="panel-body"><div style="position:relative;height:200px"><canvas id="chart-total"></canvas></div></div>
-    </div>
-    <div class="panel">
-      <div class="panel-head" style="background:#1a1a1a">Rendimiento G/E/P general</div>
-      <div class="panel-body" style="display:flex;flex-direction:column;align-items:center">
-        <div style="position:relative;width:140px;height:140px"><canvas id="donut-total"></canvas></div>
+    <div class="panel" style="margin-bottom:0"><div class="ph" style="background:#1a1a1a">GF vs GC por tira</div><div class="pb"><div style="position:relative;height:200px"><canvas id="chart-tot"></canvas></div></div></div>
+    <div class="panel" style="margin-bottom:0"><div class="ph" style="background:#1a1a1a">Rendimiento G/E/P</div>
+      <div class="pb" style="display:flex;flex-direction:column;align-items:center">
+        <div style="position:relative;width:140px;height:140px"><canvas id="donut-tot"></canvas></div>
         <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;flex-wrap:wrap;justify-content:center">
-          <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#16a34a;display:inline-block"></span>Ganados 17 (49%)</span>
-          <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#d97706;display:inline-block"></span>Empates 2 (6%)</span>
-          <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#dc2626;display:inline-block"></span>Perdidos 15 (43%)</span>
+          <span><span style="width:8px;height:8px;border-radius:2px;background:#16a34a;display:inline-block;margin-right:3px"></span>Ganados 17 (47%)</span>
+          <span><span style="width:8px;height:8px;border-radius:2px;background:#d97706;display:inline-block;margin-right:3px"></span>Empates 3 (8%)</span>
+          <span><span style="width:8px;height:8px;border-radius:2px;background:#dc2626;display:inline-block;margin-right:3px"></span>Perdidos 16 (44%)</span>
         </div>
       </div>
     </div>
@@ -177,692 +159,410 @@ table.summary tr.total-row td.c { text-align: center; }
 </div>
 
 <script>
-// =============================================
-// DATA
-// =============================================
 const TIRAS = {
   rojo: {
-    label: 'Mega Rojo', sub: 'Temporada 2026 · Liga FEFI · Categorías 2013–2018', color: '#dc2626',
-    overall: { pj:10, g:5, e:2, p:3, gf:53, gc:27 },
-    cats: {
-      'Todos': null,
-      '2013': {
-        pj:2, g:2, e:0, p:0, gf:19, gc:7,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:5, gc:3, res:'G'},
-          {fecha:'21/03', rival:'Villa Gral. Mitre', gf:14, gc:4, res:'G'}
-        ],
-        players: [
-          {n:'Fortunato Tobio, Marco',pj:2,no:0,x:0,g:5},{n:'Gandini, Bruno',pj:2,no:0,x:0,g:5},
-          {n:'López, Lautaro',pj:2,no:0,x:0,g:5},{n:'Reck Diez, Danilo',pj:2,no:0,x:0,g:3},
-          {n:'Orsi, Felipe',pj:2,no:1,x:0,g:1},{n:'Orsini, Agustín',pj:1,no:1,x:0,g:0},
-          {n:'Riondini, Santiago',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2014': {
-        pj:2, g:1, e:0, p:1, gf:10, gc:5,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:2, gc:3, res:'P'},
-          {fecha:'21/03', rival:'Villa Gral. Mitre', gf:8, gc:2, res:'G'}
-        ],
-        players: [
-          {n:'García Orozco, Luciano',pj:2,no:0,x:0,g:4},{n:'Gloazzo Rombola, Dante',pj:2,no:0,x:0,g:2},
-          {n:'Azocar González, Noah',pj:2,no:0,x:0,g:1},{n:'Di Lorenzo, Ramiro',pj:1,no:0,x:0,g:0},
-          {n:'Ferrer, Mateo',pj:1,no:0,x:0,g:0},{n:'Di Palma, Luca',pj:1,no:1,x:0,g:0},
-          {n:'Fusi, Agustín',pj:2,no:0,x:0,g:0},{n:'Martínez Saavedra, León',pj:1,no:0,x:0,g:0}
-        ]
-      },
-      '2015': {
-        pj:2, g:1, e:1, p:0, gf:12, gc:4,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:3, gc:3, res:'E'},
-          {fecha:'21/03', rival:'Villa Gral. Mitre', gf:9, gc:1, res:'G'}
-        ],
-        players: [
-          {n:'Martínez Saavedra, León',pj:3,no:0,x:0,g:6},{n:'Gazzia Stremiz, Juan Pablo',pj:2,no:0,x:0,g:3},
-          {n:'Gervasi, Benjamín',pj:2,no:0,x:0,g:2},{n:'Di Lorenzo, Ramiro',pj:3,no:0,x:0,g:2},
-          {n:'Ferrer, Mateo',pj:3,no:0,x:0,g:1},{n:'Iglesias, Simón',pj:2,no:0,x:0,g:1},
-          {n:'Pettinato, Lucas',pj:1,no:1,x:0,g:0},{n:'Álvarez, Mailo',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2016': {
-        pj:2, g:1, e:1, p:0, gf:11, gc:2,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:2, gc:2, res:'E'},
-          {fecha:'21/03', rival:'Villa Gral. Mitre', gf:9, gc:0, res:'G'}
-        ],
-        players: [
-          {n:'Rocchi, Simón',pj:2,no:0,x:0,g:5},{n:'Cortina, Luca',pj:2,no:0,x:0,g:4},
-          {n:'Bidoglio, Juan Cruz',pj:2,no:0,x:0,g:2},{n:'Caimi, Agustín',pj:1,no:0,x:0,g:0},
-          {n:'Mansilla, Bautista',pj:1,no:1,x:0,g:0},{n:'Martínez, Benicio',pj:2,no:0,x:0,g:0},
-          {n:'Matozza Bordón, Ignacio',pj:2,no:0,x:0,g:0},{n:'Mazzini, Agustín',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2017': {
-        pj:1, g:0, e:0, p:1, gf:1, gc:5,
-        matches: [{fecha:'14/03', rival:'Toque y Toque', gf:1, gc:5, res:'P'}],
-        players: [
-          {n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:1},{n:'Caimi, Agustín',pj:2,no:0,x:0,g:0},
-          {n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},
-          {n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},
-          {n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:0},{n:'Toledano, Juan Martín',pj:1,no:0,x:0,g:0}
-        ]
-      },
-      '2018': {
-        pj:1, g:0, e:0, p:1, gf:0, gc:4,
-        matches: [{fecha:'14/03', rival:'Toque y Toque', gf:0, gc:4, res:'P'}],
-        players: [
-          {n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:0},{n:'Formoso, Lautaro',pj:1,no:0,x:0,g:0},
-          {n:'García, Líam',pj:1,no:0,x:0,g:0},{n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},
-          {n:'Neira, Dante',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},
-          {n:'Trinks, Dante',pj:1,no:0,x:0,g:0},{n:'Zambrano, Esteban',pj:1,no:0,x:1,g:0},
-          {n:'Cardozo, Luciano',pj:0,no:1,x:0,g:0},{n:'Carrabs, Dio',pj:0,no:1,x:0,g:0},
-          {n:'Giani, Franco',pj:0,no:1,x:0,g:0},{n:'Ponzo, Estèfano',pj:0,no:1,x:0,g:0}
-        ]
-      }
+    label:'Mega Rojo', sub:'Temporada 2026 · FEFI · Categorías 2013–2018', color:'#dc2626',
+    overall:{pj:10,g:5,e:2,p:3,gf:53,gc:27},
+    cats:{
+      'Todos':null,
+      '2013':{pj:2,g:2,e:0,p:0,gf:19,gc:7,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:5,gc:3,res:'G'},{f:'21/03',r:'Villa Gral. Mitre',gf:14,gc:4,res:'G'}],
+        players:[{n:'Fortunato Tobio, Marco',pj:2,no:0,x:0,g:5},{n:'Gandini, Bruno',pj:2,no:0,x:0,g:5},{n:'López, Lautaro',pj:2,no:0,x:0,g:5},{n:'Reck Diez, Danilo',pj:2,no:0,x:0,g:3},{n:'Orsi, Felipe',pj:2,no:1,x:0,g:1},{n:'Riondini, Santiago',pj:2,no:0,x:0,g:0},{n:'Orsini, Agustín',pj:1,no:1,x:0,g:0}]},
+      '2014':{pj:2,g:1,e:0,p:1,gf:10,gc:5,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:2,gc:3,res:'P'},{f:'21/03',r:'Villa Gral. Mitre',gf:8,gc:2,res:'G'}],
+        players:[{n:'García Orozco, Luciano',pj:2,no:0,x:0,g:4},{n:'Gloazzo Rombola, Dante',pj:2,no:0,x:0,g:2},{n:'Azocar González, Noah',pj:2,no:0,x:0,g:1},{n:'Fusi, Agustín',pj:2,no:0,x:0,g:0},{n:'Di Lorenzo, Ramiro',pj:1,no:0,x:0,g:0},{n:'Ferrer, Mateo',pj:1,no:0,x:0,g:0},{n:'Di Palma, Luca',pj:1,no:1,x:0,g:0},{n:'Martínez Saavedra, León',pj:1,no:0,x:0,g:0}]},
+      '2015':{pj:2,g:1,e:1,p:0,gf:12,gc:4,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:3,gc:3,res:'E'},{f:'21/03',r:'Villa Gral. Mitre',gf:9,gc:1,res:'G'}],
+        players:[{n:'Martínez Saavedra, León',pj:3,no:0,x:0,g:6},{n:'Gazzia Stremiz, Juan Pablo',pj:2,no:0,x:0,g:3},{n:'Gervasi, Benjamín',pj:2,no:0,x:0,g:2},{n:'Di Lorenzo, Ramiro',pj:3,no:0,x:0,g:2},{n:'Ferrer, Mateo',pj:3,no:0,x:0,g:1},{n:'Iglesias, Simón',pj:2,no:0,x:0,g:1},{n:'Álvarez, Mailo',pj:2,no:0,x:0,g:0},{n:'Pettinato, Lucas',pj:1,no:1,x:0,g:0}]},
+      '2016':{pj:2,g:1,e:1,p:0,gf:11,gc:2,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:2,gc:2,res:'E'},{f:'21/03',r:'Villa Gral. Mitre',gf:9,gc:0,res:'G'}],
+        players:[{n:'Rocchi, Simón',pj:2,no:0,x:0,g:5},{n:'Cortina, Luca',pj:2,no:0,x:0,g:4},{n:'Bidoglio, Juan Cruz',pj:2,no:0,x:0,g:2},{n:'Martínez, Benicio',pj:2,no:0,x:0,g:0},{n:'Matozza Bordón, Ignacio',pj:2,no:0,x:0,g:0},{n:'Mazzini, Agustín',pj:2,no:0,x:0,g:0},{n:'Caimi, Agustín',pj:1,no:0,x:0,g:0},{n:'Mansilla, Bautista',pj:1,no:1,x:0,g:0}]},
+      '2017':{pj:1,g:0,e:0,p:1,gf:1,gc:5,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:1,gc:5,res:'P'}],
+        players:[{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:1},{n:'Caimi, Agustín',pj:2,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:0},{n:'Toledano, Juan Martín',pj:1,no:0,x:0,g:0}]},
+      '2018':{pj:1,g:0,e:0,p:1,gf:0,gc:4,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:0,gc:4,res:'P'}],
+        players:[{n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:0},{n:'Formoso, Lautaro',pj:1,no:0,x:0,g:0},{n:'García, Líam',pj:1,no:0,x:0,g:0},{n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Neira, Dante',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},{n:'Trinks, Dante',pj:1,no:0,x:0,g:0},{n:'Zambrano, Esteban',pj:1,no:0,x:1,g:0},{n:'Cardozo, Luciano',pj:0,no:1,x:0,g:0},{n:'Carrabs, Dio',pj:0,no:1,x:0,g:0},{n:'Giani, Franco',pj:0,no:1,x:0,g:0},{n:'Ponzo, Estèfano',pj:0,no:1,x:0,g:0}]}
     },
-    allPlayers: [
-      {n:'Martínez Saavedra, León',pj:4,no:0,x:0,g:6},{n:'Fortunato Tobio, Marco',pj:2,no:0,x:0,g:5},
-      {n:'Gandini, Bruno',pj:2,no:0,x:0,g:5},{n:'López, Lautaro',pj:2,no:0,x:0,g:5},
-      {n:'Rocchi, Simón',pj:2,no:0,x:0,g:5},{n:'García Orozco, Luciano',pj:2,no:0,x:0,g:4},
-      {n:'Cortina, Luca',pj:2,no:0,x:0,g:4},{n:'Gazzia Stremiz, Juan Pablo',pj:2,no:0,x:0,g:3},
-      {n:'Reck Diez, Danilo',pj:2,no:0,x:0,g:3},{n:'Gloazzo Rombola, Dante',pj:2,no:0,x:0,g:2},
-      {n:'Gervasi, Benjamín',pj:2,no:0,x:0,g:2},{n:'Bidoglio, Juan Cruz',pj:2,no:0,x:0,g:2},
-      {n:'Di Lorenzo, Ramiro',pj:4,no:0,x:0,g:2},{n:'Ferrer, Mateo',pj:4,no:0,x:0,g:1},
-      {n:'Azocar González, Noah',pj:2,no:0,x:0,g:1},{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:1},
-      {n:'Orsi, Felipe',pj:2,no:1,x:0,g:1},{n:'Iglesias, Simón',pj:2,no:0,x:0,g:1},
-      {n:'Di Palma, Luca',pj:1,no:1,x:0,g:0},{n:'Caimi, Agustín',pj:3,no:0,x:0,g:0},
-      {n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:0},{n:'Fusi, Agustín',pj:2,no:0,x:0,g:0},
-      {n:'Formoso, Lautaro',pj:1,no:0,x:0,g:0},{n:'Mansilla, Bautista',pj:1,no:1,x:0,g:0},
-      {n:'Martínez, Benicio',pj:2,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},
-      {n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'García, Líam',pj:1,no:0,x:0,g:0},
-      {n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Mazzini, Agustín',pj:2,no:0,x:0,g:0},
-      {n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Matozza Bordón, Ignacio',pj:2,no:0,x:0,g:0},
-      {n:'Pettinato, Lucas',pj:1,no:1,x:0,g:0},{n:'Orsini, Agustín',pj:1,no:1,x:0,g:0},
-      {n:'Neira, Dante',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},
-      {n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Riondini, Santiago',pj:2,no:0,x:0,g:0},
-      {n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:0},{n:'Toledano, Juan Martín',pj:1,no:0,x:0,g:0},
-      {n:'Trinks, Dante',pj:1,no:0,x:0,g:0},{n:'Zambrano, Esteban',pj:1,no:0,x:1,g:0},
-      {n:'Álvarez, Mailo',pj:2,no:0,x:0,g:0}
-    ]
+    allPlayers:[{n:'Martínez Saavedra, León',pj:4,no:0,x:0,g:6},{n:'Fortunato Tobio, Marco',pj:2,no:0,x:0,g:5},{n:'Gandini, Bruno',pj:2,no:0,x:0,g:5},{n:'López, Lautaro',pj:2,no:0,x:0,g:5},{n:'Rocchi, Simón',pj:2,no:0,x:0,g:5},{n:'García Orozco, Luciano',pj:2,no:0,x:0,g:4},{n:'Cortina, Luca',pj:2,no:0,x:0,g:4},{n:'Gazzia Stremiz, Juan Pablo',pj:2,no:0,x:0,g:3},{n:'Reck Diez, Danilo',pj:2,no:0,x:0,g:3},{n:'Bidoglio, Juan Cruz',pj:2,no:0,x:0,g:2},{n:'Di Lorenzo, Ramiro',pj:4,no:0,x:0,g:2},{n:'Gervasi, Benjamín',pj:2,no:0,x:0,g:2},{n:'Gloazzo Rombola, Dante',pj:2,no:0,x:0,g:2},{n:'Azocar González, Noah',pj:2,no:0,x:0,g:1},{n:'Ferrer, Mateo',pj:4,no:0,x:0,g:1},{n:'Iglesias, Simón',pj:2,no:0,x:0,g:1},{n:'Orsi, Felipe',pj:2,no:1,x:0,g:1},{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:1},{n:'Álvarez, Mailo',pj:2,no:0,x:0,g:0},{n:'Caimi, Agustín',pj:3,no:0,x:0,g:0},{n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:0},{n:'Di Palma, Luca',pj:1,no:1,x:0,g:0},{n:'Formoso, Lautaro',pj:1,no:0,x:0,g:0},{n:'Fusi, Agustín',pj:2,no:0,x:0,g:0},{n:'García, Líam',pj:1,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'Mansilla, Bautista',pj:1,no:1,x:0,g:0},{n:'Martínez, Benicio',pj:2,no:0,x:0,g:0},{n:'Matozza Bordón, Ignacio',pj:2,no:0,x:0,g:0},{n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Mazzini, Agustín',pj:2,no:0,x:0,g:0},{n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Neira, Dante',pj:1,no:0,x:0,g:0},{n:'Orsini, Agustín',pj:1,no:1,x:0,g:0},{n:'Pettinato, Lucas',pj:1,no:1,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},{n:'Riondini, Santiago',pj:2,no:0,x:0,g:0},{n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:0},{n:'Toledano, Juan Martín',pj:1,no:0,x:0,g:0},{n:'Trinks, Dante',pj:1,no:0,x:0,g:0},{n:'Zambrano, Esteban',pj:1,no:0,x:1,g:0}]
   },
 
   negro: {
-    label: 'Mega Negro', sub: 'Temporada 2026 · Categorías 2013–2017', color: '#374151',
-    overall: { pj:10, g:3, e:0, p:6, gf:17, gc:36 },
-    cats: {
-      'Todos': null,
-      '2013': {
-        pj:2, g:0, e:0, p:2, gf:0, gc:3,
-        matches: [
-          {fecha:'14/03', rival:'El Ideal', gf:0, gc:1, res:'P'},
-          {fecha:'21/03', rival:'Flores Club', gf:0, gc:2, res:'P'}
-        ],
-        players: [
-          {n:'Díaz Steckler, Dante',pj:2,no:0,x:0,g:0},{n:'Mazzini, Eduardo',pj:1,no:0,x:0,g:0},
-          {n:'Medina, Enzo',pj:1,no:0,x:0,g:0},{n:'Moreno Bartomeu, Augusto',pj:2,no:0,x:0,g:0},
-          {n:'Regina, Joaquín',pj:1,no:1,x:0,g:0},{n:'Robledo Bailán, Benjamín',pj:1,no:0,x:0,g:0},
-          {n:'Roldán, Joaquín',pj:1,no:1,x:0,g:0},{n:'Sodini, Tomás',pj:2,no:0,x:0,g:0},
-          {n:'Tortorello, Lautaro',pj:2,no:0,x:0,g:0},{n:'Wahlmann, Simón',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2014': {
-        pj:2, g:1, e:0, p:1, gf:7, gc:8,
-        matches: [
-          {fecha:'14/03', rival:'El Ideal', gf:1, gc:4, res:'P'},
-          {fecha:'21/03', rival:'Flores Club', gf:6, gc:4, res:'G'}
-        ],
-        players: [
-          {n:'Chaves, Augusto',pj:2,no:0,x:0,g:1},{n:'Calzone, Fermín',pj:2,no:0,x:0,g:0},
-          {n:'Garbini Seijo, Ulises',pj:2,no:0,x:0,g:0},{n:'Gennasi, Gabriel',pj:2,no:0,x:0,g:0},
-          {n:'Mazzini, Eduardo',pj:2,no:0,x:0,g:0},{n:'Nicoletti, Robert',pj:2,no:0,x:0,g:0},
-          {n:'Robledo Bailán, Benjamín',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2015': {
-        pj:2, g:0, e:0, p:2, gf:0, gc:11,
-        matches: [
-          {fecha:'14/03', rival:'El Ideal', gf:0, gc:9, res:'P'},
-          {fecha:'21/03', rival:'Flores Club', gf:0, gc:2, res:'P'}
-        ],
-        players: [
-          {n:'Aga, Sebastián',pj:2,no:0,x:0,g:0},{n:'Battistotti, Gino',pj:1,no:1,x:0,g:0},
-          {n:'Bello, Juan Martín',pj:2,no:0,x:0,g:0},{n:'Carrera, Luiggi',pj:2,no:0,x:0,g:0},
-          {n:"D'Eramo, Ramiro",pj:2,no:0,x:0,g:0},{n:'Gennasi, Gabriel',pj:1,no:0,x:0,g:0},
-          {n:'Mazzini, Eduardo',pj:1,no:0,x:0,g:0},{n:'Pulice, Ciro',pj:2,no:0,x:0,g:0},
-          {n:'Viegas Gago, Valentino',pj:1,no:1,x:0,g:0},{n:'Lozano Irace, Benjamín',pj:0,no:2,x:0,g:0}
-        ]
-      },
-      '2016': {
-        pj:2, g:1, e:0, p:1, gf:5, gc:11,
-        matches: [
-          {fecha:'14/03', rival:'El Ideal', gf:5, gc:2, res:'G'},
-          {fecha:'21/03', rival:'Flores Club', gf:0, gc:9, res:'P'}
-        ],
-        players: [
-          {n:'Carrera, Luiggi',pj:1,no:0,x:0,g:2},{n:'Etter Cicerchia, Juan Manuel',pj:2,no:0,x:0,g:1},
-          {n:'Pulice, Ciro',pj:1,no:0,x:0,g:1},{n:'Viegas Gago, Valentino',pj:1,no:0,x:0,g:1},
-          {n:'Didari, Renzo',pj:1,no:1,x:0,g:0},{n:"D'Eramo, Ramiro",pj:1,no:0,x:0,g:0},
-          {n:'González, Matías Enoc',pj:1,no:1,x:0,g:0},{n:'González Palacio, Valentín',pj:1,no:0,x:0,g:0},
-          {n:'Larrosa Verlini, Joaquín',pj:1,no:1,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},
-          {n:'Petersen, Tiberio',pj:1,no:1,x:0,g:0},{n:'Migliaro, Luca',pj:2,no:0,x:0,g:0},
-          {n:'Saragó, Noah',pj:1,no:0,x:0,g:0},{n:'Serra, Pedro',pj:1,no:0,x:0,g:0},
-          {n:'Didari, Santino',pj:0,no:1,x:0,g:0},{n:'Befaro, Dante',pj:0,no:2,x:0,g:0}
-        ]
-      },
-      '2017': {
-        pj:2, g:1, e:0, p:0, gf:5, gc:3,
-        matches: [
-          {fecha:'14/03', rival:'El Ideal', gf:5, gc:3, res:'G'},
-          {fecha:'21/03', rival:'Flores Club', gf:null, gc:null, res:null}
-        ],
-        players: [
-          {n:'Carrera, Luiggi',pj:1,no:0,x:0,g:4},{n:'Serra, Pedro',pj:2,no:0,x:0,g:1},
-          {n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},{n:'Giani, Franco',pj:1,no:0,x:0,g:0},
-          {n:'Guerrero, Román',pj:1,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:0,g:0},
-          {n:'Migliaro, Luca',pj:2,no:0,x:0,g:0},{n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},
-          {n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},{n:'Ponzo, Estèfano',pj:1,no:0,x:0,g:0},
-          {n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:0},
-          {n:'Santamaría, Leonel',pj:1,no:0,x:1,g:0},{n:'Silva Marzoni, Lohan',pj:2,no:0,x:0,g:0},
-          {n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},
-          {n:'Castillo, Santiago',pj:0,no:1,x:0,g:0},{n:'Chieffo, Dante',pj:0,no:1,x:0,g:0},
-          {n:'Nigro Unco, Santiago',pj:0,no:1,x:0,g:0},{n:'Queiróz, Agustín',pj:0,no:1,x:0,g:0},
-          {n:'Toledano, Juan Martín',pj:0,no:1,x:0,g:0}
-        ]
-      }
+    label:'Mega Negro', sub:'Temporada 2026 · Categorías 2013–2017', color:'#374151',
+    overall:{pj:10,g:3,e:0,p:7,gf:17,gc:39},
+    cats:{
+      'Todos':null,
+      '2013':{pj:2,g:0,e:0,p:2,gf:0,gc:3,
+        matches:[{f:'14/03',r:'El Ideal',gf:0,gc:1,res:'P'},{f:'21/03',r:'Flores Club',gf:0,gc:2,res:'P'}],
+        players:[{n:'Díaz Steckler, Dante',pj:2,no:0,x:0,g:0},{n:'Moreno Bartomeu, Augusto',pj:2,no:0,x:0,g:0},{n:'Sodini, Tomás',pj:2,no:0,x:0,g:0},{n:'Tortorello, Lautaro',pj:2,no:0,x:0,g:0},{n:'Wahlmann, Simón',pj:2,no:0,x:0,g:0},{n:'Mazzini, Eduardo',pj:1,no:0,x:0,g:0},{n:'Medina, Enzo',pj:1,no:0,x:0,g:0},{n:'Robledo Bailán, Benjamín',pj:1,no:0,x:0,g:0},{n:'Regina, Joaquín',pj:1,no:1,x:0,g:0},{n:'Roldán, Joaquín',pj:1,no:1,x:0,g:0}]},
+      '2014':{pj:2,g:1,e:0,p:1,gf:7,gc:8,
+        matches:[{f:'14/03',r:'El Ideal',gf:1,gc:4,res:'P'},{f:'21/03',r:'Flores Club',gf:6,gc:4,res:'G'}],
+        players:[{n:'Chaves, Augusto',pj:2,no:0,x:0,g:1},{n:'Calzone, Fermín',pj:2,no:0,x:0,g:0},{n:'Garbini Seijo, Ulises',pj:2,no:0,x:0,g:0},{n:'Gennasi, Gabriel',pj:2,no:0,x:0,g:0},{n:'Mazzini, Eduardo',pj:2,no:0,x:0,g:0},{n:'Nicoletti, Robert',pj:2,no:0,x:0,g:0},{n:'Robledo Bailán, Benjamín',pj:2,no:0,x:0,g:0}]},
+      '2015':{pj:2,g:0,e:0,p:2,gf:0,gc:11,
+        matches:[{f:'14/03',r:'El Ideal',gf:0,gc:9,res:'P'},{f:'21/03',r:'Flores Club',gf:0,gc:2,res:'P'}],
+        players:[{n:'Aga, Sebastián',pj:2,no:0,x:0,g:0},{n:'Bello, Juan Martín',pj:2,no:0,x:0,g:0},{n:'Carrera, Luiggi',pj:2,no:0,x:0,g:0},{n:"D'Eramo, Ramiro",pj:2,no:0,x:0,g:0},{n:'Pulice, Ciro',pj:2,no:0,x:0,g:0},{n:'Battistotti, Gino',pj:1,no:1,x:0,g:0},{n:'Gennasi, Gabriel',pj:1,no:0,x:0,g:0},{n:'Mazzini, Eduardo',pj:1,no:0,x:0,g:0},{n:'Viegas Gago, Valentino',pj:1,no:1,x:0,g:0},{n:'Lozano Irace, Benjamín',pj:0,no:2,x:0,g:0}]},
+      '2016':{pj:2,g:1,e:0,p:1,gf:5,gc:11,
+        matches:[{f:'14/03',r:'El Ideal',gf:5,gc:2,res:'G'},{f:'21/03',r:'Flores Club',gf:0,gc:9,res:'P'}],
+        players:[{n:'Carrera, Luiggi',pj:1,no:0,x:0,g:2},{n:'Etter Cicerchia, Juan Manuel',pj:2,no:0,x:0,g:1},{n:'Pulice, Ciro',pj:1,no:0,x:0,g:1},{n:'Viegas Gago, Valentino',pj:1,no:0,x:0,g:1},{n:"D'Eramo, Ramiro",pj:1,no:0,x:0,g:0},{n:'González Palacio, Valentín',pj:1,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},{n:'Migliaro, Luca',pj:2,no:0,x:0,g:0},{n:'Saragó, Noah',pj:1,no:0,x:0,g:0},{n:'Serra, Pedro',pj:1,no:0,x:0,g:0},{n:'Befaro, Dante',pj:0,no:2,x:0,g:0},{n:'Didari, Renzo',pj:1,no:1,x:0,g:0},{n:'Didari, Santino',pj:0,no:1,x:0,g:0},{n:'González, Matías Enoc',pj:1,no:1,x:0,g:0},{n:'Larrosa Verlini, Joaquín',pj:1,no:1,x:0,g:0},{n:'Petersen, Tiberio',pj:1,no:1,x:0,g:0}]},
+      '2017':{pj:2,g:1,e:0,p:1,gf:5,gc:6,
+        matches:[{f:'14/03',r:'El Ideal',gf:5,gc:3,res:'G'},{f:'21/03',r:'Flores Club',gf:0,gc:3,res:'P'}],
+        players:[{n:'Carrera, Luiggi',pj:1,no:0,x:0,g:4},{n:'Serra, Pedro',pj:2,no:0,x:0,g:1},{n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},{n:'Giani, Franco',pj:1,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:0,g:0},{n:'Guerrero, Román',pj:1,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:1,no:0,x:0,g:0},{n:'Migliaro, Luca',pj:2,no:0,x:0,g:0},{n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Ponzo, Estèfano',pj:1,no:0,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:0},{n:'Silva Marzoni, Lohan',pj:2,no:0,x:0,g:0},{n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'Santamaría, Leonel',pj:0,no:0,x:1,g:0},{n:'Castillo, Santiago',pj:0,no:1,x:0,g:0},{n:'Chieffo, Dante',pj:0,no:1,x:0,g:0},{n:'Nigro Unco, Santiago',pj:0,no:1,x:0,g:0},{n:'Queiróz, Agustín',pj:0,no:1,x:0,g:0},{n:'Toledano, Juan Martín',pj:0,no:1,x:0,g:0}]}
     },
-    allPlayers: [
-      {n:'Carrera, Luiggi',pj:4,no:0,x:0,g:6},{n:'Chaves, Augusto',pj:2,no:0,x:0,g:1},
-      {n:'Etter Cicerchia, Juan Manuel',pj:2,no:0,x:0,g:1},{n:'Serra, Pedro',pj:3,no:0,x:0,g:1},
-      {n:'Viegas Gago, Valentino',pj:2,no:1,x:0,g:1},{n:'Pulice, Ciro',pj:3,no:0,x:0,g:1},
-      {n:'Bello, Juan Martín',pj:2,no:0,x:0,g:0},{n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},
-      {n:'Battistotti, Gino',pj:1,no:1,x:0,g:0},{n:'Calzone, Fermín',pj:2,no:0,x:0,g:0},
-      {n:'Didari, Renzo',pj:1,no:1,x:0,g:0},{n:'Díaz Steckler, Dante',pj:2,no:0,x:0,g:0},
-      {n:'Garbini Seijo, Ulises',pj:2,no:0,x:0,g:0},{n:"D'Eramo, Ramiro",pj:3,no:0,x:0,g:0},
-      {n:'Aga, Sebastián',pj:2,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:0,g:0},
-      {n:'Giani, Franco',pj:1,no:0,x:0,g:0},{n:'Gennasi, Gabriel',pj:3,no:0,x:0,g:0},
-      {n:'González Palacio, Valentín',pj:1,no:0,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:2,no:0,x:0,g:0},
-      {n:'González, Matías Enoc',pj:1,no:1,x:0,g:0},{n:'Guerrero, Román',pj:1,no:0,x:0,g:0},
-      {n:'Larrosa Verlini, Joaquín',pj:1,no:1,x:0,g:0},{n:'Migliaro, Luca',pj:4,no:0,x:0,g:0},
-      {n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Moreno Bartomeu, Augusto',pj:2,no:0,x:0,g:0},
-      {n:'Nicoletti, Robert',pj:2,no:0,x:0,g:0},{n:'Mazzini, Eduardo',pj:4,no:0,x:0,g:0},
-      {n:'Medina, Enzo',pj:1,no:0,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},
-      {n:'Ponzo, Estèfano',pj:1,no:0,x:0,g:0},{n:'Petersen, Tiberio',pj:1,no:1,x:0,g:0},
-      {n:'Robledo Bailán, Benjamín',pj:3,no:0,x:0,g:0},{n:'Roldán, Joaquín',pj:1,no:1,x:0,g:0},
-      {n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:0},{n:'Regina, Joaquín',pj:1,no:1,x:0,g:0},
-      {n:'Saragó, Noah',pj:1,no:0,x:0,g:0},{n:'Santamaría, Leonel',pj:1,no:0,x:1,g:0},
-      {n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'Silva Marzoni, Lohan',pj:2,no:0,x:0,g:0},
-      {n:'Sodini, Tomás',pj:2,no:0,x:0,g:0},{n:'Tortorello, Lautaro',pj:2,no:0,x:0,g:0},
-      {n:'Wahlmann, Simón',pj:2,no:0,x:0,g:0}
-    ]
+    allPlayers:[{n:'Carrera, Luiggi',pj:4,no:0,x:0,g:6},{n:'Chaves, Augusto',pj:2,no:0,x:0,g:1},{n:'Etter Cicerchia, Juan Manuel',pj:2,no:0,x:0,g:1},{n:'Pulice, Ciro',pj:3,no:0,x:0,g:1},{n:'Serra, Pedro',pj:3,no:0,x:0,g:1},{n:'Viegas Gago, Valentino',pj:2,no:1,x:0,g:1},{n:'Aga, Sebastián',pj:2,no:0,x:0,g:0},{n:'Battistotti, Gino',pj:1,no:1,x:0,g:0},{n:'Befaro, Dante',pj:0,no:2,x:0,g:0},{n:'Bello, Juan Martín',pj:2,no:0,x:0,g:0},{n:'Calzone, Fermín',pj:2,no:0,x:0,g:0},{n:"D'Eramo, Ramiro",pj:3,no:0,x:0,g:0},{n:'Didari, Renzo',pj:1,no:1,x:0,g:0},{n:'Díaz Steckler, Dante',pj:2,no:0,x:0,g:0},{n:'Garbini Seijo, Ulises',pj:2,no:0,x:0,g:0},{n:'Gennasi, Gabriel',pj:3,no:0,x:0,g:0},{n:'Giani, Franco',pj:1,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:0,g:0},{n:'González Palacio, Valentín',pj:1,no:0,x:0,g:0},{n:'González, Matías Enoc',pj:1,no:1,x:0,g:0},{n:'Guerrero, Román',pj:1,no:0,x:0,g:0},{n:'Larrosa Verlini, Joaquín',pj:1,no:1,x:0,g:0},{n:'Lo Tartaro, Francesco',pj:2,no:0,x:0,g:0},{n:'Lozano Irace, Benjamín',pj:0,no:2,x:0,g:0},{n:'Mazzini, Eduardo',pj:4,no:0,x:0,g:0},{n:'Medina, Enzo',pj:1,no:0,x:0,g:0},{n:'Migliaro, Luca',pj:4,no:0,x:0,g:0},{n:'Moraña, Jaco',pj:1,no:0,x:0,g:0},{n:'Moreno Bartomeu, Augusto',pj:2,no:0,x:0,g:0},{n:'Nicoletti, Robert',pj:2,no:0,x:0,g:0},{n:'Petersen, Tiberio',pj:1,no:1,x:0,g:0},{n:'Ponzo, Estèfano',pj:1,no:0,x:0,g:0},{n:'Puleo Rivas, Santiago',pj:1,no:0,x:0,g:0},{n:'Ramos Miranda, Benjamín',pj:1,no:0,x:0,g:0},{n:'Regina, Joaquín',pj:1,no:1,x:0,g:0},{n:'Robledo Bailán, Benjamín',pj:3,no:0,x:0,g:0},{n:'Roldán, Joaquín',pj:1,no:1,x:0,g:0},{n:'Santamaría, Leonel',pj:0,no:0,x:1,g:0},{n:'Saragó, Noah',pj:1,no:0,x:0,g:0},{n:'Silva Marzoni, Lohan',pj:2,no:0,x:0,g:0},{n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'Sodini, Tomás',pj:2,no:0,x:0,g:0},{n:'Tortorello, Lautaro',pj:2,no:0,x:0,g:0},{n:'Wahlmann, Simón',pj:2,no:0,x:0,g:0}]
   },
 
   blanco: {
-    label: 'Mega Blanco', sub: 'Temporada 2026 · Categorías 2013–2017', color: '#475569',
-    overall: { pj:9, g:4, e:0, p:5, gf:35, gc:25 },
-    cats: {
-      'Todos': null,
-      '2013': {
-        pj:2, g:0, e:0, p:2, gf:5, gc:8,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:2, gc:4, res:'P'},
-          {fecha:'21/03', rival:'Marathon', gf:3, gc:4, res:'P'}
-        ],
-        players: [
-          {n:'Lencina, Santiago',pj:2,no:0,x:0,g:2},{n:'Campos Benítez, Darío',pj:2,no:0,x:1,g:1},
-          {n:'Almirón Soler, Tobías',pj:1,no:0,x:0,g:0},{n:'Canelli, Manuel',pj:1,no:1,x:0,g:0},
-          {n:'García Lo Schiavo, Simón',pj:2,no:0,x:1,g:0},{n:'Guenul, Marcos',pj:1,no:0,x:0,g:0},
-          {n:'Rioja, Daniel',pj:1,no:0,x:0,g:0},{n:'Verdugo, Tiziano',pj:2,no:0,x:0,g:0},
-          {n:'Villaverde Perazzo, Pedro',pj:2,no:0,x:0,g:0},
-          {n:'Anfuso, Francisco',pj:0,no:2,x:0,g:0},{n:'Medina, Enzo',pj:0,no:1,x:0,g:0}
-        ]
-      },
-      '2014': {
-        pj:2, g:2, e:0, p:0, gf:9, gc:2,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:6, gc:1, res:'G'},
-          {fecha:'21/03', rival:'Marathon', gf:3, gc:1, res:'G'}
-        ],
-        players: [
-          {n:'Aranda Abad, Tomás',pj:2,no:0,x:0,g:2},{n:'Chacolla, Marcos',pj:2,no:0,x:0,g:2},
-          {n:'Rioja, Daniel',pj:2,no:0,x:1,g:2},{n:'Almirón Soler, Tobías',pj:1,no:1,x:0,g:1},
-          {n:'Tortosa, Franco',pj:2,no:0,x:1,g:1},{n:'Villaverde Perazzo, Pedro',pj:1,no:0,x:0,g:1},
-          {n:'Lencina, Santiago',pj:1,no:0,x:0,g:0},{n:'Guenul, Marcos',pj:2,no:0,x:0,g:0},
-          {n:'García Lo Schiavo, Simón',pj:1,no:0,x:0,g:0},
-          {n:'Francisco, Espinola',pj:0,no:2,x:0,g:0},{n:'Messina, Facundo',pj:0,no:1,x:0,g:0}
-        ]
-      },
-      '2015': {
-        pj:2, g:0, e:0, p:2, gf:4, gc:11,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:4, gc:6, res:'P'},
-          {fecha:'21/03', rival:'Marathon', gf:0, gc:5, res:'P'}
-        ],
-        players: [
-          {n:'Fontana Ponzo, Bautista',pj:2,no:0,x:0,g:2},{n:'Galer, Manuel',pj:2,no:0,x:0,g:2},
-          {n:'Carrasco, Juan Cruz',pj:2,no:0,x:1,g:0},{n:'Di Meglio, Valentino',pj:2,no:0,x:0,g:0},
-          {n:'Gauna Guerra, Benjamín',pj:1,no:1,x:0,g:0},{n:'Jeandet, Francisco',pj:1,no:1,x:0,g:0},
-          {n:'López, Maximiliano',pj:2,no:0,x:0,g:0},{n:'Rodríguez Valenti, Benjamín',pj:2,no:0,x:0,g:0},
-          {n:'Tejada, Valentino',pj:2,no:0,x:0,g:0}
-        ]
-      },
-      '2016': {
-        pj:2, g:1, e:0, p:1, gf:9, gc:3,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:8, gc:1, res:'G'},
-          {fecha:'21/03', rival:'Marathon', gf:1, gc:2, res:'P'}
-        ],
-        players: [
-          {n:'Morales, Bautista',pj:2,no:0,x:0,g:3},{n:'Guenul, Gianluca',pj:2,no:0,x:0,g:3},
-          {n:'Saragó, Noah',pj:1,no:0,x:0,g:2},{n:'Robles, Lautaro',pj:2,no:0,x:0,g:1},
-          {n:'Anokhin, Maksim',pj:1,no:1,x:1,g:0},{n:'Batista, Benjamín',pj:1,no:0,x:1,g:0},
-          {n:'González Palacio, Valentín',pj:1,no:0,x:1,g:0},{n:'Galer, Manuel',pj:1,no:0,x:0,g:0},
-          {n:'Chiófalo, Francisco',pj:1,no:1,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},
-          {n:'Rodríguez Valenti, Benjamín',pj:1,no:0,x:0,g:0},{n:'Tejada, Valentino',pj:1,no:0,x:0,g:0},
-          {n:'Camarotta, Benicio',pj:0,no:2,x:0,g:0},{n:'Tavolaro, Gennaro',pj:0,no:2,x:0,g:0}
-        ]
-      },
-      '2017': {
-        pj:1, g:1, e:0, p:0, gf:8, gc:1,
-        matches: [{fecha:'21/03', rival:'Marathon', gf:8, gc:1, res:'G'}],
-        players: [
-          {n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:6},{n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},
-          {n:'Castillo, Santiago',pj:1,no:0,x:0,g:0},{n:'Guerrero, Román',pj:1,no:0,x:1,g:0},
-          {n:'Nigro Unco, Santiago',pj:1,no:0,x:0,g:0},{n:'Santamaría, Leonel',pj:1,no:0,x:0,g:0},
-          {n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:1,g:0},
-          {n:'Neira, Dante',pj:1,no:0,x:1,g:0}
-        ]
-      }
+    label:'Mega Blanco', sub:'Temporada 2026 · Categorías 2013–2017', color:'#475569',
+    overall:{pj:9,g:4,e:0,p:5,gf:35,gc:25},
+    cats:{
+      'Todos':null,
+      '2013':{pj:2,g:0,e:0,p:2,gf:5,gc:8,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:2,gc:4,res:'P'},{f:'21/03',r:'Marathon',gf:3,gc:4,res:'P'}],
+        players:[{n:'Lencina, Santiago',pj:2,no:0,x:0,g:2},{n:'Campos Benítez, Darío',pj:1,no:0,x:1,g:1},{n:'Almirón Soler, Tobías',pj:1,no:0,x:0,g:0},{n:'García Lo Schiavo, Simón',pj:1,no:0,x:1,g:0},{n:'Guenul, Marcos',pj:1,no:0,x:0,g:0},{n:'Rioja, Daniel',pj:1,no:0,x:0,g:0},{n:'Verdugo, Tiziano',pj:2,no:0,x:0,g:0},{n:'Villaverde Perazzo, Pedro',pj:2,no:0,x:0,g:0},{n:'Anfuso, Francisco',pj:0,no:2,x:0,g:0},{n:'Canelli, Manuel',pj:1,no:1,x:0,g:0},{n:'Medina, Enzo',pj:0,no:1,x:0,g:0}]},
+      '2014':{pj:2,g:2,e:0,p:0,gf:9,gc:2,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:6,gc:1,res:'G'},{f:'21/03',r:'Marathon',gf:3,gc:1,res:'G'}],
+        players:[{n:'Aranda Abad, Tomás',pj:2,no:0,x:0,g:2},{n:'Chacolla, Marcos',pj:2,no:0,x:0,g:2},{n:'Rioja, Daniel',pj:1,no:0,x:1,g:2},{n:'Almirón Soler, Tobías',pj:1,no:1,x:0,g:1},{n:'Tortosa, Franco',pj:1,no:0,x:1,g:1},{n:'Villaverde Perazzo, Pedro',pj:1,no:0,x:0,g:1},{n:'García Lo Schiavo, Simón',pj:1,no:0,x:0,g:0},{n:'Guenul, Marcos',pj:2,no:0,x:0,g:0},{n:'Lencina, Santiago',pj:1,no:0,x:0,g:0},{n:'Francisco, Espinola',pj:0,no:2,x:0,g:0},{n:'Messina, Facundo',pj:0,no:1,x:0,g:0}]},
+      '2015':{pj:2,g:0,e:0,p:2,gf:4,gc:11,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:4,gc:6,res:'P'},{f:'21/03',r:'Marathon',gf:0,gc:5,res:'P'}],
+        players:[{n:'Fontana Ponzo, Bautista',pj:2,no:0,x:0,g:2},{n:'Galer, Manuel',pj:2,no:0,x:0,g:2},{n:'Carrasco, Juan Cruz',pj:1,no:0,x:1,g:0},{n:'Di Meglio, Valentino',pj:2,no:0,x:0,g:0},{n:'López, Maximiliano',pj:2,no:0,x:0,g:0},{n:'Rodríguez Valenti, Benjamín',pj:2,no:0,x:0,g:0},{n:'Tejada, Valentino',pj:2,no:0,x:0,g:0},{n:'Gauna Guerra, Benjamín',pj:1,no:1,x:0,g:0},{n:'Jeandet, Francisco',pj:1,no:1,x:0,g:0}]},
+      '2016':{pj:2,g:1,e:0,p:1,gf:9,gc:3,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:8,gc:1,res:'G'},{f:'21/03',r:'Marathon',gf:1,gc:2,res:'P'}],
+        players:[{n:'Guenul, Gianluca',pj:2,no:0,x:0,g:3},{n:'Morales, Bautista',pj:2,no:0,x:0,g:3},{n:'Saragó, Noah',pj:1,no:0,x:0,g:2},{n:'Robles, Lautaro',pj:2,no:0,x:0,g:1},{n:'Galer, Manuel',pj:1,no:0,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'Rodríguez Valenti, Benjamín',pj:1,no:0,x:0,g:0},{n:'Tejada, Valentino',pj:1,no:0,x:0,g:0},{n:'Anokhin, Maksim',pj:0,no:1,x:1,g:0},{n:'Batista, Benjamín',pj:0,no:0,x:1,g:0},{n:'Camarotta, Benicio',pj:0,no:2,x:0,g:0},{n:'Chiófalo, Francisco',pj:1,no:1,x:0,g:0},{n:'González Palacio, Valentín',pj:0,no:0,x:1,g:0},{n:'Tavolaro, Gennaro',pj:0,no:2,x:0,g:0}]},
+      '2017':{pj:1,g:1,e:0,p:0,gf:8,gc:1,
+        matches:[{f:'21/03',r:'Marathon',gf:8,gc:1,res:'G'}],
+        players:[{n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:6},{n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},{n:'Castillo, Santiago',pj:1,no:0,x:0,g:0},{n:'Nigro Unco, Santiago',pj:1,no:0,x:0,g:0},{n:'Santamaría, Leonel',pj:1,no:0,x:0,g:0},{n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'González Palacio, Baltazar',pj:0,no:0,x:1,g:0},{n:'Guerrero, Román',pj:0,no:0,x:1,g:0},{n:'Neira, Dante',pj:0,no:0,x:1,g:0}]}
     },
-    allPlayers: [
-      {n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:6},{n:'Guenul, Gianluca',pj:2,no:0,x:0,g:3},
-      {n:'Morales, Bautista',pj:2,no:0,x:0,g:3},{n:'Chacolla, Marcos',pj:2,no:0,x:0,g:2},
-      {n:'Aranda Abad, Tomás',pj:2,no:0,x:0,g:2},{n:'Galer, Manuel',pj:3,no:0,x:0,g:2},
-      {n:'Lencina, Santiago',pj:3,no:0,x:0,g:2},{n:'Rioja, Daniel',pj:3,no:0,x:1,g:2},
-      {n:'Saragó, Noah',pj:1,no:0,x:0,g:2},{n:'Fontana Ponzo, Bautista',pj:2,no:0,x:0,g:2},
-      {n:'Almirón Soler, Tobías',pj:2,no:1,x:0,g:1},{n:'Campos Benítez, Darío',pj:2,no:0,x:1,g:1},
-      {n:'Villaverde Perazzo, Pedro',pj:3,no:0,x:0,g:1},{n:'Tortosa, Franco',pj:2,no:0,x:1,g:1},
-      {n:'Robles, Lautaro',pj:2,no:0,x:0,g:1},{n:'Chiófalo, Francisco',pj:1,no:1,x:0,g:0},
-      {n:'Carrasco, Juan Cruz',pj:2,no:0,x:1,g:0},{n:'Canelli, Manuel',pj:1,no:1,x:0,g:0},
-      {n:'Anokhin, Maksim',pj:1,no:1,x:1,g:0},{n:'Batista, Benjamín',pj:1,no:0,x:1,g:0},
-      {n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},{n:'Castillo, Santiago',pj:1,no:0,x:0,g:0},
-      {n:'González Palacio, Valentín',pj:1,no:0,x:1,g:0},{n:'García Lo Schiavo, Simón',pj:3,no:0,x:1,g:0},
-      {n:'Gauna Guerra, Benjamín',pj:1,no:1,x:0,g:0},{n:'Di Meglio, Valentino',pj:2,no:0,x:0,g:0},
-      {n:'López, Maximiliano',pj:2,no:0,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},
-      {n:'Jeandet, Francisco',pj:1,no:1,x:0,g:0},{n:'Guenul, Marcos',pj:3,no:0,x:0,g:0},
-      {n:'Guerrero, Román',pj:1,no:0,x:1,g:0},{n:'González Palacio, Baltazar',pj:1,no:0,x:1,g:0},
-      {n:'Nigro Unco, Santiago',pj:1,no:0,x:0,g:0},{n:'Rodríguez Valenti, Benjamín',pj:3,no:0,x:0,g:0},
-      {n:'Neira, Dante',pj:1,no:0,x:1,g:0},{n:'Santamaría, Leonel',pj:1,no:0,x:0,g:0},
-      {n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'Tejada, Valentino',pj:3,no:0,x:0,g:0},
-      {n:'Verdugo, Tiziano',pj:2,no:0,x:0,g:0}
-    ]
+    allPlayers:[{n:'Sande Feliu, Federico',pj:1,no:0,x:0,g:6},{n:'Guenul, Gianluca',pj:2,no:0,x:0,g:3},{n:'Morales, Bautista',pj:2,no:0,x:0,g:3},{n:'Aranda Abad, Tomás',pj:2,no:0,x:0,g:2},{n:'Chacolla, Marcos',pj:2,no:0,x:0,g:2},{n:'Fontana Ponzo, Bautista',pj:2,no:0,x:0,g:2},{n:'Galer, Manuel',pj:3,no:0,x:0,g:2},{n:'Lencina, Santiago',pj:3,no:0,x:0,g:2},{n:'Rioja, Daniel',pj:3,no:0,x:1,g:2},{n:'Saragó, Noah',pj:1,no:0,x:0,g:2},{n:'Almirón Soler, Tobías',pj:2,no:1,x:0,g:1},{n:'Campos Benítez, Darío',pj:1,no:0,x:1,g:1},{n:'Robles, Lautaro',pj:2,no:0,x:0,g:1},{n:'Tortosa, Franco',pj:1,no:0,x:1,g:1},{n:'Villaverde Perazzo, Pedro',pj:3,no:0,x:0,g:1},{n:'Anfuso, Francisco',pj:0,no:2,x:0,g:0},{n:'Anokhin, Maksim',pj:0,no:1,x:1,g:0},{n:'Batista, Benjamín',pj:0,no:0,x:1,g:0},{n:'Canelli, Manuel',pj:1,no:1,x:0,g:0},{n:'Carrasco, Juan Cruz',pj:1,no:0,x:1,g:0},{n:'Castillo, Santiago',pj:1,no:0,x:0,g:0},{n:'Chacolla, Isaías',pj:1,no:0,x:0,g:0},{n:'Di Meglio, Valentino',pj:2,no:0,x:0,g:0},{n:'Francisco, Espinola',pj:0,no:2,x:0,g:0},{n:'García Lo Schiavo, Simón',pj:3,no:0,x:1,g:0},{n:'Gauna Guerra, Benjamín',pj:1,no:1,x:0,g:0},{n:'González Palacio, Baltazar',pj:0,no:0,x:1,g:0},{n:'González Palacio, Valentín',pj:0,no:0,x:1,g:0},{n:'Guerrero, Román',pj:0,no:0,x:1,g:0},{n:'Guenul, Marcos',pj:3,no:0,x:0,g:0},{n:'Jeandet, Francisco',pj:1,no:1,x:0,g:0},{n:'López, Luis Ángel',pj:1,no:0,x:0,g:0},{n:'López, Maximiliano',pj:2,no:0,x:0,g:0},{n:'Medina, Enzo',pj:0,no:1,x:0,g:0},{n:'Messina, Facundo',pj:0,no:1,x:0,g:0},{n:'Neira, Dante',pj:0,no:0,x:1,g:0},{n:'Nigro Unco, Santiago',pj:1,no:0,x:0,g:0},{n:'Rodríguez Valenti, Benjamín',pj:3,no:0,x:0,g:0},{n:'Santamaría, Leonel',pj:1,no:0,x:0,g:0},{n:'Silvestri, Salvador',pj:1,no:0,x:0,g:0},{n:'Tejada, Valentino',pj:3,no:0,x:0,g:0},{n:'Verdugo, Tiziano',pj:2,no:0,x:0,g:0}]
   },
 
   violeta: {
-    label: 'Mega Violeta', sub: 'Temporada 2026 · Fútbol Femenino · FF 2010–2017', color: '#7c3aed',
-    overall: { pj:4, g:4, e:0, p:0, gf:18, gc:1 },
-    cats: {
-      'Todos': null,
-      'FF 2010/11': {
-        pj:1, g:1, e:0, p:0, gf:2, gc:0,
-        matches: [{fecha:'14/03', rival:'Club Saenz Peña', gf:2, gc:0, res:'G'}],
-        players: [
-          {n:'Cugliari, Francesca',pj:1,no:0,x:0,g:2},{n:'García Orozco, Belén',pj:1,no:0,x:0,g:0},
-          {n:'Godoy, Diana',pj:1,no:0,x:0,g:0},{n:'González Couyet, Victoria',pj:1,no:0,x:0,g:0},
-          {n:'Guerra, Valentina',pj:1,no:0,x:0,g:0},{n:'Miranda, Milena',pj:1,no:0,x:0,g:0},
-          {n:'Ricciardini, Jazmín',pj:1,no:0,x:0,g:0},{n:'Santillán, Melani',pj:1,no:0,x:0,g:0},
-          {n:'Sotelo, Valentina',pj:1,no:0,x:0,g:0},
-          {n:'Battaglini, Catalina',pj:0,no:1,x:0,g:0},{n:'Mieres, Valentina',pj:0,no:1,x:0,g:0}
-        ]
-      },
-      'FF 2012/13': {
-        pj:1, g:1, e:0, p:0, gf:3, gc:1,
-        matches: [{fecha:'14/03', rival:'Club Saenz Peña', gf:3, gc:1, res:'G'}],
-        players: [
-          {n:'Medina, Pía',pj:1,no:0,x:0,g:2},{n:'González, Renata',pj:1,no:0,x:0,g:1},
-          {n:'Cugliari, Federica',pj:1,no:0,x:0,g:0},{n:'Carrizo, Renata',pj:1,no:0,x:0,g:0},
-          {n:'González, Ludmila',pj:1,no:0,x:0,g:0},{n:'Draghi, Paloma',pj:1,no:0,x:0,g:0},
-          {n:'Gutemberg, Sofia',pj:1,no:0,x:0,g:0},{n:'Miranda, Milena',pj:1,no:0,x:0,g:0},
-          {n:'Martínez, Delfina',pj:0,no:1,x:0,g:0},{n:'Piacentini Nuñez, Yoko',pj:0,no:1,x:0,g:0}
-        ]
-      },
-      'FF 2014/15': {
-        pj:1, g:1, e:0, p:0, gf:7, gc:0,
-        matches: [{fecha:'14/03', rival:'Club Saenz Peña', gf:7, gc:0, res:'G'}],
-        players: [
-          {n:'Salvatierra, Isabella',pj:1,no:0,x:0,g:4},{n:'Caruso, Catalina',pj:1,no:0,x:0,g:1},
-          {n:'Rodrigues Correia, Estefanía',pj:1,no:0,x:0,g:1},{n:'Parodi, Matilda',pj:1,no:0,x:0,g:1},
-          {n:'Casazza, Victoria',pj:1,no:0,x:0,g:0},{n:'Godoy, Genesis',pj:1,no:0,x:0,g:0}
-        ]
-      },
-      'FF 2016/17': {
-        pj:1, g:1, e:0, p:0, gf:6, gc:0,
-        matches: [{fecha:'14/03', rival:'Club Saenz Peña', gf:6, gc:0, res:'G'}],
-        players: [
-          {n:'Grillo, Clementina',pj:1,no:0,x:0,g:5},{n:'Zapata, Camila',pj:1,no:0,x:0,g:1},
-          {n:'Ducasse, Amalia',pj:1,no:0,x:1,g:0},{n:'Giménez, Isabella',pj:1,no:0,x:0,g:0},
-          {n:'Forcinito, Francesca',pj:1,no:0,x:0,g:0},{n:'Nuñez, Pilar',pj:1,no:0,x:0,g:0},
-          {n:'Rodríguez, Julieta',pj:1,no:0,x:0,g:0}
-        ]
-      }
+    label:'Mega Violeta', sub:'Temporada 2026 · Fútbol Femenino · FF 2010–2017', color:'#7c3aed',
+    overall:{pj:4,g:4,e:0,p:0,gf:18,gc:1},
+    cats:{
+      'Todos':null,
+      'FF 2010/11':{pj:1,g:1,e:0,p:0,gf:2,gc:0,
+        matches:[{f:'14/03',r:'Club Saenz Peña',gf:2,gc:0,res:'G'}],
+        players:[{n:'Cugliari, Francesca',pj:1,no:0,x:0,g:2},{n:'García Orozco, Belén',pj:1,no:0,x:0,g:0},{n:'Godoy, Diana',pj:1,no:0,x:0,g:0},{n:'González Couyet, Victoria',pj:1,no:0,x:0,g:0},{n:'Guerra, Valentina',pj:1,no:0,x:0,g:0},{n:'Miranda, Milena',pj:1,no:0,x:0,g:0},{n:'Ricciardini, Jazmín',pj:1,no:0,x:0,g:0},{n:'Santillán, Melani',pj:1,no:0,x:0,g:0},{n:'Sotelo, Valentina',pj:1,no:0,x:0,g:0},{n:'Battaglini, Catalina',pj:0,no:1,x:0,g:0},{n:'Mieres, Valentina',pj:0,no:1,x:0,g:0}]},
+      'FF 2012/13':{pj:1,g:1,e:0,p:0,gf:3,gc:1,
+        matches:[{f:'14/03',r:'Club Saenz Peña',gf:3,gc:1,res:'G'}],
+        players:[{n:'Medina, Pía',pj:1,no:0,x:0,g:2},{n:'González, Renata',pj:1,no:0,x:0,g:1},{n:'Carrizo, Renata',pj:1,no:0,x:0,g:0},{n:'Cugliari, Federica',pj:1,no:0,x:0,g:0},{n:'Draghi, Paloma',pj:1,no:0,x:0,g:0},{n:'González, Ludmila',pj:1,no:0,x:0,g:0},{n:'Gutemberg, Sofia',pj:1,no:0,x:0,g:0},{n:'Miranda, Milena',pj:1,no:0,x:0,g:0},{n:'Martínez, Delfina',pj:0,no:1,x:0,g:0},{n:'Piacentini Nuñez, Yoko',pj:0,no:1,x:0,g:0}]},
+      'FF 2014/15':{pj:1,g:1,e:0,p:0,gf:7,gc:0,
+        matches:[{f:'14/03',r:'Club Saenz Peña',gf:7,gc:0,res:'G'}],
+        players:[{n:'Salvatierra, Isabella',pj:1,no:0,x:0,g:4},{n:'Caruso, Catalina',pj:1,no:0,x:0,g:1},{n:'Parodi, Matilda',pj:1,no:0,x:0,g:1},{n:'Rodrigues Correia, Estefanía',pj:1,no:0,x:0,g:1},{n:'Casazza, Victoria',pj:1,no:0,x:0,g:0},{n:'Godoy, Genesis',pj:1,no:0,x:0,g:0}]},
+      'FF 2016/17':{pj:1,g:1,e:0,p:0,gf:6,gc:0,
+        matches:[{f:'14/03',r:'Club Saenz Peña',gf:6,gc:0,res:'G'}],
+        players:[{n:'Grillo, Clementina',pj:1,no:0,x:0,g:5},{n:'Zapata, Camila',pj:1,no:0,x:0,g:1},{n:'Ducasse, Amalia',pj:1,no:0,x:1,g:0},{n:'Forcinito, Francesca',pj:1,no:0,x:0,g:0},{n:'Giménez, Isabella',pj:1,no:0,x:0,g:0},{n:'Nuñez, Pilar',pj:1,no:0,x:0,g:0},{n:'Rodríguez, Julieta',pj:1,no:0,x:0,g:0}]}
     },
-    allPlayers: [
-      {n:'Grillo, Clementina',pj:1,no:0,x:0,g:5},{n:'Salvatierra, Isabella',pj:1,no:0,x:0,g:4},
-      {n:'Medina, Pía',pj:1,no:0,x:0,g:2},{n:'Cugliari, Francesca',pj:1,no:0,x:0,g:2},
-      {n:'Zapata, Camila',pj:1,no:0,x:0,g:1},{n:'Parodi, Matilda',pj:1,no:0,x:0,g:1},
-      {n:'Rodrigues Correia, Estefanía',pj:1,no:0,x:0,g:1},{n:'González, Renata',pj:1,no:0,x:0,g:1},
-      {n:'Caruso, Catalina',pj:1,no:0,x:0,g:1},{n:'Forcinito, Francesca',pj:1,no:0,x:0,g:0},
-      {n:'García Orozco, Belén',pj:1,no:0,x:0,g:0},{n:'Ducasse, Amalia',pj:1,no:0,x:1,g:0},
-      {n:'Cugliari, Federica',pj:1,no:0,x:0,g:0},{n:'Draghi, Paloma',pj:1,no:0,x:0,g:0},
-      {n:'Casazza, Victoria',pj:1,no:0,x:0,g:0},{n:'Carrizo, Renata',pj:1,no:0,x:0,g:0},
-      {n:'González Couyet, Victoria',pj:1,no:0,x:0,g:0},{n:'González, Ludmila',pj:1,no:0,x:0,g:0},
-      {n:'Godoy, Diana',pj:1,no:0,x:0,g:0},{n:'Godoy, Genesis',pj:1,no:0,x:0,g:0},
-      {n:'Giménez, Isabella',pj:1,no:0,x:0,g:0},{n:'Gutemberg, Sofia',pj:1,no:0,x:0,g:0},
-      {n:'Guerra, Valentina',pj:1,no:0,x:0,g:0},{n:'Nuñez, Pilar',pj:1,no:0,x:0,g:0},
-      {n:'Miranda, Milena',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Julieta',pj:1,no:0,x:0,g:0},
-      {n:'Ricciardini, Jazmín',pj:1,no:0,x:0,g:0},{n:'Santillán, Melani',pj:1,no:0,x:0,g:0},
-      {n:'Sotelo, Valentina',pj:1,no:0,x:0,g:0}
-    ]
+    allPlayers:[{n:'Grillo, Clementina',pj:1,no:0,x:0,g:5},{n:'Salvatierra, Isabella',pj:1,no:0,x:0,g:4},{n:'Cugliari, Francesca',pj:1,no:0,x:0,g:2},{n:'Medina, Pía',pj:1,no:0,x:0,g:2},{n:'Caruso, Catalina',pj:1,no:0,x:0,g:1},{n:'González, Renata',pj:1,no:0,x:0,g:1},{n:'Parodi, Matilda',pj:1,no:0,x:0,g:1},{n:'Rodrigues Correia, Estefanía',pj:1,no:0,x:0,g:1},{n:'Zapata, Camila',pj:1,no:0,x:0,g:1},{n:'Carrizo, Renata',pj:1,no:0,x:0,g:0},{n:'Casazza, Victoria',pj:1,no:0,x:0,g:0},{n:'Cugliari, Federica',pj:1,no:0,x:0,g:0},{n:'Draghi, Paloma',pj:1,no:0,x:0,g:0},{n:'Ducasse, Amalia',pj:1,no:0,x:1,g:0},{n:'Forcinito, Francesca',pj:1,no:0,x:0,g:0},{n:'García Orozco, Belén',pj:1,no:0,x:0,g:0},{n:'Giménez, Isabella',pj:1,no:0,x:0,g:0},{n:'Godoy, Diana',pj:1,no:0,x:0,g:0},{n:'Godoy, Genesis',pj:1,no:0,x:0,g:0},{n:'González Couyet, Victoria',pj:1,no:0,x:0,g:0},{n:'González, Ludmila',pj:1,no:0,x:0,g:0},{n:'Guerra, Valentina',pj:1,no:0,x:0,g:0},{n:'Gutemberg, Sofia',pj:1,no:0,x:0,g:0},{n:'Miranda, Milena',pj:2,no:0,x:0,g:0},{n:'Nuñez, Pilar',pj:1,no:0,x:0,g:0},{n:'Ricciardini, Jazmín',pj:1,no:0,x:0,g:0},{n:'Rodríguez, Julieta',pj:1,no:0,x:0,g:0},{n:'Santillán, Melani',pj:1,no:0,x:0,g:0},{n:'Sotelo, Valentina',pj:1,no:0,x:0,g:0}]
   },
 
   verde: {
-    label: 'Mega Verde', sub: 'Temporada 2026 · Categoría 5ta (Juveniles)', color: '#16a34a',
-    overall: { pj:2, g:1, e:0, p:1, gf:7, gc:13 },
-    cats: {
-      'Todos': null,
-      '5ta': {
-        pj:2, g:1, e:0, p:1, gf:7, gc:13,
-        matches: [
-          {fecha:'14/03', rival:'Toque y Toque', gf:1, gc:9, res:'P'},
-          {fecha:'21/03', rival:'Villa Gral. Mitre', gf:6, gc:4, res:'G'}
-        ],
-        players: [
-          {n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},
-          {n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},
-          {n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},
-          {n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},
-          {n:'García Vallejo, Santiago',pj:1,no:1,x:1,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},
-          {n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},
-          {n:'Yanes, Bautista',pj:1,no:0,x:0,g:0}
-        ]
-      }
+    label:'Mega Verde', sub:'Temporada 2026 · Categoría 5ta (Juveniles)', color:'#16a34a',
+    overall:{pj:2,g:1,e:0,p:1,gf:7,gc:13},
+    cats:{
+      'Todos':null,
+      '5ta':{pj:2,g:1,e:0,p:1,gf:7,gc:13,
+        matches:[{f:'14/03',r:'Toque y Toque',gf:1,gc:9,res:'P'},{f:'21/03',r:'Villa Gral. Mitre',gf:6,gc:4,res:'G'}],
+        players:[{n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},{n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},{n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},{n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},{n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},{n:'Yanes, Bautista',pj:1,no:0,x:0,g:0},{n:'García Vallejo, Santiago',pj:0,no:1,x:1,g:0}]}
     },
-    allPlayers: [
-      {n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},
-      {n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},
-      {n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},
-      {n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},
-      {n:'García Vallejo, Santiago',pj:1,no:1,x:1,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},
-      {n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},
-      {n:'Yanes, Bautista',pj:1,no:0,x:0,g:0}
-    ]
+    allPlayers:[{n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},{n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},{n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},{n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},{n:'García Vallejo, Santiago',pj:0,no:1,x:1,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},{n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},{n:'Yanes, Bautista',pj:1,no:0,x:0,g:0}]
   },
 
   peques: {
-    label: 'Mega Peques', sub: 'Temporada 2026 · Categorías más jóvenes', color: '#0891b2',
-    overall: null,
-    cats: { 'Todos': null },
-    allPlayers: [
-      {n:'Formoso, Lautaro',pj:1,no:0,x:0,g:2},{n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:1},
-      {n:'Trinks, Dante',pj:1,no:0,x:0,g:1},{n:'Cardozo, Luciano',pj:1,no:0,x:0,g:0},
-      {n:'Chung, Lucas',pj:1,no:0,x:0,g:0},{n:'Girardi, Bruno',pj:1,no:0,x:0,g:0},
-      {n:'Bautista, Valentino',pj:1,no:0,x:0,g:0},{n:'Jiménez, Juan Ignacio',pj:1,no:0,x:0,g:0},
-      {n:'Mascolo, Mateo',pj:1,no:0,x:0,g:0},{n:'Palacios, Luciano',pj:1,no:0,x:0,g:0},
-      {n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},
-      {n:'Rodríguez Frankel, Iván',pj:1,no:0,x:0,g:0},{n:'Satonobu, Dante',pj:1,no:0,x:0,g:0},
-      {n:'Vázquez Sica, Bruno',pj:1,no:0,x:0,g:0}
-    ]
+    label:'Mega Peques', sub:'Temporada 2026 · Categorías 2019–2020', color:'#0891b2',
+    overall:{pj:1,g:0,e:1,p:0,gf:4,gc:4},
+    cats:{
+      'Todos':null,
+      '2019':{pj:1,g:0,e:1,p:0,gf:4,gc:4,
+        matches:[{f:'21/03',r:'Villa Gral. Mitre',gf:4,gc:4,res:'E'}],
+        players:[{n:'Formoso, Lautaro',pj:1,no:0,x:0,g:2},{n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:1},{n:'Trinks, Dante',pj:1,no:0,x:0,g:1},{n:'Cardozo, Luciano',pj:1,no:0,x:0,g:0},{n:'Mascolo, Mateo',pj:1,no:0,x:0,g:0},{n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Palacios, Luciano',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},{n:'Bautista, Valentino',pj:0,no:1,x:0,g:0},{n:'Chung, Lucas',pj:0,no:1,x:0,g:0},{n:'Girardi, Bruno',pj:0,no:1,x:0,g:0},{n:'Jiménez, Juan Ignacio',pj:0,no:1,x:0,g:0},{n:'Rodríguez Frankel, Iván',pj:0,no:1,x:0,g:0}]}
+    },
+    allPlayers:[{n:'Formoso, Lautaro',pj:1,no:0,x:0,g:2},{n:'Candiotto, Tiziano',pj:1,no:0,x:0,g:1},{n:'Trinks, Dante',pj:1,no:0,x:0,g:1},{n:'Cardozo, Luciano',pj:1,no:0,x:0,g:0},{n:'Mascolo, Mateo',pj:1,no:0,x:0,g:0},{n:'Matozza Bordón, Leonardo',pj:1,no:0,x:0,g:0},{n:'Palacios, Luciano',pj:1,no:0,x:0,g:0},{n:'Ramírez, Lorenzo',pj:1,no:0,x:0,g:0},{n:'Bautista, Valentino',pj:0,no:1,x:0,g:0},{n:'Chung, Lucas',pj:0,no:1,x:0,g:0},{n:'Girardi, Bruno',pj:0,no:1,x:0,g:0},{n:'Jiménez, Juan Ignacio',pj:0,no:1,x:0,g:0},{n:'Rodríguez Frankel, Iván',pj:0,no:1,x:0,g:0},{n:'Satonobu, Dante',pj:0,no:1,x:0,g:0},{n:'Vázquez Sica, Bruno',pj:0,no:1,x:0,g:0}]
   }
 };
 
-// =============================================
-// BUILD DOM
-// =============================================
-const container = document.getElementById('tira-containers');
-const TAB_IDX = { rojo:0, negro:1, blanco:2, violeta:3, verde:4, peques:5, total:6 };
-const charts = {};
+const TIDX = {rojo:0,negro:1,blanco:2,violeta:3,verde:4,peques:5,total:6};
 
-Object.entries(TIRAS).forEach(([key, T]) => {
-  const div = document.createElement('div');
-  div.className = 'dashboard' + (key === 'rojo' ? ' active' : '');
-  div.id = 'dash-' + key;
-  div.style.cssText = `--tc:${T.color}`;
-
+function buildTira(key, T) {
   const o = T.overall;
-  const kpiHtml = o ? `
-    <div class="kpi-grid">
-      <div class="kpi-card"><div class="kpi-label">Partidos</div><div class="kpi-value">${o.pj}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Ganados</div><div class="kpi-value" style="color:#16a34a">${o.g}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Empates</div><div class="kpi-value" style="color:#d97706">${o.e}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Perdidos</div><div class="kpi-value" style="color:#dc2626">${o.p}</div></div>
-      <div class="kpi-card"><div class="kpi-label">Goles a favor</div><div class="kpi-value">${o.gf}</div><div class="kpi-sub">Prom: ${(o.gf/o.pj).toFixed(1)} / partido</div></div>
-      <div class="kpi-card"><div class="kpi-label">Goles en contra</div><div class="kpi-value">${o.gc}</div><div class="kpi-sub">Prom: ${(o.gc/o.pj).toFixed(1)} / partido</div></div>
-    </div>` : `<div class="info-banner">ℹ️ Los Mega Peques participaron en los amistosos de pretemporada bajo la tira unificada <strong>Mega Villa Luro</strong>. No tienen partidos registrados con tira propia aún.</div>`;
-
+  const color = T.color;
+  const jug = key === 'violeta' ? 'a' : '';
   const catKeys = Object.keys(T.cats);
-  const pillsHtml = catKeys.length > 1 ? `<div class="cat-pills">` +
-    catKeys.map(c => `<button class="cat-pill${c==='Todos'?' active':''}" onclick="switchCat('${key}','${c}')">${c}</button>`).join('') +
-    `</div>` : '';
+  const nonTodo = catKeys.filter(k => k !== 'Todos');
 
-  let catsHtml = '';
-  catKeys.forEach(catKey => {
-    const isTodos = catKey === 'Todos';
-    const cat = T.cats[catKey];
+  // kpis
+  const kpiHtml = o ? `<div class="kpis">
+    <div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div>
+    <div class="kpi"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">${o.g}</div></div>
+    <div class="kpi"><div class="kl">Empates</div><div class="kv" style="color:#d97706">${o.e}</div></div>
+    <div class="kpi"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">${o.p}</div></div>
+    <div class="kpi"><div class="kl">Goles a favor</div><div class="kv">${o.gf}</div><div class="ks">Prom: ${(o.gf/o.pj).toFixed(1)}/partido</div></div>
+    <div class="kpi"><div class="kl">Goles en contra</div><div class="kv">${o.gc}</div><div class="ks">Prom: ${(o.gc/o.pj).toFixed(1)}/partido</div></div>
+  </div>` : '';
+
+  // pills
+  const pillsHtml = nonTodo.length > 0 ? `<div class="pills">
+    <button class="pill active" onclick="switchCat('${key}','Todos')">Todos</button>
+    ${nonTodo.map(c => `<button class="pill" onclick="switchCat('${key}','${c}')">${c}</button>`).join('')}
+  </div>` : '';
+
+  // cat views
+  let cvsHtml = '';
+  catKeys.forEach(ck => {
+    const safe = ck.replace(/[\s\/]/g,'_');
+    const isTodos = ck === 'Todos';
+    const cat = T.cats[ck];
     const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
 
-    let catKpiHtml = '';
+    // cat kpis
+    let ckHtml = '';
     if (!isTodos && cat) {
       const dif = cat.gf - cat.gc;
-      const difColor = dif > 0 ? '#16a34a' : dif < 0 ? '#dc2626' : '#888';
-      const difStr = dif > 0 ? '+' + dif : '' + dif;
-      catKpiHtml = `
-        <div class="cat-kpi-row">
-          <div class="cat-kpi"><div class="lbl">PJ</div><div class="val">${cat.pj}</div></div>
-          <div class="cat-kpi"><div class="lbl">G</div><div class="val" style="color:#16a34a">${cat.g}</div></div>
-          <div class="cat-kpi"><div class="lbl">E</div><div class="val" style="color:#d97706">${cat.e}</div></div>
-          <div class="cat-kpi"><div class="lbl">P</div><div class="val" style="color:#dc2626">${cat.p}</div></div>
-          <div class="cat-kpi"><div class="lbl">GF</div><div class="val">${cat.gf}</div><div class="sub">Prom ${cat.pj>0?(cat.gf/cat.pj).toFixed(1):'-'}</div></div>
-          <div class="cat-kpi"><div class="lbl">GC</div><div class="val">${cat.gc}</div><div class="sub">Prom ${cat.pj>0?(cat.gc/cat.pj).toFixed(1):'-'}</div></div>
-        </div>`;
-    }
-
-    let matchesHtml = '';
-    if (!isTodos && cat && cat.matches) {
-      const rows = cat.matches.map(m => {
-        if (m.res === null) return `<tr><td>${m.fecha}</td><td>${m.rival}</td><td class="c" style="color:#ccc">—</td><td class="c" style="color:#ccc">—</td><td class="c" style="font-size:10px;color:#ccc">sin datos</td></tr>`;
-        const badge = `<span class="badge badge-${m.res}">${m.res}</span>`;
-        return `<tr><td>${m.fecha}</td><td>${m.rival}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c">${badge}</td></tr>`;
-      }).join('');
-      matchesHtml = `
-        <div class="panel" style="margin-bottom:12px">
-          <div class="panel-head">Partidos</div>
-          <div class="panel-body" style="padding:8px 12px">
-            <table class="compact">
-              <thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead>
-              <tbody>${rows}</tbody>
-            </table>
-          </div>
-        </div>`;
-    }
-
-    const tid = `tbl-${key}-${catKey.replace(/[\s\/]/g,'_')}`;
-    const totalNO = players.reduce((s,r)=>s+r.no,0);
-    const totalX = players.reduce((s,r)=>s+r.x,0);
-    const jug = key === 'violeta' ? 'a' : '';
-
-    // Table 1: PJ — real PJ: Python already excluded NO from pj, so only subtract X
-    const pjSorted = [...players].map(p => ({...p, realPJ: p.pj - p.x}))
-      .filter(p => p.realPJ > 0 || p.pj > 0)
-      .sort((a,b) => b.realPJ - a.realPJ || a.n.localeCompare(b.n,'es'));
-    const pjRows = pjSorted.map((p,i) => `<tr data-name="${p.n.toLowerCase()}">
-      <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
-      <td>${p.n}</td>
-      <td class="num">${p.realPJ}</td>
-    </tr>`).join('');
-
-    // Table 2: Goleadores — only scorers, sorted by goals desc
-    const scorers = [...players].filter(p => p.g > 0).sort((a,b) => b.g - a.g || a.n.localeCompare(b.n,'es'));
-    const goalRows = scorers.length > 0
-      ? scorers.map((p,i) => `<tr data-name="${p.n.toLowerCase()}">
-          <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
-          <td>${p.n}</td>
-          <td class="goles">${p.g}</td>
-        </tr>`).join('')
-      : `<tr><td colspan="3" class="no-data-row">Sin goles registrados</td></tr>`;
-
-    // Table 3: Ausentismos — players with NO or X, sorted by total desc
-    const absent = [...players].filter(p => p.no > 0 || p.x > 0).sort((a,b) => (b.no+b.x) - (a.no+a.x) || a.n.localeCompare(b.n,'es'));
-    const absentRows = absent.length > 0
-      ? absent.map((p,i) => `<tr data-name="${p.n.toLowerCase()}">
-          <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
-          <td>${p.n}</td>
-          <td class="${p.no>0?'nov':'zero'}">${p.no>0?p.no:'—'}</td>
-          <td class="${p.x>0?'xv':'zero'}">${p.x>0?p.x:'—'}</td>
-          <td class="sum">${p.no+p.x}</td>
-        </tr>`).join('')
-      : `<tr><td colspan="5" class="no-data-row">Sin ausentismos registrados</td></tr>`;
-
-    const tid1 = `${tid}-pj`, tid2 = `${tid}-gol`, tid3 = `${tid}-aus`;
-
-    const playerHtml = `
-      <div class="stats-grid">
-
-        <div class="stats-block">
-          <div class="stats-subhead">⚽ Partidos jugados (${pjSorted.length})</div>
-          <input class="srch" placeholder="Buscar jugador${jug}..." oninput="filterTbl('${tid1}',this.value)">
-          <div class="tbl-wrap"><table class="players" id="${tid1}">
-            <thead><tr>
-              <th class="sortable" onclick="srt('${tid1}',0,this)" data-type="str">#</th>
-              <th class="sortable" onclick="srt('${tid1}',1,this)" data-type="str">Jugador${jug} <span class="sa">↕</span></th>
-              <th class="sortable sorted" onclick="srt('${tid1}',2,this)" data-type="num">PJ <span class="sa">↓</span></th>
-            </tr></thead>
-            <tbody>${pjRows}</tbody>
-          </table></div>
-          <div class="tbl-footer">${pjSorted.filter(p=>p.realPJ>0).length} jugador${jug}es con al menos 1 PJ</div>
-        </div>
-
-        <div class="stats-block">
-          <div class="stats-subhead">🥅 Goleador${jug}s (${scorers.length})</div>
-          <input class="srch" placeholder="Buscar jugador${jug}..." oninput="filterTbl('${tid2}',this.value)">
-          <div class="tbl-wrap"><table class="players" id="${tid2}">
-            <thead><tr>
-              <th class="sortable" onclick="srt('${tid2}',0,this)" data-type="str">#</th>
-              <th class="sortable" onclick="srt('${tid2}',1,this)" data-type="str">Jugador${jug} <span class="sa">↕</span></th>
-              <th class="sortable sorted" onclick="srt('${tid2}',2,this)" data-type="num">Goles <span class="sa">↓</span></th>
-            </tr></thead>
-            <tbody>${goalRows}</tbody>
-          </table></div>
-          <div class="tbl-footer">${scorers.length} con goles · Total: ${scorers.reduce((s,p)=>s+p.g,0)}</div>
-        </div>
-
-        <div class="stats-block">
-          <div class="stats-subhead">❌ Ausentismos (${absent.length})</div>
-          <input class="srch" placeholder="Buscar jugador${jug}..." oninput="filterTbl('${tid3}',this.value)">
-          <div class="tbl-wrap"><table class="players" id="${tid3}">
-            <thead><tr>
-              <th class="sortable" onclick="srt('${tid3}',0,this)" data-type="str">#</th>
-              <th class="sortable" onclick="srt('${tid3}',1,this)" data-type="str">Jugador${jug} <span class="sa">↕</span></th>
-              <th class="sortable" onclick="srt('${tid3}',2,this)" data-type="num">NO <span class="sa">↕</span></th>
-              <th class="sortable" onclick="srt('${tid3}',3,this)" data-type="num">X <span class="sa">↕</span></th>
-              <th class="sortable sorted" onclick="srt('${tid3}',4,this)" data-type="num">Total <span class="sa">↓</span></th>
-            </tr></thead>
-            <tbody>${absentRows}</tbody>
-          </table></div>
-          <div class="tbl-footer">NO: ${totalNO} · X: ${totalX} · Total: ${totalNO+totalX}</div>
-        </div>
-
+      ckHtml = `<div class="catkpis">
+        <div class="ck"><div class="l">PJ</div><div class="v">${cat.pj}</div></div>
+        <div class="ck"><div class="l">G</div><div class="v" style="color:#16a34a">${cat.g}</div></div>
+        <div class="ck"><div class="l">E</div><div class="v" style="color:#d97706">${cat.e}</div></div>
+        <div class="ck"><div class="l">P</div><div class="v" style="color:#dc2626">${cat.p}</div></div>
+        <div class="ck"><div class="l">GF</div><div class="v">${cat.gf}</div><div class="s">Prom ${cat.pj>0?(cat.gf/cat.pj).toFixed(1):'-'}</div></div>
+        <div class="ck"><div class="l">GC</div><div class="v">${cat.gc}</div><div class="s">Prom ${cat.pj>0?(cat.gc/cat.pj).toFixed(1):'-'}</div></div>
       </div>`;
+    }
 
-    catsHtml += `<div class="cat-view${isTodos?' active':''}" id="cv-${key}-${catKey.replace(/[\s\/]/g,'_')}">
-      ${catKpiHtml}
-      ${matchesHtml}
-      ${playerHtml}
+    // cat summary table (only for Todos)
+    let csHtml = '';
+    if (isTodos && nonTodo.length > 0) {
+      const rows = nonTodo.map(nck => {
+        const cd = T.cats[nck];
+        if (!cd) return '';
+        const dif = cd.gf - cd.gc;
+        const difHtml = dif > 0 ? `<span class="dp">+${dif}</span>` : dif < 0 ? `<span class="dn">${dif}</span>` : '0';
+        return `<tr>
+          <td>${nck}</td>
+          <td class="cg">${cd.g}</td><td class="ce">${cd.e}</td><td class="cp">${cd.p}</td>
+          <td>${cd.pj}</td><td>${cd.gf}</td><td>${cd.gc}</td><td>${difHtml}</td>
+          <td>${cd.pj>0?(cd.gf/cd.pj).toFixed(1):'-'}</td>
+          <td>${cd.pj>0?(cd.gc/cd.pj).toFixed(1):'-'}</td>
+        </tr>`;
+      }).join('');
+      const tG=nonTodo.reduce((s,k)=>s+(T.cats[k]?.g||0),0);
+      const tE=nonTodo.reduce((s,k)=>s+(T.cats[k]?.e||0),0);
+      const tP=nonTodo.reduce((s,k)=>s+(T.cats[k]?.p||0),0);
+      const tPJ=nonTodo.reduce((s,k)=>s+(T.cats[k]?.pj||0),0);
+      const tGF=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gf||0),0);
+      const tGC=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gc||0),0);
+      const tDif=tGF-tGC;
+      csHtml = `<div class="panel"><div class="ph">Rendimiento por categoría</div><div class="pb" style="padding:0">
+        <table class="cs">
+          <thead><tr><th>Categoría</th><th>G</th><th>E</th><th>P</th><th>PJ</th><th>GF</th><th>GC</th><th>Dif.</th><th>GF/PJ</th><th>GC/PJ</th></tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr>
+            <td>TOTAL</td>
+            <td class="cg">${tG}</td><td class="ce">${tE}</td><td class="cp">${tP}</td>
+            <td>${tPJ}</td><td>${tGF}</td><td>${tGC}</td>
+            <td>${tDif>0?'+'+tDif:tDif}</td>
+            <td>${tPJ>0?(tGF/tPJ).toFixed(1):'-'}</td>
+            <td>${tPJ>0?(tGC/tPJ).toFixed(1):'-'}</td>
+          </tr></tfoot>
+        </table>
+      </div></div>`;
+    }
+
+    // matches
+    let mHtml = '';
+    if (!isTodos && cat && cat.matches) {
+      const mrows = cat.matches.map(m => `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span class="bg bg-${m.res}">${m.res}</span></td></tr>`).join('');
+      mHtml = `<div class="panel"><div class="ph">Partidos</div><div class="pb" style="padding:8px 12px">
+        <table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table>
+      </div></div>`;
+    }
+
+    // 3 player tables
+    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||a.n.localeCompare(b.n,'es'));
+    const scorers = [...players].filter(p=>p.g>0).sort((a,b)=>b.g-a.g||a.n.localeCompare(b.n,'es'));
+    const absent = [...players].filter(p=>p.no>0||p.x>0).sort((a,b)=>(b.no+b.x)-(a.no+a.x)||a.n.localeCompare(b.n,'es'));
+    const tNO = players.reduce((s,r)=>s+r.no,0);
+    const tX = players.reduce((s,r)=>s+r.x,0);
+
+    const tid = `t-${key}-${safe}`;
+    const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="n">${p.rpj}</td></tr>`).join('');
+    const gRows = scorers.length>0 ? scorers.map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="g">${p.g}</td></tr>`).join('') : `<tr><td colspan="3" class="nd">Sin goles registrados</td></tr>`;
+    const aRows = absent.length>0 ? absent.map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td><td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td><td class="sm">${p.no+p.x}</td></tr>`).join('') : `<tr><td colspan="5" class="nd">Sin ausentismos</td></tr>`;
+
+    const playerHtml = `<div class="sg">
+      <div class="sb">
+        <div class="ssh">⚽ Partidos jugados (${sorted_pj.filter(p=>p.rpj>0).length})</div>
+        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-pj',this.value)">
+        <div class="tw"><table class="pt" id="${tid}-pj">
+          <thead><tr><th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n">PJ <span class="sa">↓</span></th></tr></thead>
+          <tbody>${pjRows}</tbody>
+        </table></div>
+        <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es</div>
+      </div>
+      <div class="sb">
+        <div class="ssh">🥅 Goleador${jug}s (${scorers.length})</div>
+        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-gol',this.value)">
+        <div class="tw"><table class="pt" id="${tid}-gol">
+          <thead><tr><th onclick="srt('${tid}-gol',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-gol',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-gol',2,this)" data-t="n">Goles <span class="sa">↓</span></th></tr></thead>
+          <tbody>${gRows}</tbody>
+        </table></div>
+        <div class="tf">${scorers.length} con goles · Total: ${scorers.reduce((s,p)=>s+p.g,0)}</div>
+      </div>
+      <div class="sb">
+        <div class="ssh">❌ Ausentismos (${absent.length})</div>
+        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-aus',this.value)">
+        <div class="tw"><table class="pt" id="${tid}-aus">
+          <thead><tr><th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',2,this)" data-t="n">NO <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',3,this)" data-t="n">X <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-aus',4,this)" data-t="n">Total <span class="sa">↓</span></th></tr></thead>
+          <tbody>${aRows}</tbody>
+        </table></div>
+        <div class="tf">NO: ${tNO} · X: ${tX} · Total: ${tNO+tX}</div>
+      </div>
+    </div>`;
+
+    cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
+      ${ckHtml}${csHtml}${mHtml}${playerHtml}
     </div>`;
   });
 
-  div.innerHTML = `
-    <div class="header-strip"><div class="tira-name">${T.label}</div><div class="tira-sub">${T.sub}</div></div>
+  // donut canvas id
+  const donutId = `dn-${key}`;
+  const donutHtml = o ? `<div class="row2">
+    <div class="panel" style="margin-bottom:0">
+      <div class="ph">G / E / P</div>
+      <div class="donut-wrap">
+        <canvas id="${donutId}"></canvas>
+        <div class="leg">
+          <div class="li"><div class="ld" style="background:#16a34a"></div>Ganados<span class="lv">${o.g}</span></div>
+          <div class="li"><div class="ld" style="background:#d97706"></div>Empates<span class="lv">${o.e}</span></div>
+          <div class="li"><div class="ld" style="background:#dc2626"></div>Perdidos<span class="lv">${o.p}</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-bottom:0">
+      <div class="ph">Resultados por jornada</div>
+      <div class="pb" id="matches-${key}"></div>
+    </div>
+  </div>` : '';
+
+  return `<div class="dash${key==='rojo'?' active':''}" id="dash-${key}" style="--tc:${color}">
+    <div class="header"><div class="hn">${T.label}</div><div class="hs">${T.sub}</div></div>
     ${kpiHtml}
     ${pillsHtml}
-    ${catsHtml}`;
-  container.appendChild(div);
+    ${donutHtml}
+    ${cvsHtml}
+  </div>`;
+}
+
+// Build all tiras
+const root = document.getElementById('root');
+root.innerHTML = Object.entries(TIRAS).map(([k,T]) => buildTira(k,T)).join('');
+
+// Build match tables per tira (overall)
+Object.entries(TIRAS).forEach(([key, T]) => {
+  const container = document.getElementById('matches-' + key);
+  if (!container) return;
+  const nonTodo = Object.keys(T.cats).filter(k => k !== 'Todos');
+  const allMatches = {};
+  nonTodo.forEach(ck => {
+    const cat = T.cats[ck];
+    if (!cat || !cat.matches) return;
+    cat.matches.forEach(m => {
+      const fk = m.f + '|' + m.r;
+      if (!allMatches[fk]) allMatches[fk] = {f:m.f, r:m.r, cats:[]};
+      allMatches[fk].cats.push({cat:ck, gf:m.gf, gc:m.gc, res:m.res});
+    });
+  });
+  const byFecha = {};
+  Object.values(allMatches).forEach(m => {
+    const fk = m.f + ' · ' + m.r;
+    if (!byFecha[fk]) byFecha[fk] = [];
+    byFecha[fk].push(...m.cats);
+  });
+  let html = '';
+  Object.entries(byFecha).forEach(([label, cats]) => {
+    html += `<div class="jh">${label}</div>
+    <table class="ct"><thead><tr><th>Cat.</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>`;
+    cats.forEach(c => {
+      html += `<tr><td>${c.cat}</td><td class="c">${c.gf??'—'}</td><td class="c">${c.gc??'—'}</td><td class="c"><span class="bg bg-${c.res||'P'}">${c.res||'—'}</span></td></tr>`;
+    });
+    html += '</tbody></table>';
+  });
+  container.innerHTML = html;
 });
 
-// =============================================
-// INTERACTIONS
-// =============================================
-function showTira(key) {
-  document.querySelectorAll('.dashboard').forEach(d => d.classList.remove('active'));
-  document.querySelectorAll('.tira-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('dash-' + key).classList.add('active');
-  document.querySelectorAll('.tira-btn')[TAB_IDX[key]].classList.add('active');
-}
-
-function switchCat(tiraKey, catKey) {
-  const safeKey = catKey.replace(/[\s\/]/g,'_');
-  // pills
-  document.querySelectorAll(`#dash-${tiraKey} .cat-pill`).forEach(p => p.classList.remove('active'));
-  const pills = document.querySelectorAll(`#dash-${tiraKey} .cat-pill`);
-  pills.forEach(p => { if (p.textContent === catKey) p.classList.add('active'); });
-  // views
-  document.querySelectorAll(`#dash-${tiraKey} .cat-view`).forEach(v => v.classList.remove('active'));
-  const cv = document.getElementById(`cv-${tiraKey}-${safeKey}`);
-  if (cv) cv.classList.add('active');
-}
-
-function filterTbl(tableId, q) {
-  const ql = q.toLowerCase();
-  document.querySelectorAll('#' + tableId + ' tbody tr').forEach(tr => {
-    tr.style.display = (tr.dataset.name || '').includes(ql) ? '' : 'none';
+// Render donuts
+function renderDonut(id, g, e, p) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const total = g+e+p||1;
+  new Chart(el.getContext('2d'), {
+    type:'doughnut',
+    data:{datasets:[{data:[g,e||0.001,p],backgroundColor:['#16a34a','#d97706','#dc2626'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:true,cutout:'65%',
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{
+        const lb=['Ganados','Empates','Perdidos'];
+        const v=ctx.raw<0.01?0:ctx.raw;
+        return ` ${lb[ctx.dataIndex]}: ${v} (${Math.round(v/total*100)}%)`;
+      }}}}}
   });
 }
+Object.entries(TIRAS).forEach(([key, T]) => {
+  if (T.overall) {
+    const o = T.overall;
+    renderDonut('dn-'+key, o.g, o.e, o.p);
+  }
+});
 
-let SS = {};
-function srt(tableId, col, th) {
-  const k = tableId + '_' + col;
-  const asc = SS[k] !== true; SS[k] = asc;
-  const table = document.getElementById(tableId);
-  table.querySelectorAll('th').forEach(h => { h.classList.remove('sorted'); const a = h.querySelector('.sa'); if(a) a.textContent='↕'; });
-  th.classList.add('sorted'); const sa = th.querySelector('.sa'); if(sa) sa.textContent = asc?'↓':'↑';
-  const tbody = table.querySelector('tbody');
-  const rows = Array.from(tbody.querySelectorAll('tr'));
-  const type = th.dataset.type;
-  rows.sort((a,b) => {
-    const av = a.cells[col].textContent.trim(), bv = b.cells[col].textContent.trim();
-    if(type==='num'){const an=parseFloat(av)||0, bn=parseFloat(bv)||0; return asc?bn-an:an-bn;}
-    return asc?av.localeCompare(bv,'es'):bv.localeCompare(av,'es');
-  });
-  rows.forEach((tr,i) => { tr.cells[0].textContent=i+1; tbody.appendChild(tr); });
-}
-
-// =============================================
-// CHARTS (total tab)
-// =============================================
-new Chart(document.getElementById('chart-total').getContext('2d'), {
-  type: 'bar',
-  data: {
-    labels: ['Rojo','Negro','Blanco','Violeta','Verde'],
-    datasets: [
-      {label:'GF', data:[53,17,35,18,7], backgroundColor:'#16a34a', borderRadius:4},
-      {label:'GC', data:[27,36,25,1,13], backgroundColor:'#dc2626', borderRadius:4}
+// Total charts
+new Chart(document.getElementById('chart-tot').getContext('2d'), {
+  type:'bar',
+  data:{
+    labels:['Rojo','Negro','Blanco','Violeta','Verde','Peques'],
+    datasets:[
+      {label:'GF',data:[53,17,35,18,7,4],backgroundColor:'#16a34a',borderRadius:4},
+      {label:'GC',data:[27,39,25,1,13,4],backgroundColor:'#dc2626',borderRadius:4}
     ]
   },
-  options: { responsive:true, maintainAspectRatio:false,
+  options:{responsive:true,maintainAspectRatio:false,
     plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},
-    scales:{x:{ticks:{font:{size:10}}},y:{beginAtZero:true,ticks:{font:{size:10}}}}
-  }
+    scales:{x:{ticks:{font:{size:10}}},y:{beginAtZero:true,ticks:{font:{size:10}}}}}
 });
+renderDonut('donut-tot', 17, 3, 16);
 
-new Chart(document.getElementById('donut-total').getContext('2d'), {
-  type: 'doughnut',
-  data: { datasets:[{data:[17,2,15], backgroundColor:['#16a34a','#d97706','#dc2626'], borderWidth:2, borderColor:'#fff'}] },
-  options: { responsive:true, maintainAspectRatio:true, cutout:'65%',
-    plugins:{legend:{display:false}, tooltip:{callbacks:{label:(ctx)=>{
-      const labels=['Ganados','Empates','Perdidos']; const val=ctx.raw<0.01?0:ctx.raw;
-      return ` ${labels[ctx.dataIndex]}: ${val} (${Math.round(val/35*100)}%)`;
-    }}}}
-  }
-});
+// Navigation
+function showT(key) {
+  document.querySelectorAll('.dash').forEach(d=>d.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('dash-'+key).classList.add('active');
+  document.querySelectorAll('.tab')[TIDX[key]].classList.add('active');
+}
+function switchCat(tiraKey, catKey) {
+  const safe = catKey.replace(/[\s\/]/g,'_');
+  document.querySelectorAll('#dash-'+tiraKey+' .pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#dash-'+tiraKey+' .pill').forEach(p=>{if(p.textContent===catKey)p.classList.add('active');});
+  document.querySelectorAll('#dash-'+tiraKey+' .cv').forEach(v=>v.classList.remove('active'));
+  const cv = document.getElementById('cv-'+tiraKey+'-'+safe);
+  if(cv) cv.classList.add('active');
+}
+function flt(tid, q) {
+  const ql = q.toLowerCase();
+  document.querySelectorAll('#'+tid+' tbody tr').forEach(tr=>{tr.style.display=(tr.dataset.n||'').includes(ql)?'':'none';});
+}
+let SS={};
+function srt(tid, col, th) {
+  const k=tid+'_'+col, asc=SS[k]!==true; SS[k]=asc;
+  const tbl=document.getElementById(tid);
+  tbl.querySelectorAll('th').forEach(h=>{h.classList.remove('srt');const a=h.querySelector('.sa');if(a)a.textContent='↕';});
+  th.classList.add('srt');const sa=th.querySelector('.sa');if(sa)sa.textContent=asc?'↓':'↑';
+  const tbody=tbl.querySelector('tbody');
+  const rows=Array.from(tbody.querySelectorAll('tr'));
+  const type=th.dataset.t;
+  rows.sort((a,b)=>{
+    const av=a.cells[col].textContent.trim(),bv=b.cells[col].textContent.trim();
+    if(type==='n'){const an=parseFloat(av)||0,bn=parseFloat(bv)||0;return asc?bn-an:an-bn;}
+    return asc?av.localeCompare(bv,'es'):bv.localeCompare(av,'es');
+  });
+  rows.forEach((tr,i)=>{tr.cells[0].textContent=i+1;tbody.appendChild(tr);});
+}
 </script>
 </body>
 </html>
