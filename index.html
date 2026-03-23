@@ -4,194 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Fuente moderna -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <title>Mega Villa Luro 2026</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:'Inter',sans-serif;
-  background:#f4f6f9;
-  color:#1f2937;
-}
+body{font-family:'Inter',sans-serif;background:#f4f6f9;color:#1f2937;}
 
 /* TABS */
-.tabs{
-  display:flex;
-  padding:6px;
-  background:#111;
-  gap:6px;
-  flex-wrap:wrap;
-}
-.tab{
-  flex:1;
-  min-width:80px;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-size:12px;
-  font-weight:700;
-  color:#bbb;
-  background:#1f2937;
-}
-.tab.active{
-  background:var(--tc);
-  color:#fff;
-}
+.tabs{display:flex;padding:6px;background:#111;gap:6px;}
+.tab{flex:1;padding:10px;border:none;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;color:#bbb;background:#1f2937;}
+.tab.active{color:#fff}
 
 /* HEADER */
-.header{
-  padding:20px;
-  border-radius:14px;
-  margin-bottom:16px;
-  background:linear-gradient(135deg,var(--tc),#000);
-  color:#fff;
-}
+.header{padding:20px;border-radius:14px;margin-bottom:16px;color:#fff;}
 .hn{font-size:24px;font-weight:800}
 .hs{font-size:12px;opacity:.8}
 
 /* KPI */
-.kpis{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:12px;
-  margin-bottom:16px;
-}
-.kpi{
-  background:#fff;
-  border-radius:12px;
-  padding:14px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.06);
-}
-.kl{
-  font-size:10px;
-  color:#9ca3af;
-  text-transform:uppercase;
-}
-.kv{
-  font-size:24px;
-  font-weight:800;
-}
-.ks{font-size:11px;color:#9ca3af}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px;}
+.kpi{background:#fff;border-radius:12px;padding:14px;box-shadow:0 4px 12px rgba(0,0,0,0.06);}
+.kl{font-size:10px;color:#9ca3af;text-transform:uppercase;}
+.kv{font-size:24px;font-weight:800;}
 
 /* PANEL */
-.panel{
-  background:#fff;
-  border-radius:14px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
-  margin-bottom:16px;
-}
-.ph{
-  padding:12px 16px;
-  font-size:11px;
-  font-weight:700;
-  background:var(--tc);
-  color:#fff;
-}
+.panel{background:#fff;border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,0.05);margin-bottom:16px;}
+.ph{padding:12px 16px;font-size:11px;font-weight:700;color:#fff;}
 .pb{padding:16px}
 
 /* TABLAS */
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-th{
-  background:#111827;
-  color:#fff;
-  padding:10px;
-  font-size:11px;
-}
-td{
-  padding:10px;
-  border-bottom:1px solid #eee;
-}
-tr:hover td{
-  background:#f9fafb;
-}
+table{width:100%;border-collapse:collapse;}
+th{background:#111827;color:#fff;padding:10px;font-size:11px;}
+td{padding:10px;border-bottom:1px solid #eee;}
+tr:hover td{background:#f9fafb;}
 
-/* COLORES */
 .cg{color:#22c55e;font-weight:700}
 .ce{color:#f59e0b;font-weight:700}
 .cp{color:#ef4444;font-weight:700}
 
-/* RESPONSIVE */
-@media(max-width:600px){
-  .kpis{grid-template-columns:1fr 1fr}
-}
+/* SECCIONES */
+.section{display:none;}
+.section.active{display:block;}
 </style>
 </head>
 
 <body>
 
+<!-- TABS -->
 <div class="tabs">
-  <button class="tab active" style="--tc:#1a1a1a">📊 TOTAL</button>
-  <button class="tab" style="--tc:#dc2626">🔴 ROJO</button>
-  <button class="tab" style="--tc:#374151">⚫ NEGRO</button>
+  <button class="tab active" onclick="showTab('total', this)">📊 TOTAL</button>
+  <button class="tab" onclick="showTab('rojo', this)">🔴 ROJO</button>
+  <button class="tab" onclick="showTab('negro', this)">⚫ NEGRO</button>
+  <button class="tab" onclick="showTab('violeta', this)">🟣 VIOLETA</button>
 </div>
 
 <div style="padding:16px">
 
-<!-- HEADER -->
-<div class="header" style="--tc:#1a1a1a">
+<!-- TOTAL -->
+<div id="total" class="section active">
+
+<div class="header" style="background:#1a1a1a">
   <div class="hn">Resumen General</div>
   <div class="hs">Temporada 2026 · Mega Villa Luro</div>
 </div>
 
-<!-- EFECTIVIDAD -->
-<div style="margin-bottom:14px;font-size:16px;font-weight:700">
+<div style="margin-bottom:14px;font-weight:700">
 ⚽ Efectividad general: <span style="color:#22c55e">68%</span>
 </div>
 
-<!-- KPIS -->
 <div class="kpis">
   <div class="kpi"><div class="kl">Partidos</div><div class="kv">39</div></div>
   <div class="kpi"><div class="kl">Ganados</div><div class="kv cg">18</div></div>
   <div class="kpi"><div class="kl">Empates</div><div class="kv ce">3</div></div>
   <div class="kpi"><div class="kl">Perdidos</div><div class="kv cp">18</div></div>
-  <div class="kpi"><div class="kl">GF</div><div class="kv">145</div><div class="ks">3.7 por partido</div></div>
-  <div class="kpi"><div class="kl">GC</div><div class="kv">122</div><div class="ks">3.1 por partido</div></div>
 </div>
 
-<!-- TABLA -->
-<div class="panel" style="--tc:#1a1a1a">
-  <div class="ph">Comparativa por tira</div>
+</div>
+
+<!-- ROJO -->
+<div id="rojo" class="section">
+
+<div class="header" style="background:#dc2626">
+  <div class="hn">Mega Rojo</div>
+</div>
+
+<div class="panel">
+  <div class="ph" style="background:#dc2626">Estadísticas</div>
   <div class="pb">
     <table>
-      <thead>
-        <tr>
-          <th>Tira</th><th>PJ</th><th>G</th><th>E</th><th>P</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mega Rojo</td><td>10</td>
-          <td class="cg">5</td><td>2</td><td class="cp">3</td>
-        </tr>
-        <tr>
-          <td>Mega Negro</td><td>10</td>
-          <td class="cg">3</td><td>0</td><td class="cp">7</td>
-        </tr>
-      </tbody>
+      <tr><th>PJ</th><th>G</th><th>E</th><th>P</th></tr>
+      <tr><td>10</td><td class="cg">5</td><td>2</td><td class="cp">3</td></tr>
     </table>
   </div>
 </div>
 
-<!-- INSIGHT -->
-<div class="panel" style="--tc:#1a1a1a">
-  <div class="ph">Conclusión rápida</div>
+</div>
+
+<!-- NEGRO -->
+<div id="negro" class="section">
+
+<div class="header" style="background:#374151">
+  <div class="hn">Mega Negro</div>
+</div>
+
+<div class="panel">
+  <div class="ph" style="background:#374151">Estadísticas</div>
   <div class="pb">
-    <p>🏆 Mejor tira: Mega Violeta (100%)</p>
-    <p>📈 Mayor ataque: Mega Rojo</p>
-    <p>⚠️ A mejorar: Mega Negro</p>
+    <table>
+      <tr><th>PJ</th><th>G</th><th>E</th><th>P</th></tr>
+      <tr><td>10</td><td class="cg">3</td><td>0</td><td class="cp">7</td></tr>
+    </table>
   </div>
 </div>
 
 </div>
+
+<!-- VIOLETA -->
+<div id="violeta" class="section">
+
+<div class="header" style="background:#7c3aed">
+  <div class="hn">Mega Violeta</div>
+</div>
+
+<div class="panel">
+  <div class="ph" style="background:#7c3aed">Estadísticas</div>
+  <div class="pb">
+    <table>
+      <tr><th>PJ</th><th>G</th><th>E</th><th>P</th></tr>
+      <tr><td>10</td><td class="cg">10</td><td>0</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<!-- SCRIPT TABS -->
+<script>
+function showTab(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
 </body>
 </html>
