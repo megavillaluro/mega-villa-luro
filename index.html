@@ -68,7 +68,7 @@ table.cs tfoot td:first-child{text-align:left;color:#555}
 .dp{color:#16a34a;font-weight:700}
 .dn{color:#dc2626;font-weight:700}
 /* 3-table stats grid */
-.sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.sg{display:grid;grid-template-columns:2fr 1fr;gap:12px}
 .sb{border:1px solid #e8e8e5;border-radius:8px;overflow:hidden}
 .ssh{font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.4px;padding:7px 12px;background:var(--tc)}
 .srch{width:100%;padding:6px 10px;border:none;border-bottom:1px solid #eee;font-size:12px;outline:none;color:#333;background:#fafaf8}
@@ -119,12 +119,12 @@ table.tot tr.tr td.c{text-align:center}
 <div class="dash" id="dash-total" style="--tc:#1a1a1a">
   <div class="header" style="background:#1a1a1a"><div class="hn">Resumen General</div><div class="hs">Temporada 2026 · Mega Villa Luro · Todas las tiras</div></div>
   <div class="kpis">
-    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Partidos</div><div class="kv">36</div></div>
-    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">17</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Partidos</div><div class="kv">39</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">18</div></div>
     <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Empates</div><div class="kv" style="color:#d97706">3</div></div>
-    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">16</div></div>
-    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles a favor</div><div class="kv">134</div><div class="ks">Prom: 3.7/partido</div></div>
-    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles en contra</div><div class="kv">109</div><div class="ks">Prom: 3.0/partido</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">18</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles a favor</div><div class="kv">145</div><div class="ks">Prom: 3.7/partido</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles en contra</div><div class="kv">122</div><div class="ks">Prom: 3.1/partido</div></div>
   </div>
   <div class="panel">
     <div class="ph" style="background:#1a1a1a">Comparativa por tira</div>
@@ -136,25 +136,83 @@ table.tot tr.tr td.c{text-align:center}
           <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td class="c">10</td><td class="c cg">3</td><td class="c">0</td><td class="c cp">7</td><td class="c">17</td><td class="c">39</td><td class="c dn">−22</td><td class="c">1.7</td><td class="c">3.9</td></tr>
           <tr><td><span class="dot" style="background:#475569"></span>Mega Blanco</td><td class="c">9</td><td class="c cg">4</td><td class="c">0</td><td class="c cp">5</td><td class="c">35</td><td class="c">25</td><td class="c dp">+10</td><td class="c">3.9</td><td class="c">2.8</td></tr>
           <tr><td><span class="dot" style="background:#7c3aed"></span>Mega Violeta</td><td class="c">4</td><td class="c cg">4</td><td class="c">0</td><td class="c cp">0</td><td class="c">18</td><td class="c">1</td><td class="c dp">+17</td><td class="c">4.5</td><td class="c">0.2</td></tr>
-          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td class="c">2</td><td class="c cg">1</td><td class="c">0</td><td class="c cp">1</td><td class="c">7</td><td class="c">13</td><td class="c dn">−6</td><td class="c">3.5</td><td class="c">6.5</td></tr>
+          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td class="c">5</td><td class="c cg">2</td><td class="c">0</td><td class="c cp">3</td><td class="c">18</td><td class="c">26</td><td class="c dn">−8</td><td class="c">3.6</td><td class="c">5.2</td></tr>
           <tr><td><span class="dot" style="background:#0891b2"></span>Mega Peques</td><td class="c">1</td><td class="c">0</td><td class="c ce">1</td><td class="c">0</td><td class="c">4</td><td class="c">4</td><td class="c">0</td><td class="c">4.0</td><td class="c">4.0</td></tr>
-          <tr class="tr"><td>⚽ TOTAL</td><td class="c">36</td><td class="c">17</td><td class="c">3</td><td class="c">16</td><td class="c">134</td><td class="c">109</td><td class="c">+25</td><td class="c">3.7</td><td class="c">3.0</td></tr>
+          <tr class="tr"><td>⚽ TOTAL</td><td class="c">39</td><td class="c">18</td><td class="c">3</td><td class="c">18</td><td class="c">145</td><td class="c">122</td><td class="c">+23</td><td class="c">3.7</td><td class="c">3.1</td></tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+  <div class="panel">
+    <div class="ph" style="background:#1a1a1a">Partidos jugados por jornada</div>
+    <div class="pb" style="padding:0">
+      <table class="tot" id="jornada-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Tira</th>
+            <th>Rival</th>
+            <th class="c">Condición</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 21/02 -->
+          <tr><td rowspan="1" style="font-weight:700;background:#f9f9f7;color:#555;white-space:nowrap">21/02</td><td><span class="dot" style="background:#888"></span>Mega Villa Luro</td><td>Club Leones</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <!-- 28/02 -->
+          <tr><td style="font-weight:700;background:#f9f9f7;color:#555;white-space:nowrap">28/02</td><td><span class="dot" style="background:#888"></span>Mega Villa Luro</td><td>Asociación Española</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <!-- 07/03 -->
+          <tr><td rowspan="2" style="font-weight:700;background:#f9f9f7;color:#555;white-space:nowrap">07/03</td><td><span class="dot" style="background:#888"></span>Mega Villa Luro</td><td>Agronomía Central</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <tr><td><span class="dot" style="background:#888"></span>Mega Villa Luro</td><td>Flores Club</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <!-- 14/03 -->
+          <tr><td rowspan="5" style="font-weight:700;background:#f9f9f7;color:#555;white-space:nowrap">14/03</td><td><span class="dot" style="background:#dc2626"></span>Mega Rojo</td><td>Toque y Toque</td><td class="c"><span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Local</span></td></tr>
+          <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td>El Ideal</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <tr><td><span class="dot" style="background:#475569"></span>Mega Blanco</td><td>Toque y Toque</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <tr><td><span class="dot" style="background:#7c3aed"></span>Mega Violeta</td><td>Club Saenz Peña</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td>Toque y Toque</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <!-- 21/03 -->
+          <tr><td rowspan="5" style="font-weight:700;background:#f9f9f7;color:#555;white-space:nowrap">21/03</td><td><span class="dot" style="background:#dc2626"></span>Mega Rojo</td><td>Villa Gral. Mitre</td><td class="c"><span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Local</span></td></tr>
+          <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td>Flores Club</td><td class="c"><span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Local</span></td></tr>
+          <tr><td><span class="dot" style="background:#475569"></span>Mega Blanco</td><td>Marathon</td><td class="c"><span style="background:#fee2e2;color:#991b1b;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span></td></tr>
+          <tr><td><span class="dot" style="background:#16a34a"></span>Mega Verde</td><td>Villa Gral. Mitre</td><td class="c"><span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Local</span></td></tr>
+          <tr><td><span class="dot" style="background:#0891b2"></span>Mega Peques</td><td>Villa Gral. Mitre</td><td class="c"><span style="background:#dcfce7;color:#166534;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700">Local</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
     <div class="panel" style="margin-bottom:0"><div class="ph" style="background:#1a1a1a">GF vs GC por tira</div><div class="pb"><div style="position:relative;height:200px"><canvas id="chart-tot"></canvas></div></div></div>
     <div class="panel" style="margin-bottom:0"><div class="ph" style="background:#1a1a1a">Rendimiento G/E/P</div>
       <div class="pb" style="display:flex;flex-direction:column;align-items:center">
         <div style="position:relative;width:140px;height:140px"><canvas id="donut-tot"></canvas></div>
         <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;flex-wrap:wrap;justify-content:center">
-          <span><span style="width:8px;height:8px;border-radius:2px;background:#16a34a;display:inline-block;margin-right:3px"></span>Ganados 17 (47%)</span>
+          <span><span style="width:8px;height:8px;border-radius:2px;background:#16a34a;display:inline-block;margin-right:3px"></span>Ganados 18 (46%)</span>
           <span><span style="width:8px;height:8px;border-radius:2px;background:#d97706;display:inline-block;margin-right:3px"></span>Empates 3 (8%)</span>
-          <span><span style="width:8px;height:8px;border-radius:2px;background:#dc2626;display:inline-block;margin-right:3px"></span>Perdidos 16 (44%)</span>
+          <span><span style="width:8px;height:8px;border-radius:2px;background:#dc2626;display:inline-block;margin-right:3px"></span>Perdidos 18 (46%)</span>
         </div>
       </div>
     </div>
+  </div>
+  <div class="panel" style="margin-top:12px">
+    <div class="ph" style="background:#1a1a1a">Comparativa por categoría — todas las tiras</div>
+    <div>
+      <table class="tot">
+          <thead><tr><th>Categoría</th><th class="c">PJ</th><th class="c">G</th><th class="c">E</th><th class="c">P</th><th class="c">GF</th><th class="c">GC</th><th class="c">Dif.</th></tr></thead>
+          <tbody>
+            <tr><td>2013</td><td class="c">6</td><td class="c cg">2</td><td class="c">0</td><td class="c cp">4</td><td class="c">24</td><td class="c">18</td><td class="c dp">+6</td></tr>
+            <tr><td>2014</td><td class="c">6</td><td class="c cg">4</td><td class="c">0</td><td class="c cp">2</td><td class="c">26</td><td class="c">15</td><td class="c dp">+11</td></tr>
+            <tr><td>2015</td><td class="c">6</td><td class="c cg">1</td><td class="c ce">1</td><td class="c cp">4</td><td class="c">16</td><td class="c">26</td><td class="c dn">−10</td></tr>
+            <tr><td>2016</td><td class="c">6</td><td class="c cg">3</td><td class="c ce">1</td><td class="c cp">2</td><td class="c">25</td><td class="c">16</td><td class="c dp">+9</td></tr>
+            <tr><td>2017</td><td class="c">4</td><td class="c cg">2</td><td class="c">0</td><td class="c cp">2</td><td class="c">14</td><td class="c">12</td><td class="c dp">+2</td></tr>
+            <tr><td>2018</td><td class="c">1</td><td class="c">0</td><td class="c">0</td><td class="c cp">1</td><td class="c">0</td><td class="c">4</td><td class="c dn">−4</td></tr>
+            <tr><td>2019</td><td class="c">1</td><td class="c">0</td><td class="c ce">1</td><td class="c">0</td><td class="c">4</td><td class="c">4</td><td class="c">0</td></tr>
+            <tr><td>5ta</td><td class="c">5</td><td class="c cg">2</td><td class="c">0</td><td class="c cp">3</td><td class="c">18</td><td class="c">26</td><td class="c dn">−8</td></tr>
+            <tr><td>FF 2010/11</td><td class="c">1</td><td class="c cg">1</td><td class="c">0</td><td class="c">0</td><td class="c">2</td><td class="c">0</td><td class="c dp">+2</td></tr>
+            <tr><td>FF 2012/13</td><td class="c">1</td><td class="c cg">1</td><td class="c">0</td><td class="c">0</td><td class="c">3</td><td class="c">1</td><td class="c dp">+2</td></tr>
+            <tr><td>FF 2014/15</td><td class="c">1</td><td class="c cg">1</td><td class="c">0</td><td class="c">0</td><td class="c">7</td><td class="c">0</td><td class="c dp">+7</td></tr>
+            <tr><td>FF 2016/17</td><td class="c">1</td><td class="c cg">1</td><td class="c">0</td><td class="c">0</td><td class="c">6</td><td class="c">0</td><td class="c dp">+6</td></tr>
+          </tbody>
+          <tfoot><tr class="tr"><td>TOTAL</td><td class="c">39</td><td class="c">18</td><td class="c">3</td><td class="c">18</td><td class="c">145</td><td class="c">122</td><td class="c">+23</td></tr></tfoot>
+        </table>
+      </div>
   </div>
 </div>
 
@@ -258,11 +316,11 @@ const TIRAS = {
 
   verde: {
     label:'Mega Verde', sub:'Temporada 2026 · Categoría 5ta (Juveniles)', color:'#16a34a',
-    overall:{pj:2,g:1,e:0,p:1,gf:7,gc:13},
+    overall:{pj:5,g:2,e:0,p:3,gf:18,gc:26},
     cats:{
       'Todos':null,
-      '5ta':{pj:2,g:1,e:0,p:1,gf:7,gc:13,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:1,gc:9,res:'P'},{f:'21/03',r:'Villa Gral. Mitre',gf:6,gc:4,res:'G'}],
+      '5ta':{pj:5,g:2,e:0,p:3,gf:18,gc:26,
+        matches:[{f:'21/02',r:'Club Leones',gf:3,gc:6,res:'P'},{f:'28/02',r:'Asoc. Española',gf:5,gc:3,res:'G'},{f:'07/03',r:'Agronomía Central',gf:3,gc:4,res:'P'},{f:'14/03',r:'Toque y Toque',gf:1,gc:9,res:'P'},{f:'21/03',r:'Villa Gral. Mitre',gf:6,gc:4,res:'G'}],
         players:[{n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},{n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},{n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},{n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},{n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},{n:'Yanes, Bautista',pj:1,no:0,x:0,g:0},{n:'García Vallejo, Santiago',pj:0,no:1,x:1,g:0}]}
     },
     allPlayers:[{n:'Carrera, Nicolás',pj:1,no:1,x:0,g:3},{n:'Crigna, Benicio',pj:2,no:0,x:0,g:1},{n:'Liporace Vahedzian, Valentino',pj:2,no:0,x:0,g:1},{n:'Nazzaro, Vito',pj:2,no:0,x:0,g:1},{n:'Santillán, Máximo',pj:1,no:0,x:0,g:1},{n:'Balbin, Federico',pj:1,no:0,x:0,g:0},{n:'De Seta, Laureano',pj:1,no:0,x:0,g:0},{n:'Deabreu, Aléxis',pj:2,no:0,x:0,g:0},{n:'García Vallejo, Santiago',pj:0,no:1,x:1,g:0},{n:'Parro Martínez, José',pj:2,no:0,x:0,g:0},{n:'Pisandelli, Franco',pj:2,no:0,x:0,g:0},{n:'Rodríguez, Valentino',pj:1,no:0,x:0,g:0},{n:'Yanes, Bautista',pj:1,no:0,x:0,g:0}]
@@ -282,6 +340,55 @@ const TIRAS = {
 };
 
 const TIDX = {rojo:0,negro:1,blanco:2,violeta:3,verde:4,peques:5,total:6};
+const CHART_QUEUE = [];
+
+const SCHEDULE = {
+  rojo: [
+    {f:'14/03', rival:'Toque y Toque A', cond:'Local'},
+    {f:'21/03', rival:'Villa General Mitre', cond:'Local'}
+  ],
+  negro: [
+    {f:'14/03', rival:'El Ideal', cond:'Visitante'},
+    {f:'21/03', rival:'Flores Club', cond:'Local'}
+  ],
+  blanco: [
+    {f:'14/03', rival:'Toque y Toque B', cond:'Visitante'},
+    {f:'21/03', rival:'Marathon', cond:'Visitante'}
+  ],
+  violeta: [
+    {f:'14/03', rival:'Club Saenz Peña', cond:'Visitante'}
+  ],
+  verde: [
+    {f:'21/02', rival:'Club Leones', cond:'Visitante'},
+    {f:'28/02', rival:'Asoc. Española', cond:'Visitante'},
+    {f:'07/03', rival:'Agronomía Central', cond:'Visitante'},
+    {f:'14/03', rival:'Toque y Toque', cond:'Visitante'},
+    {f:'21/03', rival:'Villa General Mitre', cond:'Local'}
+  ],
+  peques: [
+    {f:'21/03', rival:'Villa General Mitre', cond:'Local'}
+  ]
+};
+
+function buildScheduleTable(key) {
+  const rows = SCHEDULE[key];
+  if (!rows || rows.length === 0) return '';
+  const rowsHtml = rows.map(r => {
+    const isLocal = r.cond.toLowerCase().includes('local');
+    const badge = isLocal
+      ? `<span style="background:#dcfce7;color:#166534;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700">Local</span>`
+      : `<span style="background:#fee2e2;color:#991b1b;padding:2px 9px;border-radius:4px;font-size:11px;font-weight:700">Visitante</span>`;
+    return `<tr><td style="font-weight:700;color:#555;white-space:nowrap">${r.f}</td><td>${r.rival}</td><td class="c">${badge}</td></tr>`;
+  }).join('');
+  return `<div class="panel"><div class="ph">Jornadas jugadas</div>
+    <div class="pb" style="padding:0">
+      <table class="tot">
+        <thead><tr><th>Fecha</th><th>Rival</th><th class="c">Condición</th></tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
 
 function buildTira(key, T) {
   const o = T.overall;
@@ -314,23 +421,56 @@ function buildTira(key, T) {
     const cat = T.cats[ck];
     const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
 
-    // cat kpis
-    let ckHtml = '';
-    if (!isTodos && cat) {
-      const dif = cat.gf - cat.gc;
-      ckHtml = `<div class="catkpis">
-        <div class="ck"><div class="l">PJ</div><div class="v">${cat.pj}</div></div>
-        <div class="ck"><div class="l">G</div><div class="v" style="color:#16a34a">${cat.g}</div></div>
-        <div class="ck"><div class="l">E</div><div class="v" style="color:#d97706">${cat.e}</div></div>
-        <div class="ck"><div class="l">P</div><div class="v" style="color:#dc2626">${cat.p}</div></div>
-        <div class="ck"><div class="l">GF</div><div class="v">${cat.gf}</div><div class="s">Prom ${cat.pj>0?(cat.gf/cat.pj).toFixed(1):'-'}</div></div>
-        <div class="ck"><div class="l">GC</div><div class="v">${cat.gc}</div><div class="s">Prom ${cat.pj>0?(cat.gc/cat.pj).toFixed(1):'-'}</div></div>
-      </div>`;
+    // matches (declared first so ckHtml can use it)
+    let mSlotContent = '';
+    if (!isTodos && cat && cat.matches) {
+      const mrows = cat.matches.map(m => `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span class="bg bg-${m.res}">${m.res}</span></td></tr>`).join('');
+      mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb" style="padding:8px 12px">
+        <table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table>
+      </div></div>`;
     }
 
-    // cat summary table (only for Todos)
+    // cat kpis + donut (individual cats)
+    let ckHtml = '';
+    if (!isTodos && cat) {
+      const donutId = `ch-donut-${key}-${safe}`;
+      CHART_QUEUE.push({id1: donutId, id2: null, g: cat.g, e: cat.e, p: cat.p, labels: [], gf: [], gc: []});
+      ckHtml = `
+        <div class="catkpis">
+          <div class="ck"><div class="l">PJ</div><div class="v">${cat.pj}</div></div>
+          <div class="ck"><div class="l">G</div><div class="v" style="color:#16a34a">${cat.g}</div></div>
+          <div class="ck"><div class="l">E</div><div class="v" style="color:#d97706">${cat.e}</div></div>
+          <div class="ck"><div class="l">P</div><div class="v" style="color:#dc2626">${cat.p}</div></div>
+          <div class="ck"><div class="l">GF</div><div class="v">${cat.gf}</div><div class="s">Prom ${cat.pj>0?(cat.gf/cat.pj).toFixed(1):'-'}</div></div>
+          <div class="ck"><div class="l">GC</div><div class="v">${cat.gc}</div><div class="s">Prom ${cat.pj>0?(cat.gc/cat.pj).toFixed(1):'-'}</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin-bottom:12px;align-items:start">
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">G / E / P</div>
+            <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
+              <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;width:100%;padding:0 6px">
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#16a34a;flex-shrink:0"></div>Ganados<span style="margin-left:auto;font-weight:700;color:#333">${cat.g}</span></div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#d97706;flex-shrink:0"></div>Empates<span style="margin-left:auto;font-weight:700;color:#333">${cat.e}</span></div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#dc2626;flex-shrink:0"></div>Perdidos<span style="margin-left:auto;font-weight:700;color:#333">${cat.p}</span></div>
+              </div>
+            </div>
+          </div>
+          <div style="align-self:start">${mSlotContent}</div>
+        </div>`;
+    }
+
+    // cat summary table + charts (only for Todos)
     let csHtml = '';
     if (isTodos && nonTodo.length > 0) {
+      const donutId = `dn-${key}`;
+      const barId = `bn-${key}`;
+      const catLabels = nonTodo;
+      const catGF = nonTodo.map(k => T.cats[k]?.gf || 0);
+      const catGC = nonTodo.map(k => T.cats[k]?.gc || 0);
+      const barH = Math.max(80, nonTodo.length * 50 + 50);
+      CHART_QUEUE.push({id1: donutId, id2: barId, g: o?.g||0, e: o?.e||0, p: o?.p||0, labels: catLabels, gf: catGF, gc: catGC});
+
       const rows = nonTodo.map(nck => {
         const cd = T.cats[nck];
         if (!cd) return '';
@@ -351,65 +491,94 @@ function buildTira(key, T) {
       const tGF=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gf||0),0);
       const tGC=nonTodo.reduce((s,k)=>s+(T.cats[k]?.gc||0),0);
       const tDif=tGF-tGC;
-      csHtml = `<div class="panel"><div class="ph">Rendimiento por categoría</div><div class="pb" style="padding:0">
-        <table class="cs">
-          <thead><tr><th>Categoría</th><th>G</th><th>E</th><th>P</th><th>PJ</th><th>GF</th><th>GC</th><th>Dif.</th><th>GF/PJ</th><th>GC/PJ</th></tr></thead>
-          <tbody>${rows}</tbody>
-          <tfoot><tr>
-            <td>TOTAL</td>
-            <td class="cg">${tG}</td><td class="ce">${tE}</td><td class="cp">${tP}</td>
-            <td>${tPJ}</td><td>${tGF}</td><td>${tGC}</td>
-            <td>${tDif>0?'+'+tDif:tDif}</td>
-            <td>${tPJ>0?(tGF/tPJ).toFixed(1):'-'}</td>
-            <td>${tPJ>0?(tGC/tPJ).toFixed(1):'-'}</td>
-          </tr></tfoot>
-        </table>
-      </div></div>`;
-    }
 
-    // matches
-    let mHtml = '';
-    if (!isTodos && cat && cat.matches) {
-      const mrows = cat.matches.map(m => `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span class="bg bg-${m.res}">${m.res}</span></td></tr>`).join('');
-      mHtml = `<div class="panel"><div class="ph">Partidos</div><div class="pb" style="padding:8px 12px">
-        <table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table>
-      </div></div>`;
+      const compId = `ch-comp-${key}`;
+      const compH = Math.max(80, nonTodo.length * 45 + 60);
+      CHART_QUEUE.push({
+        type: 'comp',
+        id3: compId,
+        labels: catLabels,
+        g: nonTodo.map(k => T.cats[k]?.g || 0),
+        e: nonTodo.map(k => T.cats[k]?.e || 0),
+        p: nonTodo.map(k => T.cats[k]?.p || 0)
+      });
+
+      csHtml = `
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin-bottom:12px">
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">G / E / P</div>
+            <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
+              <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;width:100%;padding:0 6px">
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#16a34a;flex-shrink:0"></div>Ganados<span style="margin-left:auto;font-weight:700;color:#333">${o?.g||0}</span></div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#d97706;flex-shrink:0"></div>Empates<span style="margin-left:auto;font-weight:700;color:#333">${o?.e||0}</span></div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#dc2626;flex-shrink:0"></div>Perdidos<span style="margin-left:auto;font-weight:700;color:#333">${o?.p||0}</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">GF vs GC por categoría</div>
+            <div style="padding:10px 12px">
+              <div style="position:relative;height:${barH}px"><canvas id="${barId}"></canvas></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin-bottom:12px">
+          <div class="ph">Comparativa por categoría — G / E / P</div>
+          <div style="padding:10px 12px">
+            <div style="position:relative;height:${compH}px"><canvas id="${compId}"></canvas></div>
+          </div>
+        </div>
+        <div class="panel"><div class="ph">Rendimiento por categoría</div><div class="pb" style="padding:0">
+          <table class="cs">
+            <thead><tr><th>Categoría</th><th>G</th><th>E</th><th>P</th><th>PJ</th><th>GF</th><th>GC</th><th>Dif.</th><th>GF/PJ</th><th>GC/PJ</th></tr></thead>
+            <tbody>${rows}</tbody>
+            <tfoot><tr>
+              <td>TOTAL</td>
+              <td class="cg">${tG}</td><td class="ce">${tE}</td><td class="cp">${tP}</td>
+              <td>${tPJ}</td><td>${tGF}</td><td>${tGC}</td>
+              <td>${tDif>0?'+'+tDif:tDif}</td>
+              <td>${tPJ>0?(tGF/tPJ).toFixed(1):'-'}</td>
+              <td>${tPJ>0?(tGC/tPJ).toFixed(1):'-'}</td>
+            </tr></tfoot>
+          </table>
+        </div></div>`;
     }
 
     // 3 player tables
-    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||a.n.localeCompare(b.n,'es'));
-    const scorers = [...players].filter(p=>p.g>0).sort((a,b)=>b.g-a.g||a.n.localeCompare(b.n,'es'));
+    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g||a.n.localeCompare(b.n,'es'));
     const absent = [...players].filter(p=>p.no>0||p.x>0).sort((a,b)=>(b.no+b.x)-(a.no+a.x)||a.n.localeCompare(b.n,'es'));
     const tNO = players.reduce((s,r)=>s+r.no,0);
     const tX = players.reduce((s,r)=>s+r.x,0);
+    const totalGoles = players.reduce((s,r)=>s+r.g,0);
 
     const tid = `t-${key}-${safe}`;
-    const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="n">${p.rpj}</td></tr>`).join('');
-    const gRows = scorers.length>0 ? scorers.map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="g">${p.g}</td></tr>`).join('') : `<tr><td colspan="3" class="nd">Sin goles registrados</td></tr>`;
+    const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>`<tr data-n="${p.n.toLowerCase()}">
+      <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
+      <td>${p.n}</td>
+      <td class="n">${p.rpj}</td>
+      <td class="${p.g>0?'g':'z'}">${p.g>0?p.g:'—'}</td>
+    </tr>`).join('');
     const aRows = absent.length>0 ? absent.map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td><td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td><td class="sm">${p.no+p.x}</td></tr>`).join('') : `<tr><td colspan="5" class="nd">Sin ausentismos</td></tr>`;
 
     const playerHtml = `<div class="sg">
-      <div class="sb">
-        <div class="ssh">⚽ Partidos jugados (${sorted_pj.filter(p=>p.rpj>0).length})</div>
-        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-pj',this.value)">
+      <div class="sb" style="grid-column:span 2">
+        <div class="ssh">⚽ Partidos jugados y goles (${sorted_pj.filter(p=>p.rpj>0).length})</div>
+        <input class="srch" placeholder="Buscar jugador${jug}..." oninput="flt('${tid}-pj',this.value)">
         <div class="tw"><table class="pt" id="${tid}-pj">
-          <thead><tr><th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n">PJ <span class="sa">↓</span></th></tr></thead>
+          <thead><tr>
+            <th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
+            <th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n">PJ <span class="sa">↓</span></th>
+            <th onclick="srt('${tid}-pj',3,this)" data-t="n">Goles <span class="sa">↕</span></th>
+          </tr></thead>
           <tbody>${pjRows}</tbody>
         </table></div>
-        <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es</div>
-      </div>
-      <div class="sb">
-        <div class="ssh">🥅 Goleador${jug}s (${scorers.length})</div>
-        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-gol',this.value)">
-        <div class="tw"><table class="pt" id="${tid}-gol">
-          <thead><tr><th onclick="srt('${tid}-gol',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-gol',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-gol',2,this)" data-t="n">Goles <span class="sa">↓</span></th></tr></thead>
-          <tbody>${gRows}</tbody>
-        </table></div>
-        <div class="tf">${scorers.length} con goles · Total: ${scorers.reduce((s,p)=>s+p.g,0)}</div>
+        <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es · Total goles: ${totalGoles}</div>
       </div>
       <div class="sb">
         <div class="ssh">❌ Ausentismos (${absent.length})</div>
-        <input class="srch" placeholder="Buscar..." oninput="flt('${tid}-aus',this.value)">
+        <input class="srch" placeholder="Buscar jugador${jug}..." oninput="flt('${tid}-aus',this.value)">
         <div class="tw"><table class="pt" id="${tid}-aus">
           <thead><tr><th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',2,this)" data-t="n">NO <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',3,this)" data-t="n">X <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-aus',4,this)" data-t="n">Total <span class="sa">↓</span></th></tr></thead>
           <tbody>${aRows}</tbody>
@@ -419,35 +588,13 @@ function buildTira(key, T) {
     </div>`;
 
     cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
-      ${ckHtml}${csHtml}${mHtml}${playerHtml}
+      ${isTodos ? kpiHtml : ''}${ckHtml}${csHtml}${isTodos ? buildScheduleTable(key) : ''}${playerHtml}
     </div>`;
   });
 
-  // donut canvas id
-  const donutId = `dn-${key}`;
-  const donutHtml = o ? `<div class="row2">
-    <div class="panel" style="margin-bottom:0">
-      <div class="ph">G / E / P</div>
-      <div class="donut-wrap">
-        <canvas id="${donutId}"></canvas>
-        <div class="leg">
-          <div class="li"><div class="ld" style="background:#16a34a"></div>Ganados<span class="lv">${o.g}</span></div>
-          <div class="li"><div class="ld" style="background:#d97706"></div>Empates<span class="lv">${o.e}</span></div>
-          <div class="li"><div class="ld" style="background:#dc2626"></div>Perdidos<span class="lv">${o.p}</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="panel" style="margin-bottom:0">
-      <div class="ph">Resultados por jornada</div>
-      <div class="pb" id="matches-${key}"></div>
-    </div>
-  </div>` : '';
-
   return `<div class="dash${key==='rojo'?' active':''}" id="dash-${key}" style="--tc:${color}">
     <div class="header"><div class="hn">${T.label}</div><div class="hs">${T.sub}</div></div>
-    ${kpiHtml}
     ${pillsHtml}
-    ${donutHtml}
     ${cvsHtml}
   </div>`;
 }
@@ -456,92 +603,90 @@ function buildTira(key, T) {
 const root = document.getElementById('root');
 root.innerHTML = Object.entries(TIRAS).map(([k,T]) => buildTira(k,T)).join('');
 
-// Build match tables per tira (overall)
-Object.entries(TIRAS).forEach(([key, T]) => {
-  const container = document.getElementById('matches-' + key);
-  if (!container) return;
-  const nonTodo = Object.keys(T.cats).filter(k => k !== 'Todos');
-  const allMatches = {};
-  nonTodo.forEach(ck => {
-    const cat = T.cats[ck];
-    if (!cat || !cat.matches) return;
-    cat.matches.forEach(m => {
-      const fk = m.f + '|' + m.r;
-      if (!allMatches[fk]) allMatches[fk] = {f:m.f, r:m.r, cats:[]};
-      allMatches[fk].cats.push({cat:ck, gf:m.gf, gc:m.gc, res:m.res});
+// Render all queued charts (tiras + categories)
+CHART_QUEUE.push({id1:'donut-tot', id2:null, g:18, e:3, p:18, labels:[], gf:[], gc:[]});
+CHART_QUEUE.forEach(function(cfg) {
+  // grouped G/E/P comparison chart
+  if (cfg.type === 'comp') {
+    var el3 = cfg.id3 ? document.getElementById(cfg.id3) : null;
+    if (el3) {
+      new Chart(el3.getContext('2d'), {
+        type: 'bar',
+        data: { labels: cfg.labels, datasets: [
+          { label: 'Ganados', data: cfg.g, backgroundColor: '#16a34a', borderRadius: 3 },
+          { label: 'Empates', data: cfg.e, backgroundColor: '#d97706', borderRadius: 3 },
+          { label: 'Perdidos', data: cfg.p, backgroundColor: '#dc2626', borderRadius: 3 }
+        ]},
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: true, position: 'top', labels: { font: { size: 10 }, boxWidth: 9, padding: 6 }}},
+          scales: { x: { beginAtZero: true, stacked: false, ticks: { font: { size: 10 }, stepSize: 1 }}, y: { ticks: { font: { size: 10 }}}}}
+      });
+    }
+    return;
+  }
+  var el1 = cfg.id1 ? document.getElementById(cfg.id1) : null;
+  if (el1) {
+    var tot = (cfg.g + cfg.e + cfg.p) || 1;
+    new Chart(el1.getContext('2d'), {
+      type: 'doughnut',
+      data: { datasets: [{ data: [cfg.g, cfg.e||0.001, cfg.p], backgroundColor: ['#16a34a','#d97706','#dc2626'], borderWidth: 2, borderColor: '#fff' }] },
+      options: { responsive: true, maintainAspectRatio: true, cutout: '65%',
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) {
+          var lb = ['Ganados','Empates','Perdidos'];
+          var v = ctx.raw < 0.01 ? 0 : ctx.raw;
+          return ' ' + lb[ctx.dataIndex] + ': ' + v + ' (' + Math.round(v/tot*100) + '%)';
+        }}}}}
     });
-  });
-  const byFecha = {};
-  Object.values(allMatches).forEach(m => {
-    const fk = m.f + ' · ' + m.r;
-    if (!byFecha[fk]) byFecha[fk] = [];
-    byFecha[fk].push(...m.cats);
-  });
-  let html = '';
-  Object.entries(byFecha).forEach(([label, cats]) => {
-    html += `<div class="jh">${label}</div>
-    <table class="ct"><thead><tr><th>Cat.</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>`;
-    cats.forEach(c => {
-      html += `<tr><td>${c.cat}</td><td class="c">${c.gf??'—'}</td><td class="c">${c.gc??'—'}</td><td class="c"><span class="bg bg-${c.res||'P'}">${c.res||'—'}</span></td></tr>`;
+  }
+  var el2 = cfg.id2 ? document.getElementById(cfg.id2) : null;
+  if (el2) {
+    new Chart(el2.getContext('2d'), {
+      type: 'bar',
+      data: { labels: cfg.labels, datasets: [
+        { label: 'GF', data: cfg.gf, backgroundColor: '#16a34a', borderRadius: 4 },
+        { label: 'GC', data: cfg.gc, backgroundColor: '#dc2626', borderRadius: 4 }
+      ]},
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: true, position: 'top', labels: { font: { size: 10 }, boxWidth: 9, padding: 6 }}},
+        scales: { x: { beginAtZero: true, ticks: { font: { size: 10 }, stepSize: 1 }}, y: { ticks: { font: { size: 10 }}}}}
     });
-    html += '</tbody></table>';
-  });
-  container.innerHTML = html;
-});
-
-// Render donuts
-function renderDonut(id, g, e, p) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const total = g+e+p||1;
-  new Chart(el.getContext('2d'), {
-    type:'doughnut',
-    data:{datasets:[{data:[g,e||0.001,p],backgroundColor:['#16a34a','#d97706','#dc2626'],borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:true,cutout:'65%',
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{
-        const lb=['Ganados','Empates','Perdidos'];
-        const v=ctx.raw<0.01?0:ctx.raw;
-        return ` ${lb[ctx.dataIndex]}: ${v} (${Math.round(v/total*100)}%)`;
-      }}}}}
-  });
-}
-Object.entries(TIRAS).forEach(([key, T]) => {
-  if (T.overall) {
-    const o = T.overall;
-    renderDonut('dn-'+key, o.g, o.e, o.p);
   }
 });
 
-// Total charts
-new Chart(document.getElementById('chart-tot').getContext('2d'), {
-  type:'bar',
-  data:{
-    labels:['Rojo','Negro','Blanco','Violeta','Verde','Peques'],
-    datasets:[
-      {label:'GF',data:[53,17,35,18,7,4],backgroundColor:'#16a34a',borderRadius:4},
-      {label:'GC',data:[27,39,25,1,13,4],backgroundColor:'#dc2626',borderRadius:4}
-    ]
-  },
-  options:{responsive:true,maintainAspectRatio:false,
-    plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},
-    scales:{x:{ticks:{font:{size:10}}},y:{beginAtZero:true,ticks:{font:{size:10}}}}}
-});
-renderDonut('donut-tot', 17, 3, 16);
+var chartTot = document.getElementById('chart-tot');
+if (chartTot) {
+  new Chart(chartTot.getContext('2d'), {
+    type:'bar',
+    data:{
+      labels:['Rojo','Negro','Blanco','Violeta','Verde','Peques'],
+      datasets:[
+        {label:'GF',data:[53,17,35,18,18,4],backgroundColor:'#16a34a',borderRadius:4},
+        {label:'GC',data:[27,39,25,1,26,4],backgroundColor:'#dc2626',borderRadius:4}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},
+      scales:{x:{ticks:{font:{size:10}}},y:{beginAtZero:true,ticks:{font:{size:10}}}}}
+  });
+}
 
 // Navigation
 function showT(key) {
   document.querySelectorAll('.dash').forEach(d=>d.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('dash-'+key).classList.add('active');
-  document.querySelectorAll('.tab')[TIDX[key]].classList.add('active');
+  const dash = document.getElementById('dash-'+key);
+  if (dash) dash.classList.add('active');
+  const tab = document.querySelectorAll('.tab')[TIDX[key]];
+  if (tab) tab.classList.add('active');
 }
 function switchCat(tiraKey, catKey) {
   const safe = catKey.replace(/[\s\/]/g,'_');
-  document.querySelectorAll('#dash-'+tiraKey+' .pill').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('#dash-'+tiraKey+' .pill').forEach(p=>{if(p.textContent===catKey)p.classList.add('active');});
+  document.querySelectorAll('#dash-'+tiraKey+' .pill').forEach(p=>{
+    p.classList.toggle('active', p.textContent.trim()===catKey);
+  });
   document.querySelectorAll('#dash-'+tiraKey+' .cv').forEach(v=>v.classList.remove('active'));
   const cv = document.getElementById('cv-'+tiraKey+'-'+safe);
-  if(cv) cv.classList.add('active');
+  if (cv) cv.classList.add('active');
 }
 function flt(tid, q) {
   const ql = q.toLowerCase();
