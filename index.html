@@ -434,12 +434,29 @@ function buildTira(key, T) {
     ${nonTodo.map(c => `<button class="pill" onclick="switchCat('${key}','${c}')">${c}</button>`).join('')}
   </div>` : '';
 
-  let cvsHtml = '';
-  catKeys.forEach(ck => {
-    const safe = ck.replace(/[\s\/]/g,'_');
-    const isTodos = ck === 'Todos';
-    const cat = T.cats[ck];
-    const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
+// --- COPIÁ DESDE ACÁ ---
+    
+    // 1. Tabla Comparativa (Solo para el TOTAL)
+    let ckHtml = '';
+    if (key === 'total' && isTodos) {
+      const crows = Object.keys(TIRAS).filter(k=>k!=='total').map(tk=>{
+        const t = TIRAS[tk];
+        return Object.keys(t.cats).filter(c=>c!=='Todos').map(cn=>{
+          const c = t.cats[cn];
+          return `<tr><td>${t.label}</td><td>${cn}</td><td class="c">${c.pj}</td><td class="c">${c.g}</td><td class="c">${c.gf}</td><td class="c">${c.gc}</td><td class="c">${c.dg}</td></tr>`;
+        }).join('');
+      }).join('');
+      ckHtml = `<div class="panel"><div class="ph">Comparativa por categoría — todas las tiras</div><div class="pb"><table class="ct"><thead><tr><th>Tira</th><th>Cat.</th><th class="c">PJ</th><th class="c">G</th><th class="c">GF</th><th class="c">GC</th><th class="c">DG</th></tr></thead><tbody>${crows}</tbody></table></div></div>`;
+    }
+
+    // 2. Tabla de Jornadas (Solo para el TOTAL)
+    let csHtml = '';
+    if (key === 'total' && isTodos) {
+      // Aquí va el código que ya tenés para generar la tabla de fechas/jornadas
+      // Si ya tenés una lógica ahí, simplemente envolvela en el IF
+    }
+    
+    // --- HASTA ACÁ ---
 
     // 3. Tabla de Partidos con Victorias/Derrotas en palabras
     let mSlotContent = '';
