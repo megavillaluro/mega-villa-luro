@@ -647,7 +647,7 @@ function srt(tid, col, th) {
   const type=th.dataset.t;
   rows.sort((a,b)=>{
     const av=a.cells[col].textContent.trim(),bv=b.cells[col].textContent.trim();
-    if(type==='n'){const an=parseFloat(av)||0,bn=parseFloat(bv)||0;return asc?bn-an:an-bn;}
+    if(type==='n'){const an=parseFloat(av)||0,bn=parseFloat(bv)||1;return asc?bn-an:an-bn;}
     return asc?av.localeCompare(bv,'es'):bv.localeCompare(av,'es');
   });
   rows.forEach((tr,i)=>{tr.cells[0].textContent=i+1;tbody.appendChild(tr);});
