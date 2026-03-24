@@ -114,129 +114,72 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
 @media(max-width: 1024px) { .kpis, .catkpis { grid-template-columns: repeat(3, 1fr); } .sg { grid-template-columns: 1fr; } }
 @media(max-width: 600px) { .kpis, .catkpis { grid-template-columns: repeat(2, 1fr); } .dash { padding: 12px; } }
 
-/* --- ARREGLOS PARA LA PESTAÑA TOTAL (FONDO OSCURO) --- */
+/* --- NUEVO ESTILO REFINADO PARA TOTAL MEGA --- */
+#dash-total {
+    background-color: #0f172a !important; /* Azul medianoche, no negro puro */
+    color: #f1f5f9 !important;
+}
 
-/* 1. Ponemos el título "Resumen General" en blanco */
+/* Títulos principales */
 #dash-total .hn {
     color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* 2. Ponemos el subtítulo "Villa Luro 2026" en un gris muy clarito */
 #dash-total .hs {
-    color: #cbd5e1 !important;
+    color: #94a3b8 !important;
 }
 
-/* 3. Todos los títulos de los paneles y tablas en blanco */
+/* Paneles en el modo oscuro: ahora son semitransparentes */
+#dash-total .sb, 
+#dash-total .panel {
+    background: rgba(30, 41, 59, 0.7) !important; /* Azul Slate con transparencia */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(8px); /* Efecto de vidrio esmerilado */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Títulos de tablas y secciones dentro del total */
 #dash-total .ph, 
 #dash-total .ssh {
-    color: #ffffff !important;
+    color: #38bdf8 !important; /* Azul celeste para que resalte */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-/* 4. Los nombres de las columnas (#, Jugador, PJ, Goles) en blanco */
+/* Tablas dentro del total */
+#dash-total .pt {
+    background: transparent !important;
+}
+
 #dash-total .pt thead th {
-    color: #ffffff !important;
+    background: rgba(15, 23, 42, 0.5) !important;
+    color: #94a3b8 !important;
 }
 
-/* 5. El texto que dice "Total goles" o "Total ausentismos" abajo de las tablas */
-#dash-total .tf {
-    color: #cbd5e1 !important;
+#dash-total .pt td {
+    color: #e2e8f0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Tooltip Prolijo */
-.has-tip {
-    position: relative;
+#dash-total .pt tr:hover {
+    background: rgba(255, 255, 255, 0.03) !important;
 }
 
-.has-tip:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1e293b; /* Azul muy oscuro */
-    color: #ffffff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    white-space: pre; /* Esto permite que los "•" queden uno debajo del otro */
-    z-index: 100;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    line-height: 1.4;
-    text-align: left;
+/* Los KPIs en el total */
+#dash-total .kpi {
+    background: #1e293b !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+}
+#dash-total .pill {
+    background: #1e293b !important;
+    color: #94a3b8 !important;
+    border-color: #334155 !important;
 }
 
-/* Triangulito del tooltip */
-.has-tip:hover::before {
-    content: '';
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: #1e293b;
-    z-index: 100;
+#dash-total .pill.active {
+    background: #38bdf8 !important;
+    color: #0f172a !important;
 }
-
-/* Mejora de Tablas: Espaciado y bordes redondeados */
-.tw {
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    border: 1px solid #e2e8f0 !important;
-    background: white !important;
-}
-
-.pt th {
-    background: #f8fafc !important;
-    padding: 14px 10px !important; /* Más aire arriba y abajo */
-    color: #64748b !important;
-    font-size: 11px !important;
-    text-transform: uppercase !important;
-}
-
-.pt td {
-    padding: 14px 10px !important; /* Más aire en las celdas */
-    border-bottom: 1px solid #f1f5f9 !important;
-}
-
-.pt tbody tr:hover {
-    background-color: #f1f5f9 !important; /* Efecto resaltar fila */
-}
-
-/* Mejora de KPIs: Más grandes y con efecto al pasar el mouse */
-.kpi {
-    background: white !important;
-    border-radius: 16px !important;
-    border: 1px solid #e2e8f0 !important;
-    padding: 20px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
-}
-
-.kpi:hover {
-    transform: translateY(-5px) !important; /* Se levanta un poquito */
-    border-color: var(--tc) !important; /* Se pinta del color de la tira */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
-}
-
-.kv {
-    font-size: 32px !important; /* Números más potentes */
-    letter-spacing: -1px !important;
-}
-
-.kl {
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    font-weight: 700 !important;
-    font-size: 11px !important;
-    color: #64748b !important;
-}
-/* Ajustes de visibilidad y tooltips */
-.custom-tooltip { visibility: hidden; position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background: #0f172a; padding: 10px; border-radius: 8px; z-index: 1000; width: max-content; min-width: 140px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); line-height: 1.4; font-size: 11px; text-align: left; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
-.has-tip-html:hover .custom-tooltip { visibility: visible; opacity: 1; }
-#dash-total { background-color: #0f172a !important; color: white !important; }
-#dash-total .hn, #dash-total .ph, #dash-total .ssh { color: white !important; }
-#dash-total .panel, #dash-total .sb { background: #1e293b !important; border: 1px solid #334155 !important; }
     
 </style>
 </head>
@@ -578,18 +521,38 @@ function buildTira(key, T) {
       mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb"><table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
     }
 
-    // 4. Lógica de Scouting Automático
+// --- LÓGICA DE ANÁLISIS AUTOMÁTICO (Ajustada para ser más sensible) ---
     let analitica = { altos: [], bajos: [] };
     if (cat && cat.pj > 0) {
-        if ((cat.g/cat.pj) >= 0.7) analitica.altos.push("Rendimiento de élite (+70% victorias).");
-        if (cat.gf/cat.pj >= 3.5) analitica.altos.push("Poder ofensivo: Promedio de gol alto.");
-        if (cat.gc/cat.pj <= 1.5) analitica.altos.push("Muro defensivo: Muy pocos goles recibidos.");
-        const goleador = [...players].sort((a,b)=>b.g-a.g)[0];
-        if (goleador && goleador.g > (cat.gf * 0.5) && cat.gf > 5) analitica.bajos.push(`Dependencia: ${goleador.n} marca más del 50%.`);
-    }
-    if(analitica.altos.length===0) analitica.altos.push("Categoría estable en evaluación.");
-    if(analitica.bajos.length===0) analitica.bajos.push("Sin puntos críticos detectados.");
+        // 1. Análisis de Resultados
+        const winRate = (cat.g / cat.pj);
+        if (winRate >= 0.5) analitica.altos.push("Buen ritmo: El equipo gana el 50% o más de lo que juega.");
+        if (winRate < 0.25 && cat.pj >= 2) analitica.bajos.push("Alerta de resultados: Cuesta cerrar los partidos con victoria.");
 
+        // 2. Análisis de Goles
+        const promGF = cat.gf / cat.pj;
+        const promGC = cat.gc / cat.pj;
+        if (promGF >= 2.5) analitica.altos.push("Eficacia: Promedio goleador saludable.");
+        if (promGC <= 2) analitica.altos.push("Seguridad: Reciben 2 goles o menos por partido.");
+        if (promGC > 3.5) analitica.bajos.push("Ajuste defensivo: Se están recibiendo demasiados goles.");
+
+        // 3. Análisis de Jugadores (Dependencia)
+        const goleador = [...players].sort((a,b) => b.g - a.g)[0];
+        // Si el goleador tiene más del 35% de los goles (antes era 50%)
+        if (goleador && goleador.g > (cat.gf * 0.35) && cat.gf > 3) {
+            analitica.bajos.push(`Foco en ${goleador.n}: Concentra gran parte del poder de gol.`);
+        }
+        
+        // 4. Análisis de Compromiso (Ausentismos)
+        const totalFaltas = players.reduce((s, p) => s + (p.no + p.x), 0);
+        if (totalFaltas > (players.length * 0.8)) {
+            analitica.bajos.push("Asistencia: Se registran baches de concurrencia en el plantel.");
+        }
+    }
+
+    // Mensajes si la lista sigue vacía
+    if (analitica.altos.length === 0) analitica.altos.push("Equipo en etapa de consolidación.");
+    if (analitica.bajos.length === 0) analitica.bajos.push("Estabilidad: No se detectan desbalances estadísticos.");
     // 5. Tabla de Jugadores con Tooltip Prolijo
     const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g);
     const tid = `t-${key}-${safe}`;
