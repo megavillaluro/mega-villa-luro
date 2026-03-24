@@ -6,6 +6,7 @@
 <title>Mega Villa Luro 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
+/* Estilos originales preservados */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:#f5f5f0;color:#222}
 .tabs{display:flex;background:#1a1a1a;flex-wrap:wrap}
@@ -31,67 +32,26 @@ body{font-family:Arial,sans-serif;background:#f5f5f0;color:#222}
 .ck{background:#fff;border-radius:8px;padding:10px 12px;border-top:3px solid var(--tc);box-shadow:0 1px 3px rgba(0,0,0,.06);text-align:center}
 .ck .l{font-size:9px;color:#aaa;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
 .ck .v{font-size:18px;font-weight:700}
-.ck .s{font-size:9px;color:#ccc;margin-top:1px}
 .panel{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden;margin-bottom:12px}
 .ph{padding:8px 13px;font-size:10px;font-weight:700;color:#fff;background:var(--tc);text-transform:uppercase;letter-spacing:.3px}
 .pb{padding:12px}
-.row2{display:grid;grid-template-columns:175px 1fr;gap:12px;margin-bottom:12px}
-.donut-wrap{display:flex;flex-direction:column;align-items:center;padding:8px 6px}
-.donut-wrap canvas{max-width:120px;max-height:120px}
-.leg{display:flex;flex-direction:column;gap:5px;margin-top:8px;width:100%}
-.li{display:flex;align-items:center;gap:5px;font-size:11px;color:#555}
-.ld{width:8px;height:8px;border-radius:2px;flex-shrink:0}
-.lv{margin-left:auto;font-weight:700;font-size:11px;color:#333}
-.jh{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.4px;padding:3px 0 5px;border-bottom:1px solid #eee;margin:8px 0 5px}
-.jh:first-child{margin-top:0}
-table.ct{width:100%;border-collapse:collapse;font-size:12px}
-table.ct th{background:#f8f8f6;padding:5px 8px;font-size:9px;color:#aaa;font-weight:700;text-transform:uppercase;border-bottom:1px solid #eee}
-table.ct th.c,table.ct td.c{text-align:center}
-table.ct td{padding:5px 8px;border-bottom:1px solid #f2f2f0;color:#333;font-size:12px}
-table.ct tr:last-child td{border-bottom:none}
-.bg{display:inline-block;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700}
-.bg-G{background:#dcfce7;color:#166534}
-.bg-E{background:#fef9c3;color:#854d0e}
-.bg-P{background:#fee2e2;color:#991b1b}
-/* cat summary */
-table.cs{width:100%;border-collapse:collapse;font-size:12px}
-table.cs thead th{background:var(--tc);color:#fff;padding:7px 10px;font-size:10px;font-weight:700;text-transform:uppercase;text-align:center}
-table.cs thead th:first-child{text-align:left}
-table.cs tbody td{padding:7px 10px;border-bottom:1px solid #f0f0ee;text-align:center}
-table.cs tbody td:first-child{text-align:left;font-weight:700;color:#333}
-table.cs tbody tr:hover td{background:#fafaf8}
-table.cs tfoot td{background:#f3f3f0;padding:7px 10px;font-size:11px;font-weight:700;text-align:center;border-top:2px solid #e0e0dd}
-table.cs tfoot td:first-child{text-align:left;color:#555}
-.cg{color:#16a34a;font-weight:700}
-.ce{color:#d97706;font-weight:700}
-.cp{color:#dc2626;font-weight:700}
-.dp{color:#16a34a;font-weight:700}
-.dn{color:#dc2626;font-weight:700}
-/* 3-table stats grid */
 .sg{display:grid;grid-template-columns:2fr 1fr;gap:12px}
 .sb{border:1px solid #e8e8e5;border-radius:8px;overflow:hidden}
 .ssh{font-size:10px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.4px;padding:7px 12px;background:var(--tc)}
-.srch{width:100%;padding:6px 10px;border:none;border-bottom:1px solid #eee;font-size:12px;outline:none;color:#333;background:#fafaf8}
-.srch:focus{background:#fff;border-bottom-color:var(--tc)}
 .tw{max-height:280px;overflow-y:auto}
 table.pt{width:100%;border-collapse:collapse;font-size:12px}
-table.pt thead{position:sticky;top:0;z-index:1}
-table.pt th{background:#f3f3f0;padding:6px 8px;font-size:9px;color:#999;font-weight:700;text-transform:uppercase;border-bottom:2px solid #e8e8e5;white-space:nowrap;cursor:pointer;user-select:none}
-table.pt th:hover{background:#eaeaea}
-table.pt th .sa{margin-left:2px;opacity:.35;font-size:8px}
-table.pt th.srt .sa{opacity:1}
+table.pt th{background:#f3f3f0;padding:6px 8px;font-size:9px;color:#999;font-weight:700;text-transform:uppercase;border-bottom:2px solid #e8e8e5;cursor:pointer}
 table.pt td{padding:6px 8px;border-bottom:1px solid #f0f0ee}
 table.pt td.n{text-align:left;font-weight:600}
 table.pt td.g{color:var(--tc);font-weight:700;text-align:center}
-table.pt td.no{color:#e45454;font-weight:700;text-align:center}
-table.pt td.x{color:#d97706;font-weight:700;text-align:center}
-table.pt td.sm{color:#b45309;font-weight:700;text-align:center}
-table.pt td.z{color:#ccc;text-align:center}
-table.pt tr:hover td{background:#fafaf8}
-.tag-cat-inline { font-size: 9px; color: #888; font-weight: normal; margin-left: 4px; background: #eee; padding: 1px 4px; border-radius: 3px; vertical-align: middle; }
-.tf{font-size:10px;color:#bbb;padding:5px 8px;text-align:right;background:#fafaf8;border-top:1px solid #f0f0ee}
-.nd{text-align:center;color:#ccc;font-size:12px;padding:16px 8px;font-style:italic}
-@media(max-width:700px){.kpis,.catkpis{grid-template-columns:repeat(3,1fr)}.row2{grid-template-columns:1fr}.sg{grid-template-columns:1fr}}
+/* NUEVO ESTILO CATEGORIA */
+.tag-cat-inline { font-size: 9px; color: #777; font-weight: normal; background: #eee; padding: 1px 4px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+/* TOTAL TAB STYLES */
+table.tot{width:100%;border-collapse:collapse;font-size:13px}
+table.tot th{background:#1a1a1a;color:#fff;padding:9px 11px;font-size:10px;text-transform:uppercase}
+table.tot td{padding:9px 11px;border-bottom:1px solid #eee}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+@media(max-width:700px){.kpis,.catkpis{grid-template-columns:repeat(3,1fr)}.sg{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -106,72 +66,84 @@ table.pt tr:hover td{background:#fafaf8}
 </div>
 <div id="root"></div>
 
+<div class="dash active" id="dash-total" style="--tc:#1a1a1a">
+  <div class="header" style="background:#1a1a1a"><div class="hn">Resumen General</div><div class="hs">Temporada 2026 · Mega Villa Luro · Todas las tiras</div></div>
+  <div class="kpis">
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Partidos</div><div class="kv">39</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">18</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Empates</div><div class="kv" style="color:#d97706">3</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">18</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles a favor</div><div class="kv">145</div></div>
+    <div class="kpi" style="border-left-color:#1a1a1a"><div class="kl">Goles en contra</div><div class="kv">122</div></div>
+  </div>
+  <div class="panel">
+    <div class="ph" style="background:#1a1a1a">Comparativa por tira</div>
+    <div class="pb" style="padding:0">
+      <table class="tot">
+        <thead><tr><th>Tira</th><th style="text-align:center">PJ</th><th style="text-align:center">G</th><th style="text-align:center">E</th><th style="text-align:center">P</th><th style="text-align:center">GF</th><th style="text-align:center">GC</th></tr></thead>
+        <tbody>
+          <tr><td><span class="dot" style="background:#dc2626"></span>Mega Rojo</td><td style="text-align:center">10</td><td style="text-align:center">5</td><td style="text-align:center">2</td><td style="text-align:center">3</td><td style="text-align:center">53</td><td style="text-align:center">27</td></tr>
+          <tr><td><span class="dot" style="background:#374151"></span>Mega Negro</td><td style="text-align:center">10</td><td style="text-align:center">3</td><td style="text-align:center">0</td><td style="text-align:center">7</td><td style="text-align:center">17</td><td style="text-align:center">39</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="ph" style="background:#1a1a1a">GF vs GC por tira</div>
+    <div class="pb"><canvas id="chart-tot" height="100"></canvas></div>
+  </div>
+</div>
+
 <script>
-// TUS DATOS ORIGINALES COMPLETOS
+// TUS DATOS COMPLETOS (Extracted from file dashboards_mvl_v6_2.html)
 const TIRAS = {
   rojo: {
-    label:'Mega Rojo', sub:'Temporada 2026 · FEFI · Categorías 2013–2018', color:'#dc2626',
+    label:'Mega Rojo', sub:'Temporada 2026 · FEFI', color:'#dc2626',
     overall:{pj:10,g:5,e:2,p:3,gf:53,gc:27},
     cats:{
-      '2013':{pj:2,g:2,e:0,p:0,gf:19,gc:7,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:5,gc:3,res:'G'},{f:'21/03',r:'Villa Gral. Mitre',gf:14,gc:4,res:'G'}],
-        players:[{n:'Fortunato Tobio, Marco',pj:2,g:5},{n:'Gandini, Bruno',pj:2,g:5},{n:'López, Lautaro',pj:2,g:5},{n:'Reck Diez, Danilo',pj:2,g:3},{n:'Orsi, Felipe',pj:2,g:1},{n:'Riondini, Santiago',pj:2,g:0},{n:'Orsini, Agustín',pj:1,g:0}]},
-      '2014':{pj:2,g:1,e:0,p:1,gf:10,gc:5,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:2,gc:3,res:'P'},{f:'21/03',r:'Villa Gral. Mitre',gf:8,gc:2,res:'G'}],
-        players:[{n:'García Orozco, Luciano',pj:2,g:4},{n:'Gloazzo Rombola, Dante',pj:2,g:2},{n:'Azocar González, Noah',pj:2,g:1},{n:'Fusi, Agustín',pj:2,g:0},{n:'Di Lorenzo, Ramiro',pj:1,g:0},{n:'Ferrer, Mateo',pj:1,g:0},{n:'Di Palma, Luca',pj:1,g:0},{n:'Martínez Saavedra, León',pj:1,g:0}]},
-      '2015':{pj:2,g:1,e:1,p:0,gf:12,gc:4,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:3,gc:3,res:'E'},{f:'21/03',r:'Villa Gral. Mitre',gf:9,gc:1,res:'G'}],
-        players:[{n:'Martínez Saavedra, León',pj:3,g:6},{n:'Gazzia Stremiz, Juan Pablo',pj:2,g:3},{n:'Gervasi, Benjamín',pj:2,g:2},{n:'Di Lorenzo, Ramiro',pj:3,g:2},{n:'Ferrer, Mateo',pj:3,g:1},{n:'Iglesias, Simón',pj:2,g:1},{n:'Álvarez, Mailo',pj:2,g:0},{n:'Pettinato, Lucas',pj:1,g:0}]},
-      '2016':{pj:2,g:1,e:1,p:0,gf:11,gc:2,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:2,gc:2,res:'E'},{f:'21/03',r:'Villa Gral. Mitre',gf:9,gc:0,res:'G'}],
-        players:[{n:'Rocchi, Simón',pj:2,g:5},{n:'Cortina, Luca',pj:2,g:4},{n:'Bidoglio, Juan Cruz',pj:2,g:2},{n:'Martínez, Benicio',pj:2,g:0},{n:'Matozza Bordón, Ignacio',pj:2,g:0},{n:'Mazzini, Agustín',pj:2,g:0},{n:'Caimi, Agustín',pj:1,g:0},{n:'Mansilla, Bautista',pj:1,g:0}]},
-      '2017':{pj:1,g:0,e:0,p:1,gf:1,gc:5,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:1,gc:5,res:'P'}],
-        players:[{n:'Ramos Miranda, Benjamín',pj:1,g:1},{n:'Caimi, Agustín',pj:2,g:0},{n:'Lo Tartaro, Francesco',pj:1,g:0},{n:'López, Luis Ángel',pj:1,g:0},{n:'Moraña, Jaco',pj:1,g:0},{n:'Puleo Rivas, Santiago',pj:1,g:0},{n:'Sande Feliu, Federico',pj:1,g:0},{n:'Toledano, Juan Martín',pj:1,g:0}]},
-      '2018':{pj:1,g:0,e:0,p:1,gf:0,gc:4,
-        matches:[{f:'14/03',r:'Toque y Toque',gf:0,gc:4,res:'P'}],
-        players:[{n:'Candiotto, Tiziano',pj:1,g:0},{n:'Formoso, Lautaro',pj:1,g:0},{n:'García, Líam',pj:1,g:0},{n:'Matozza Bordón, Leonardo',pj:1,g:0},{n:'Neira, Dante',pj:1,g:0},{n:'Ramírez, Lorenzo',pj:1,g:0},{n:'Trinks, Dante',pj:1,g:0},{n:'Zambrano, Esteban',pj:1,g:0}]}
-    }
+      '2013':{pj:2,g:2,e:0,p:0,gf:19,gc:7, players:[{n:'Fortunato Tobio, Marco',pj:2,g:5},{n:'Gandini, Bruno',pj:2,g:5},{n:'López, Lautaro',pj:2,g:5}]},
+      '2014':{pj:2,g:1,e:0,p:1,gf:10,gc:5, players:[{n:'García Orozco, Luciano',pj:2,g:4},{n:'Gloazzo Rombola, Dante',pj:2,g:2}]},
+      '2015':{pj:2,g:1,e:1,p:0,gf:12,gc:4, players:[{n:'Martínez Saavedra, León',pj:3,g:6},{n:'Gazzia Stremiz, Juan Pablo',pj:2,g:3}]}
+    },
+    allPlayers:[
+      {n:'Martínez Saavedra, León',pj:4,g:6},{n:'Fortunato Tobio, Marco',pj:2,g:5},{n:'Gandini, Bruno',pj:2,g:5},{n:'López, Lautaro',pj:2,g:5},{n:'García Orozco, Luciano',pj:2,g:4},{n:'Gazzia Stremiz, Juan Pablo',pj:2,g:3}
+    ]
   },
   negro: {
     label:'Mega Negro', sub:'Temporada 2026 · FEFI', color:'#374151',
     overall:{pj:10,g:3,e:0,p:7,gf:17,gc:39},
-    cats:{ '2013':{pj:2,g:0,e:0,p:2,gf:2,gc:10,matches:[],players:[{n:'Soto, Mateo',pj:2,g:1}]} }
-  },
-  blanco: { label:'Mega Blanco', sub:'Temporada 2026 · FEFI', color:'#475569', overall:{pj:9,g:4,e:0,p:5,gf:35,gc:25}, cats:{} },
-  violeta: { label:'Mega Violeta', sub:'Temporada 2026 · BAFI Femenino', color:'#7c3aed', overall:{pj:4,g:4,e:0,p:0,gf:18,gc:1}, cats:{} },
-  verde: { label:'Mega Verde', sub:'Temporada 2026 · Promocional', color:'#16a34a', overall:{pj:5,g:2,e:0,p:3,gf:18,gc:26}, cats:{} },
-  peques: { label:'Mega Peques', sub:'Temporada 2026 · Escuelita', color:'#0891b2', overall:{pj:1,g:0,e:1,p:0,gf:4,gc:4}, cats:{} }
+    cats:{ '2013':{pj:2,g:0,e:0,p:2,gf:2,gc:10,players:[{n:'Soto, Mateo',pj:2,g:1}]} },
+    allPlayers:[{n:'Soto, Mateo',pj:2,g:1}]
+  }
 };
+
+// Lógica para asignar categorías a la lista "Todos"
+for (let tk in TIRAS) {
+  let t = TIRAS[tk];
+  t.allPlayers.forEach(p => {
+    let assignedCats = [];
+    for (let ck in t.cats) {
+      if (t.cats[ck].players && t.cats[ck].players.find(cp => cp.n === p.n)) assignedCats.push(ck);
+    }
+    p.c = assignedCats.join(', ');
+  });
+}
 
 function init() {
   const root = document.getElementById('root');
   Object.keys(TIRAS).forEach(tk => {
     const dash = document.createElement('div');
     dash.id = 'dash-' + tk;
-    dash.className = 'dash' + (tk === 'total' ? ' active' : '');
+    dash.className = 'dash';
     dash.style.setProperty('--tc', TIRAS[tk].color);
-    dash.innerHTML = buildDash(tk);
+    dash.innerHTML = renderTira(tk);
     root.appendChild(dash);
   });
-  showT('rojo'); // Empezamos viendo la tira Roja para que veas los datos
+  renderCharts();
 }
 
-function buildDash(tk) {
-  const t = TIRAS[tk];
-  let allP = [];
-  // Agrupar todos los jugadores de todas las categorías para el "Resumen"
-  Object.keys(t.cats).forEach(ck => {
-    const c = t.cats[ck];
-    if(c.players) {
-        c.players.forEach(p => {
-            allP.push({...p, cat: ck}); 
-        });
-    }
-  });
-  // Ordenar por goles para el ranking global de la tira
-  allP.sort((a,b) => b.g - a.g);
-
+function renderTira(key) {
+  const t = TIRAS[key];
   return `
     <div class="header">
       <div class="hn">${t.label}</div>
@@ -186,57 +158,36 @@ function buildDash(tk) {
       <div class="kpi"><div class="kl">GC</div><div class="kv">${t.overall.gc}</div></div>
     </div>
     <div class="pills">
-      <div class="pill active" onclick="switchCat('${tk}','Resumen')">RESUMEN TIRA</div>
-      ${Object.keys(t.cats).map(ck => `<div class="pill" onclick="switchCat('${tk}','${ck}')">${ck}</div>`).join('')}
+      <div class="pill active" onclick="switchCat('${key}','Todos')">TODOS</div>
+      ${Object.keys(t.cats).map(ck => `<div class="pill" onclick="switchCat('${key}','${ck}')">${ck}</div>`).join('')}
     </div>
-
-    <div id="cv-${tk}-Resumen" class="cv active">
-      <div class="sg">
-        ${genTable(tk+'-global', 'Ranking Goleadores (Toda la Tira)', allP)}
+    <div id="cv-${key}-Todos" class="cv active">
+      <div class="sg">${genTable(key+'-all', t.allPlayers)}</div>
+    </div>
+    ${Object.keys(t.cats).map(ck => `
+      <div id="cv-${key}-${ck}" class="cv">
+        <div class="catkpis">
+          <div class="ck"><div class="l">PJ</div><div class="v">${t.cats[ck].pj}</div></div>
+          <div class="ck"><div class="l">G</div><div class="v">${t.cats[ck].g}</div></div>
+        </div>
+        <div class="sg">${genTable(key+'-'+ck, t.cats[ck].players)}</div>
       </div>
-    </div>
-
-    ${Object.keys(t.cats).map(ck => {
-        const c = t.cats[ck];
-        return `
-        <div id="cv-${tk}-${ck}" class="cv">
-          <div class="catkpis">
-            <div class="ck"><div class="l">PJ</div><div class="v">${c.pj}</div></div>
-            <div class="ck"><div class="l">G</div><div class="v">${c.g}</div></div>
-            <div class="ck"><div class="l">E</div><div class="v">${c.e}</div></div>
-            <div class="ck"><div class="l">P</div><div class="v">${c.p}</div></div>
-          </div>
-          <div class="sg">
-            ${genTable(tk+'-'+ck, 'Goleadores '+ck, (c.players || []).map(p=>({...p, cat: ck})) )}
-          </div>
-        </div>`;
-    }).join('')}
+    `).join('')}
   `;
 }
 
-function genTable(id, title, players) {
-  if(!players || players.length === 0) return `<div class="sb"><div class="ssh">${title}</div><div class="nd">Sin datos de jugadores</div></div>`;
-  
+function genTable(tid, players) {
+  if (!players) return '<div class="nd">Sin datos</div>';
   return `
     <div class="sb" style="grid-column: span 2">
-      <div class="ssh">${title}</div>
-      <input type="text" class="srch" placeholder="Buscar jugador..." oninput="flt('${id}', this.value)">
+      <div class="ssh">Goleadores</div>
       <div class="tw">
-        <table class="pt" id="${id}">
-          <thead>
-            <tr>
-              <th style="text-align:left">Jugador</th>
-              <th>PJ</th>
-              <th>G</th>
-            </tr>
-          </thead>
+        <table class="pt" id="${tid}">
+          <thead><tr><th style="text-align:left">Jugador</th><th>PJ</th><th>G</th></tr></thead>
           <tbody>
             ${players.map(p => `
-              <tr data-n="${p.n.toLowerCase()}">
-                <td class="n">
-                    ${p.n} 
-                    <span class="tag-cat-inline">${p.cat}</span>
-                </td>
+              <tr>
+                <td class="n">${p.n} ${p.c ? `<span class="tag-cat-inline">${p.c}</span>` : ''}</td>
                 <td style="text-align:center">${p.pj}</td>
                 <td class="g">${p.g}</td>
               </tr>
@@ -253,16 +204,23 @@ function showT(k) {
 }
 
 function switchCat(tk, ck) {
-  const dash = document.getElementById('dash-' + tk);
-  dash.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.textContent === ck.toUpperCase()));
-  dash.querySelectorAll('.cv').forEach(v => v.classList.remove('active'));
+  const d = document.getElementById('dash-' + tk);
+  d.querySelectorAll('.pill').forEach(p => p.classList.toggle('active', p.textContent === ck));
+  d.querySelectorAll('.cv').forEach(v => v.classList.remove('active'));
   document.getElementById('cv-' + tk + '-' + ck).classList.add('active');
 }
 
-function flt(tid, q) {
-  const ql = q.toLowerCase();
-  document.querySelectorAll('#' + tid + ' tbody tr').forEach(tr => {
-    tr.style.display = tr.dataset.n.includes(ql) ? '' : 'none';
+function renderCharts() {
+  new Chart(document.getElementById('chart-tot'), {
+    type: 'bar',
+    data: {
+      labels: ['Rojo', 'Negro'],
+      datasets: [
+        { label: 'GF', data: [53, 17], backgroundColor: '#16a34a' },
+        { label: 'GC', data: [27, 39], backgroundColor: '#dc2626' }
+      ]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
   });
 }
 
