@@ -463,7 +463,34 @@ function buildTira(key, T) {
 
     let mSlotContent = '';
     if (!isTodos && cat && cat.matches) {
-      const mrows = cat.matches.map(m => `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span class="bg bg-${m.res}">${m.res}</span></td></tr>`).join('');
+      const mrows = cat.matches.map(m => {
+  let textoRes = '';
+  let colorRes = '';
+  
+  // Mapeo de leyendas y colores claros
+  if (m.res === 'G') { 
+    textoRes = 'Victoria'; 
+    colorRes = 'background:#dcfce7; color:#166534; border:1px solid #bbf7d0;'; // Verde claro
+  } else if (m.res === 'E') { 
+    textoRes = 'Empate'; 
+    colorRes = 'background:#fef9c3; color:#854d0e; border:1px solid #fef08a;'; // Amarillo claro
+  } else if (m.res === 'P') { 
+    textoRes = 'Derrota'; 
+    colorRes = 'background:#fee2e2; color:#991b1b; border:1px solid #fecaca;'; // Rojo claro
+  }
+
+  return `<tr>
+    <td>${m.f}</td>
+    <td>${m.r}</td>
+    <td class="c">${m.gf}</td>
+    <td class="c">${m.gc}</td>
+    <td class="c">
+      <span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; ${colorRes}">
+        ${textoRes}
+      </span>
+    </td>
+  </tr>`;
+}).join('');
       mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb" style="padding:8px 12px">
         <table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table>
       </div></div>`;
