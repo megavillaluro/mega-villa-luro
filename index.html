@@ -579,7 +579,10 @@ function buildTira(key, T) {
     </div>`;
 
     cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
-      ${isTodos ? kpiHtml : ''}${ckHtml}${csHtml}${isTodos ? buildScheduleTable(key) : ''}${playerHtml}
+      ${isTodos ? kpiHtml : ''}
+      ${ckHtml}
+      ${csHtml}
+      ${playerHtml}
     </div>`;
   });
 
