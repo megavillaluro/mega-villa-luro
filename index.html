@@ -177,6 +177,60 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
     border-top-color: #1e293b;
     z-index: 100;
 }
+
+/* Mejora de Tablas: Espaciado y bordes redondeados */
+.tw {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #e2e8f0 !important;
+    background: white !important;
+}
+
+.pt th {
+    background: #f8fafc !important;
+    padding: 14px 10px !important; /* Más aire arriba y abajo */
+    color: #64748b !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+}
+
+.pt td {
+    padding: 14px 10px !important; /* Más aire en las celdas */
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.pt tbody tr:hover {
+    background-color: #f1f5f9 !important; /* Efecto resaltar fila */
+}
+
+/* Mejora de KPIs: Más grandes y con efecto al pasar el mouse */
+.kpi {
+    background: white !important;
+    border-radius: 16px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 20px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.kpi:hover {
+    transform: translateY(-5px) !important; /* Se levanta un poquito */
+    border-color: var(--tc) !important; /* Se pinta del color de la tira */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.kv {
+    font-size: 32px !important; /* Números más potentes */
+    letter-spacing: -1px !important;
+}
+
+.kl {
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    color: #64748b !important;
+}
     
 </style>
 </head>
