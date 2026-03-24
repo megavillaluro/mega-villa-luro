@@ -388,6 +388,18 @@ function buildTira(key, T) {
   const catKeys = Object.keys(T.cats);
   const nonTodo = catKeys.filter(k => k !== 'Todos');
 
+  // --- NUEVO: Mapeo automático de categorías por jugador ---
+  const playerCatMap = {};
+  nonTodo.forEach(c => {
+    if (T.cats[c] && T.cats[c].players) {
+      T.cats[c].players.forEach(p => {
+        if (!playerCatMap[p.n]) playerCatMap[p.n] = [];
+        if (!playerCatMap[p.n].includes(c)) playerCatMap[p.n].push(c);
+      });
+    }
+  });
+  // ---------------------------------------------------------
+
   // kpis
   const kpiHtml = o ? `<div class="kpis">
     <div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div>
@@ -493,17 +505,28 @@ function buildTira(key, T) {
 
     const tid = `t-${key}-${safe}`;
     const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>{
+      const pCats = playerCatMap[p.n] ? playerCatMap[p.n].join(', ') : '-'; // NUEVO: Extrae la categoría del mapa
       const golesCell = p.g>0
         ? `<td class="g${p.rv?' has-tip':''}"${p.rv?` data-tip="⚽ ${p.rv}"`:''} >${p.g}</td>`
         : `<td class="z">—</td>`;
       return `<tr data-n="${p.n.toLowerCase()}">
       <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
       <td>${p.n}</td>
-      <td class="n">${p.rpj}</td>
+      <td style="font-size:11px;color:#64748b;text-align:center">${pCats}</td> <td class="n">${p.rpj}</td>
       ${golesCell}
     </tr>`;
     }).join('');
-    const aRows = absent.length>0 ? absent.map((p,i)=>`<tr data-n="${p.n.toLowerCase()}"><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}</td><td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td><td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td><td class="sm">${p.no+p.x}</td></tr>`).join('') : `<tr><td colspan="5" class="nd">Sin ausentismos</td></tr>`;
+
+    const aRows = absent.length>0 ? absent.map((p,i)=>{
+      const pCats = playerCatMap[p.n] ? playerCatMap[p.n].join(', ') : '-'; // NUEVO: Extrae la categoría del mapa
+      return `<tr data-n="${p.n.toLowerCase()}">
+        <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
+        <td>${p.n}</td>
+        <td style="font-size:11px;color:#64748b;text-align:center">${pCats}</td> <td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td>
+        <td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td>
+        <td class="sm">${p.no+p.x}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="6" class="nd">Sin ausentismos</td></tr>`;
 
     const playerHtml = `<div class="sg">
       <div class="sb" style="grid-column:span 2">
@@ -513,9 +536,7 @@ function buildTira(key, T) {
           <thead><tr>
             <th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th>
             <th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
-            <th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n">PJ <span class="sa">↓</span></th>
-            <th onclick="srt('${tid}-pj',3,this)" data-t="n">Goles <span class="sa">↕</span></th>
-          </tr></thead>
+            <th onclick="srt('${tid}-pj',2,this)" data-t="s" class="c">Cat. <span class="sa">↕</span></th> <th class="srt" onclick="srt('${tid}-pj',3,this)" data-t="n" class="c">PJ <span class="sa">↓</span></th> <th onclick="srt('${tid}-pj',4,this)" data-t="n" class="c">Goles <span class="sa">↕</span></th> </tr></thead>
           <tbody>${pjRows}</tbody>
         </table></div>
         <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es · Total goles: ${totalGoles}</div>
@@ -524,7 +545,10 @@ function buildTira(key, T) {
         <div class="ssh">❌ Ausentismos (${absent.length})</div>
         <input class="srch" placeholder="Buscar jugador${jug}..." oninput="flt('${tid}-aus',this.value)">
         <div class="tw"><table class="pt" id="${tid}-aus">
-          <thead><tr><th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',2,this)" data-t="n">NO <span class="sa">↕</span></th><th onclick="srt('${tid}-aus',3,this)" data-t="n">X <span class="sa">↕</span></th><th class="srt" onclick="srt('${tid}-aus',4,this)" data-t="n">Total <span class="sa">↓</span></th></tr></thead>
+          <thead><tr>
+            <th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',2,this)" data-t="s" class="c">Cat. <span class="sa">↕</span></th> <th onclick="srt('${tid}-aus',3,this)" data-t="n" class="c">NO <span class="sa">↕</span></th> <th onclick="srt('${tid}-aus',4,this)" data-t="n" class="c">X <span class="sa">↕</span></th> <th class="srt" onclick="srt('${tid}-aus',5,this)" data-t="n" class="c">Total <span class="sa">↓</span></th> </tr></thead>
           <tbody>${aRows}</tbody>
         </table></div>
         <div class="tf">NO: ${tNO} · X: ${tX} · Total: ${tNO+tX}</div>
