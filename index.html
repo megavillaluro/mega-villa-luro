@@ -122,41 +122,26 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
     color: #cbd5e1 !important;
 }
 
-/* Tooltip Prolijo */
-.has-tip {
-    position: relative;
-}
+/* Tooltips */
+.has-tip { position: relative; cursor: help; text-decoration: underline dotted #cbd5e1; }
+.has-tip::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; font-size: 12px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 99; margin-bottom: 5px; }
+.has-tip:hover::after { opacity: 1; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
 
-.has-tip:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #1e293b; /* Azul muy oscuro */
-    color: #ffffff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 11px;
-    white-space: pre; /* Esto permite que los "•" queden uno debajo del otro */
-    z-index: 100;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    line-height: 1.4;
-    text-align: left;
-}
+/* Modifiers */
+table.pt td.n { text-align: center; font-weight: 600; color: #0f172a; }
+table.pt td.g { color: var(--tc); font-weight: 700; text-align: center; font-size: 14px; }
+table.pt td.no { color: #dc2626; font-weight: 700; text-align: center; }
+table.pt td.x { color: #d97706; font-weight: 700; text-align: center; }
+table.pt td.sm { color: #475569; font-weight: 700; text-align: center; }
+table.pt td.z { color: #cbd5e1; text-align: center; }
 
-/* Triangulito del tooltip */
-.has-tip:hover::before {
-    content: '';
-    position: absolute;
-    bottom: 110%;
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: #1e293b;
-    z-index: 100;
-}
+/* Responsive */
+.cv { display: none; }
+.cv.active { display: block; }
+@media(max-width: 1024px) { .kpis, .catkpis { grid-template-columns: repeat(3, 1fr); } .sg { grid-template-columns: 1fr; } }
+@media(max-width: 600px) { .kpis, .catkpis { grid-template-columns: repeat(2, 1fr); } .dash { padding: 12px; } }
+
     
 </style>
 </head>
