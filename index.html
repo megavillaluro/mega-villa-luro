@@ -38,9 +38,30 @@ body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #334155; }
 
 /* Pills (Filtros) */
 .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.pill { padding: 8px 16px; border-radius: 20px; border: 1px solid #cbd5e1; background: #fff; color: #475569; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.pill:hover { border-color: var(--tc); color: var(--tc); }
-.pill.active { background: var(--tc); color: #fff; border-color: var(--tc); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.pill {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 999px; /* Botones tipo cápsula */
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.pill:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.pill.active {
+    background: var(--tc); /* Usa el color de la tira */
+    color: white;
+    border-color: var(--tc);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
 
 /* Panels / Cards */
 .panel { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; }
