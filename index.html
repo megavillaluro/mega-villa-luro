@@ -92,6 +92,35 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
 .cv.active { display: block; }
 @media(max-width: 1024px) { .kpis, .catkpis { grid-template-columns: repeat(3, 1fr); } .sg { grid-template-columns: 1fr; } }
 @media(max-width: 600px) { .kpis, .catkpis { grid-template-columns: repeat(2, 1fr); } .dash { padding: 12px; } }
+
+/* --- ARREGLOS PARA LA PESTAÑA TOTAL (FONDO OSCURO) --- */
+
+/* 1. Ponemos el título "Resumen General" en blanco */
+#dash-total .hn {
+    color: #ffffff !important;
+}
+
+/* 2. Ponemos el subtítulo "Villa Luro 2026" en un gris muy clarito */
+#dash-total .hs {
+    color: #cbd5e1 !important;
+}
+
+/* 3. Todos los títulos de los paneles y tablas en blanco */
+#dash-total .ph, 
+#dash-total .ssh {
+    color: #ffffff !important;
+}
+
+/* 4. Los nombres de las columnas (#, Jugador, PJ, Goles) en blanco */
+#dash-total .pt thead th {
+    color: #ffffff !important;
+}
+
+/* 5. El texto que dice "Total goles" o "Total ausentismos" abajo de las tablas */
+#dash-total .tf {
+    color: #cbd5e1 !important;
+}
+
 </style>
 </head>
 <body>
