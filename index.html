@@ -404,30 +404,11 @@ function buildScheduleTable(key) {
 }
 
 function buildTira(key, T) {
-  const o = T.overall;
-  const color = T.color;
-  const jug = key === 'violeta' ? 'a' : '';
+  const o = T.overall, color = T.color;
   const catKeys = Object.keys(T.cats);
   const nonTodo = catKeys.filter(k => k !== 'Todos');
 
-  // 1. Mapeo de categorías para los nombres
-  const playerCatMap = {};
-  nonTodo.forEach(c => {
-    if (T.cats[c] && T.cats[c].players) {
-      T.cats[c].players.forEach(p => {
-        if (!playerCatMap[p.n]) playerCatMap[p.n] = [];
-        if (!playerCatMap[p.n].includes(c)) playerCatMap[p.n].push(c);
-      });
-    }
-  });
-
-  const getBadge = (name) => {
-    const cats = playerCatMap[name];
-    if(!cats || cats.length === 0) return '';
-    return `<span style="display:inline-block; margin-left:6px; padding:1px 5px; background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; border-radius:4px; font-size:9px; font-weight:700; vertical-align:middle;">${cats.join(', ')}</span>`;
-  };
-
-  // 2. Títulos de pestañas dinámicos (Total Blanco, etc.)
+  // Nombres dinámicos de solapas
   const nombreTotalTira = key === 'total' ? 'TOTAL MEGA' : 'Total ' + T.label;
   const pillsHtml = nonTodo.length > 0 ? `<div class="pills">
     <button class="pill active" onclick="switchCat('${key}','Todos')">${nombreTotalTira}</button>
@@ -436,89 +417,43 @@ function buildTira(key, T) {
 
   let cvsHtml = '';
   catKeys.forEach(ck => {
-    const safe = ck.replace(/[\s\/]/g,'_');
-    const isTodos = ck === 'Todos';
-    const cat = T.cats[ck];
-    const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
+    const safe = ck.replace(/[\s\/]/g,'_'), isTodos = ck === 'Todos';
+    const cat = T.cats[ck], players = isTodos ? T.allPlayers : (cat ? cat.players : []);
 
-    // 3. Tabla de Partidos con Victorias/Derrotas en palabras
-    let mSlotContent = '';
-    if (!isTodos && cat && cat.matches) {
+    // Tabla de Partidos (Solo en categorías individuales)
+    let mSlot = '';
+    if (!isTodos && cat?.matches) {
       const mrows = cat.matches.map(m => {
-        let txt='', cls='';
+        let txt='Derrota', cls='background:#fee2e2;color:#991b1b;border:1px solid #fecaca;';
         if(m.res==='G'){txt='Victoria'; cls='background:#dcfce7;color:#166534;border:1px solid #bbf7d0;';}
-        else if(m.res==='E'){txt='Empate'; cls='background:#fef9c3;color:#854d0e;border:1px solid #fef08a;';}
-        else {txt='Derrota'; cls='background:#fee2e2;color:#991b1b;border:1px solid #fecaca;';}
+        if(m.res==='E'){txt='Empate'; cls='background:#fef9c3;color:#854d0e;border:1px solid #fef08a;';}
         return `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;${cls}">${txt}</span></td></tr>`;
       }).join('');
-      mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb"><table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
+      mSlot = `<div class="panel"><div class="ph">Partidos</div><div class="pb"><table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
     }
 
-// --- LÓGICA DE ANÁLISIS AUTOMÁTICO (Ajustada para ser más sensible) ---
-    let analitica = { altos: [], bajos: [] };
-    if (cat && cat.pj > 0) {
-        // 1. Análisis de Resultados
-        const winRate = (cat.g / cat.pj);
-        if (winRate >= 0.5) analitica.altos.push("Buen ritmo: El equipo gana el 50% o más de lo que juega.");
-        if (winRate < 0.25 && cat.pj >= 2) analitica.bajos.push("Alerta de resultados: Cuesta cerrar los partidos con victoria.");
-
-        // 2. Análisis de Goles
-        const promGF = cat.gf / cat.pj;
-        const promGC = cat.gc / cat.pj;
-        if (promGF >= 2.5) analitica.altos.push("Eficacia: Promedio goleador saludable.");
-        if (promGC <= 2) analitica.altos.push("Seguridad: Reciben 2 goles o menos por partido.");
-        if (promGC > 3.5) analitica.bajos.push("Ajuste defensivo: Se están recibiendo demasiados goles.");
-
-        // 3. Análisis de Jugadores (Dependencia)
-        const goleador = [...players].sort((a,b) => b.g - a.g)[0];
-        // Si el goleador tiene más del 35% de los goles (antes era 50%)
-        if (goleador && goleador.g > (cat.gf * 0.35) && cat.gf > 3) {
-            analitica.bajos.push(`Foco en ${goleador.n}: Concentra gran parte del poder de gol.`);
-        }
-        
-        // 4. Análisis de Compromiso (Ausentismos)
-        const totalFaltas = players.reduce((s, p) => s + (p.no + p.x), 0);
-        if (totalFaltas > (players.length * 0.8)) {
-            analitica.bajos.push("Asistencia: Se registran baches de concurrencia en el plantel.");
-        }
-    }
-
-    // Mensajes si la lista sigue vacía
-    if (analitica.altos.length === 0) analitica.altos.push("Equipo en etapa de consolidación.");
-    if (analitica.bajos.length === 0) analitica.bajos.push("Estabilidad: No se detectan desbalances estadísticos.");
-    // 5. Tabla de Jugadores con Tooltip Prolijo
-    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g);
+    // Tabla de Jugadores (Simplificada con ordenamiento corregido)
     const tid = `t-${key}-${safe}`;
-    const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>{
+    const pjRows = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g).filter(p=>p.rpj>0).map((p,i)=>{
       let gCol = `<td class="z">—</td>`;
       if(p.g>0) {
-        const detHtml = p.rv ? p.rv.split(',').map(item => {
-            const t = item.trim(); const match = t.match(/(\d+)-(\d+)/);
-            let c = 'color:#94a3b8';
-            if(match){ if(parseInt(match[1])>parseInt(match[2])) c='color:#4ade80;font-weight:bold;'; else if(parseInt(match[1])<parseInt(match[2])) c='color:#f87171;font-weight:bold;'; }
-            return `<div style="margin-bottom:2px;${c}">• ${t}</div>`;
-        }).join('') : 'Goles anotados';
-        gCol = `<td class="g has-tip-html" style="position:relative;cursor:help;font-weight:700;">${p.g}<div class="custom-tooltip">${detHtml}</div></td>`;
+        const det = p.rv ? p.rv.split(',').map(it => `• ${it.trim()}`).join('\n') : 'Goles';
+        gCol = `<td class="g has-tip" data-tip="${det}">${p.g}</td>`;
       }
-      return `<tr><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}${getBadge(p.n)}</td><td class="n">${p.rpj}</td>${gCol}</tr>`;
+      return `<tr><td class="c">${i+1}</td><td>${p.n}</td><td class="c">${p.rpj}</td>${gCol}</tr>`;
     }).join('');
 
     cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
       ${isTodos && o ? `<div class="kpis"><div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div><div class="kpi"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">${o.g}</div></div><div class="kpi"><div class="kl">Goles</div><div class="kv">${o.gf}</div></div></div>` : ''}
-      ${mSlotContent}
-      <div class="sg"><div class="sb" style="grid-column:span 2"><div class="ssh">⚽ Jugadores</div><div class="tw"><table class="pt"><thead><tr><th>#</th><th>Jugador</th><th class="c">PJ</th><th class="c">Goles</th></tr></thead><tbody>${pjRows}</tbody></table></div></div></div>
-      <div class="panel" style="margin-top:20px; border-left:4px solid var(--tc);">
-          <div class="ph">📊 Análisis Automático</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px;">
-              <div style="background:#f0fdf4;padding:12px;border-radius:12px;color:#14532d;font-size:12px;"><strong>🚀 Puntos Altos:</strong><br>${analitica.altos.join('<br>')}</div>
-              <div style="background:#fef2f2;padding:12px;border-radius:12px;color:#7f1d1d;font-size:12px;"><strong>⚠️ A Mejorar:</strong><br>${analitica.bajos.join('<br>')}</div>
-          </div>
-      </div>
+      ${mSlot}
+      <div class="sb"><div class="ssh">⚽ Jugadores</div><div class="tw"><table class="pt" id="${tid}">
+        <thead><tr><th onclick="srt('${tid}',0,this)" data-t="n"># <span class="sa">↕</span></th><th onclick="srt('${tid}',1,this)" data-t="s">Jugador <span class="sa">↕</span></th><th onclick="srt('${tid}',2,this)" data-t="n">PJ <span class="sa">↕</span></th><th onclick="srt('${tid}',3,this)" data-t="n">Goles <span class="sa">↕</span></th></tr></thead>
+        <tbody>${pjRows}</tbody></table></div></div>
     </div>`;
   });
 
   return `<div class="dash${key==='total'?' active':''}" id="dash-${key}" style="--tc:${color}">
-    <div class="header"><div class="hn">${T.label}</div><div class="hs">${T.sub}</div></div>
+    <div class="header"><div class="hn">${key==='total'?'TOTAL MEGA':T.label}</div><div class="hs">${T.sub}</div></div>
     ${pillsHtml}${cvsHtml}
   </div>`;
 }
@@ -618,19 +553,36 @@ function flt(tid, q) {
 }
 let SS={};
 function srt(tid, col, th) {
-  const k=tid+'_'+col, asc=SS[k]!==true; SS[k]=asc;
-  const tbl=document.getElementById(tid);
-  tbl.querySelectorAll('th').forEach(h=>{h.classList.remove('srt');const a=h.querySelector('.sa');if(a)a.textContent='↕';});
-  th.classList.add('srt');const sa=th.querySelector('.sa');if(sa)sa.textContent=asc?'↓':'↑';
-  const tbody=tbl.querySelector('tbody');
-  const rows=Array.from(tbody.querySelectorAll('tr'));
-  const type=th.dataset.t;
-  rows.sort((a,b)=>{
-    const av=a.cells[col].textContent.trim(),bv=b.cells[col].textContent.trim();
-    if(type==='n'){const an=parseFloat(av)||0,bn=parseFloat(bv)||0;return asc?bn-an:an-bn;}
-    return asc?av.localeCompare(bv,'es'):bv.localeCompare(av,'es');
+  const k = tid + '_' + col, asc = SS[k] !== true; SS[k] = asc;
+  const tbl = document.getElementById(tid);
+  if (!tbl) return;
+
+  const tbody = tbl.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const type = th.dataset.t;
+
+  // Actualizar flechitas visuales
+  tbl.querySelectorAll('th').forEach(h => {
+    h.classList.remove('srt');
+    const a = h.querySelector('.sa');
+    if (a) a.textContent = '↕';
   });
-  rows.forEach((tr,i)=>{tr.cells[0].textContent=i+1;tbody.appendChild(tr);});
+  th.classList.add('srt');
+  th.querySelector('.sa').textContent = asc ? '↓' : '↑';
+
+  rows.sort((r1, r2) => {
+    // Usamos innerText para que no lea el código del tooltip, solo el número visible
+    let v1 = r1.cells[col].innerText.trim();
+    let v2 = r2.cells[col].innerText.trim();
+
+    if (type === 'n') {
+      return asc ? parseFloat(v1) - parseFloat(v2) : parseFloat(v2) - parseFloat(v1);
+    } else {
+      return asc ? v1.localeCompare(v2) : v2.localeCompare(v1);
+    }
+  });
+
+  rows.forEach(r => tbody.appendChild(r));
 }
 </script>
 </body>
