@@ -388,7 +388,7 @@ function buildTira(key, T) {
   const catKeys = Object.keys(T.cats);
   const nonTodo = catKeys.filter(k => k !== 'Todos');
 
-  // --- NUEVO: Mapeo automático de categorías por jugador ---
+  // --- Mapeo automático de categorías por jugador ---
   const playerCatMap = {};
   nonTodo.forEach(c => {
     if (T.cats[c] && T.cats[c].players) {
@@ -398,9 +398,15 @@ function buildTira(key, T) {
       });
     }
   });
-  // ---------------------------------------------------------
 
-  // kpis
+  // Estilo para el "badge" de categoría
+  const getBadge = (name) => {
+    const cats = playerCatMap[name];
+    if(!cats || cats.length === 0) return '';
+    // Estilo: gris clarito, borde redondeado, texto chiquito y un poco de margen a la izquierda
+    return `<span style="display:inline-block; margin-left:6px; padding:1px 5px; background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; border-radius:4px; font-size:9px; font-weight:700; vertical-align:middle; text-transform:uppercase;">${cats.join(', ')}</span>`;
+  };
+
   const kpiHtml = o ? `<div class="kpis">
     <div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div>
     <div class="kpi"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">${o.g}</div></div>
@@ -410,13 +416,11 @@ function buildTira(key, T) {
     <div class="kpi"><div class="kl">Goles en contra</div><div class="kv">${o.gc}</div><div class="ks">Prom: ${(o.gc/o.pj).toFixed(1)}/partido</div></div>
   </div>` : '';
 
-  // pills
   const pillsHtml = nonTodo.length > 0 ? `<div class="pills">
     <button class="pill active" onclick="switchCat('${key}','Todos')">Todos</button>
     ${nonTodo.map(c => `<button class="pill" onclick="switchCat('${key}','${c}')">${c}</button>`).join('')}
   </div>` : '';
 
-  // cat views
   let cvsHtml = '';
   catKeys.forEach(ck => {
     const safe = ck.replace(/[\s\/]/g,'_');
@@ -424,7 +428,6 @@ function buildTira(key, T) {
     const cat = T.cats[ck];
     const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
 
-    // matches (declared first so ckHtml can use it)
     let mSlotContent = '';
     if (!isTodos && cat && cat.matches) {
       const mrows = cat.matches.map(m => `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span class="bg bg-${m.res}">${m.res}</span></td></tr>`).join('');
@@ -433,7 +436,6 @@ function buildTira(key, T) {
       </div></div>`;
     }
 
-    // cat kpis + donut (individual cats)
     let ckHtml = '';
     if (!isTodos && cat) {
       const donutId = `ch-donut-${key}-${safe}`;
@@ -452,18 +454,12 @@ function buildTira(key, T) {
             <div class="ph">G / E / P</div>
             <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
               <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
-              <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;width:100%;padding:0 6px">
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#16a34a;flex-shrink:0"></div>Ganados<span style="margin-left:auto;font-weight:700;color:#333">${cat.g}</span></div>
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#d97706;flex-shrink:0"></div>Empates<span style="margin-left:auto;font-weight:700;color:#333">${cat.e}</span></div>
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#dc2626;flex-shrink:0"></div>Perdidos<span style="margin-left:auto;font-weight:700;color:#333">${cat.p}</span></div>
-              </div>
             </div>
           </div>
           <div style="align-self:start">${mSlotContent}</div>
         </div>`;
     }
 
-    // cat summary table + charts (only for Todos)
     let csHtml = '';
     if (isTodos && nonTodo.length > 0) {
       const donutId = `dn-${key}`;
@@ -471,7 +467,6 @@ function buildTira(key, T) {
       const catLabels = nonTodo;
       const catGF = nonTodo.map(k => T.cats[k]?.gf || 0);
       const catGC = nonTodo.map(k => T.cats[k]?.gc || 0);
-      const barH = Math.max(80, nonTodo.length * 50 + 50);
       CHART_QUEUE.push({id1: donutId, id2: barId, g: o?.g||0, e: o?.e||0, p: o?.p||0, labels: catLabels, gf: catGF, gc: catGC});
 
       csHtml = `
@@ -480,23 +475,17 @@ function buildTira(key, T) {
             <div class="ph">G / E / P</div>
             <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
               <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
-              <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;width:100%;padding:0 6px">
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#16a34a;flex-shrink:0"></div>Ganados<span style="margin-left:auto;font-weight:700;color:#333">${o?.g||0}</span></div>
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#d97706;flex-shrink:0"></div>Empates<span style="margin-left:auto;font-weight:700;color:#333">${o?.e||0}</span></div>
-                <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#555"><div style="width:8px;height:8px;border-radius:2px;background:#dc2626;flex-shrink:0"></div>Perdidos<span style="margin-left:auto;font-weight:700;color:#333">${o?.p||0}</span></div>
-              </div>
             </div>
           </div>
           <div class="panel" style="margin-bottom:0">
             <div class="ph">GF vs GC por categoría</div>
             <div style="padding:10px 12px">
-              <div style="position:relative;height:${barH}px"><canvas id="${barId}"></canvas></div>
+              <div style="position:relative;height:180px"><canvas id="${barId}"></canvas></div>
             </div>
           </div>
         </div>`;
     }
 
-    // 3 player tables
     const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g||a.n.localeCompare(b.n,'es'));
     const absent = [...players].filter(p=>p.no>0||p.x>0).sort((a,b)=>(b.no+b.x)-(a.no+a.x)||a.n.localeCompare(b.n,'es'));
     const tNO = players.reduce((s,r)=>s+r.no,0);
@@ -505,28 +494,24 @@ function buildTira(key, T) {
 
     const tid = `t-${key}-${safe}`;
     const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>{
-      const pCats = playerCatMap[p.n] ? playerCatMap[p.n].join(', ') : '-'; // NUEVO: Extrae la categoría del mapa
       const golesCell = p.g>0
         ? `<td class="g${p.rv?' has-tip':''}"${p.rv?` data-tip="⚽ ${p.rv}"`:''} >${p.g}</td>`
         : `<td class="z">—</td>`;
       return `<tr data-n="${p.n.toLowerCase()}">
       <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
-      <td>${p.n}</td>
-      <td style="font-size:11px;color:#64748b;text-align:center">${pCats}</td> <td class="n">${p.rpj}</td>
+      <td>${p.n} ${getBadge(p.n)}</td> <td class="n">${p.rpj}</td>
       ${golesCell}
     </tr>`;
     }).join('');
 
     const aRows = absent.length>0 ? absent.map((p,i)=>{
-      const pCats = playerCatMap[p.n] ? playerCatMap[p.n].join(', ') : '-'; // NUEVO: Extrae la categoría del mapa
       return `<tr data-n="${p.n.toLowerCase()}">
         <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
-        <td>${p.n}</td>
-        <td style="font-size:11px;color:#64748b;text-align:center">${pCats}</td> <td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td>
+        <td>${p.n} ${getBadge(p.n)}</td> <td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td>
         <td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td>
         <td class="sm">${p.no+p.x}</td>
       </tr>`;
-    }).join('') : `<tr><td colspan="6" class="nd">Sin ausentismos</td></tr>`;
+    }).join('') : `<tr><td colspan="5" class="nd">Sin ausentismos</td></tr>`;
 
     const playerHtml = `<div class="sg">
       <div class="sb" style="grid-column:span 2">
@@ -536,7 +521,9 @@ function buildTira(key, T) {
           <thead><tr>
             <th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th>
             <th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
-            <th onclick="srt('${tid}-pj',2,this)" data-t="s" class="c">Cat. <span class="sa">↕</span></th> <th class="srt" onclick="srt('${tid}-pj',3,this)" data-t="n" class="c">PJ <span class="sa">↓</span></th> <th onclick="srt('${tid}-pj',4,this)" data-t="n" class="c">Goles <span class="sa">↕</span></th> </tr></thead>
+            <th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n" class="c">PJ <span class="sa">↓</span></th>
+            <th onclick="srt('${tid}-pj',3,this)" data-t="n" class="c">Goles <span class="sa">↕</span></th>
+          </tr></thead>
           <tbody>${pjRows}</tbody>
         </table></div>
         <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es · Total goles: ${totalGoles}</div>
@@ -548,7 +535,10 @@ function buildTira(key, T) {
           <thead><tr>
             <th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th>
             <th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
-            <th onclick="srt('${tid}-aus',2,this)" data-t="s" class="c">Cat. <span class="sa">↕</span></th> <th onclick="srt('${tid}-aus',3,this)" data-t="n" class="c">NO <span class="sa">↕</span></th> <th onclick="srt('${tid}-aus',4,this)" data-t="n" class="c">X <span class="sa">↕</span></th> <th class="srt" onclick="srt('${tid}-aus',5,this)" data-t="n" class="c">Total <span class="sa">↓</span></th> </tr></thead>
+            <th onclick="srt('${tid}-aus',2,this)" data-t="n" class="c">NO <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',3,this)" data-t="n" class="c">X <span class="sa">↕</span></th>
+            <th class="srt" onclick="srt('${tid}-aus',4,this)" data-t="n" class="c">Total <span class="sa">↓</span></th>
+          </tr></thead>
           <tbody>${aRows}</tbody>
         </table></div>
         <div class="tf">NO: ${tNO} · X: ${tX} · Total: ${tNO+tX}</div>
@@ -566,7 +556,7 @@ function buildTira(key, T) {
     ${cvsHtml}
   </div>`;
 }
-
+  
 // Build all tiras
 const root = document.getElementById('root');
 root.innerHTML = Object.entries(TIRAS).map(([k,T]) => buildTira(k,T)).join('');
