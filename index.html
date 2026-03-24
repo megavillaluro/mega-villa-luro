@@ -554,9 +554,17 @@ function buildTira(key, T) {
 
     const tid = `t-${key}-${safe}`;
     const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>{
-      const golesCell = p.g>0
-        ? `<td class="g${p.rv?' has-tip':''}"${p.rv?` data-tip="⚽ ${p.rv}"`:''} >${p.g}</td>`
-        : `<td class="z">—</td>`;
+      let golesCell = `<td class="z">—</td>`;
+if (p.g > 0) {
+    // Si tiene rivales anotados, formateamos el texto para que sea más prolijo
+    // Reemplazamos las comas por saltos de línea o puntos si vienen del JSON
+    const detalleGoles = p.rv ? p.rv.split(',').map(item => '• ' + item.trim()).join('\n') : '';
+    
+    golesCell = `<td class="g has-tip" data-tip="${detalleGoles || 'Goles anotados'}" 
+                 style="position:relative; cursor:help; font-weight:700;">
+                    ${p.g}
+                 </td>`;
+}
       return `<tr data-n="${p.n.toLowerCase()}">
       <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
       <td>${p.n} ${getBadge(p.n)}</td> <td class="n">${p.rpj}</td>
