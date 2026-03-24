@@ -121,6 +121,42 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
     color: #cbd5e1 !important;
 }
 
+/* Tooltip Prolijo */
+.has-tip {
+    position: relative;
+}
+
+.has-tip:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e293b; /* Azul muy oscuro */
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: pre; /* Esto permite que los "•" queden uno debajo del otro */
+    z-index: 100;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* Triangulito del tooltip */
+.has-tip:hover::before {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #1e293b;
+    z-index: 100;
+}
+    
 </style>
 </head>
 <body>
