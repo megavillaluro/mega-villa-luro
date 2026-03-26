@@ -475,12 +475,12 @@ body {
     </div>
   </div>
   <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="showPage('resumen')">Resumen</button>
-    <button class="nav-tab" onclick="showPage('equipos')">Equipos</button>
-    <button class="nav-tab" onclick="showPage('goleadores')">Goleadores</button>
-    <button class="nav-tab" onclick="showPage('presentismo')">Presentismo</button>
-    <button class="nav-tab" onclick="showPage('jugadores')">Jugadores</button>
-    <button class="nav-tab" onclick="showPage('partidos')">Partidos</button>
+    <button class="nav-tab active" data-tira=('resumen')">Resumen</button>
+    <button class="nav-tab" data-tira=('equipos')">Equipos</button>
+    <button class="nav-tab" data-tira=('goleadores')">Goleadores</button>
+    <button class="nav-tab" data-tira=('presentismo')">Presentismo</button>
+    <button class="nav-tab" data-tira=('jugadores')">Jugadores</button>
+    <button class="nav-tab" data-tira=('partidos')">Partidos</button>
   </nav>
 </header>
 
@@ -1334,7 +1334,6 @@ function renderPartidosItems() {
       <td class="num" style="font-weight:bold">${p.gf} - ${p.gc}</td>
     </tr>
   `).join('');
-}
 
 // Iniciar todo al cargar la página
 window.onload = init;
