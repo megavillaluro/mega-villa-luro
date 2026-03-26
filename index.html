@@ -1360,6 +1360,10 @@ function buildPartidos() {
       this.classList.add('active');
       activeResFilter = this.dataset.res;
       renderPartidosList();
+
+      activeTira = tab.dataset.tira;
+container.innerHTML = renderDashboard(); // Esta ya la tienes
+renderCharts(); // <--- AGREGA ESTA LÍNEA AQUÍ
     });
   });
 }
