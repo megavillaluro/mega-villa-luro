@@ -1017,9 +1017,6 @@ const tiraDist = [
 let activeTira = 'TOTAL';
 let activeResFilter = 'all';
 
-const tiraColors = {
-  'TOTAL': '#1A1A1A', 'Mega Rojo': '#D82B2B', 'Mega Negro': '#374151',
-  'Mega Blanco': '#475569', 'Mega Violeta': '#7c3aed', 'Mega Verde': '#16a34a', 'Mega Peques': '#0891b2'
 };
 
 function init() {
@@ -1193,9 +1190,6 @@ function renderCharts() {
     options: { responsive: true, cutout: '70%' }
   });
 
-  // Si estamos en TOTAL, inicializamos los filtros de la lista de partidos
-  if (activeTira === 'TOTAL') {
-    initPartidosFilters();
   }
 }
 
