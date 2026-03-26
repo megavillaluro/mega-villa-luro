@@ -1012,389 +1012,99 @@ const tiraDist = [
   { tira:'Mega Verde', n:24 },
 ];
 
-// ===================== TABS =====================
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  const tabs = document.querySelectorAll('.nav-tab');
-  const map = { resumen:0, equipos:1, goleadores:2, presentismo:3, jugadores:4, partidos:5 };
-  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
-}
+// --- PARTE 1: MOTOR DE RENDERIZADO UNIFICADO ---
 
-// ===================== RESUMEN PAGE =====================
-function buildResumen() {
-  const sorted = [...standings].sort((a,b) => b.pts - a.pts || b.dif - a.dif);
-  const tbody = document.getElementById('tabla-posiciones');
-  sorted.forEach((t, i) => {
-    const dif = t.dif > 0 ? '+' + t.dif : t.dif;
-    const difClass = t.dif > 0 ? 'color:#16a34a;font-weight:700' : t.dif < 0 ? 'color:#dc2626;font-weight:700' : '';
-    tbody.innerHTML += `<tr class="standing-row">
-      <td style="font-weight:700;color:#bbb;width:30px">${i+1}</td>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[t.tira]||'#888'}"></span>${t.tira}</div></td>
-      <td class="num">${t.pj}</td><td class="num cg">${t.g}</td>
-      <td class="num" style="color:#d97706">${t.e}</td>
-      <td class="num cp">${t.p}</td>
-      <td class="num">${t.gf}</td><td class="num">${t.gc}</td>
-      <td class="num" style="${difClass}">${dif}</td>
-      <td class="num" style="color:var(--rojo);font-size:17px">${t.pts}</td>
-    </tr>`;
-  });
-
-  // Donut resultados
-  new Chart(document.getElementById('donutResultados'), {
-    type: 'doughnut',
-    data: {
-      labels: ['Victorias','Empates','Derrotas'],
-      datasets: [{ data:[31,5,24], backgroundColor:['#1B7A3E','#F5C842','#D82B2B'], borderWidth:0, hoverOffset:4 }]
-    },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, cutout:'70%' }
-  });
-  document.getElementById('legend-resultados').innerHTML = `
-    <div class="dl-item"><div class="dl-sq" style="background:#1B7A3E"></div>Victorias<span class="dl-pct">51.7%</span></div>
-    <div class="dl-item"><div class="dl-sq" style="background:#F5C842"></div>Empates<span class="dl-pct">8.3%</span></div>
-    <div class="dl-item"><div class="dl-sq" style="background:#D82B2B"></div>Derrotas<span class="dl-pct">40%</span></div>
-  `;
-
-  // Bar goles por equipo
-  const tiras = standings.map(t => t.tira.replace('Mega ',''));
-  new Chart(document.getElementById('barGolesEquipo'), {
-    type:'bar',
-    data: {
-      labels: tiras,
-      datasets: [
-        { label:'GF', data: standings.map(t=>t.gf), backgroundColor:'#1B7A3E', borderRadius:3 },
-        { label:'GC', data: standings.map(t=>t.gc), backgroundColor:'#D82B2B', borderRadius:3 }
-      ]
-    },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F0EDE8'},beginAtZero:true} } }
-  });
-
-  // Efectividad bars
-  const efDiv = document.getElementById('efect-bars');
-  [...standings].sort((a,b)=>b.efect-a.efect).forEach(t => {
-    const name = t.tira.replace('Mega ','');
-    efDiv.innerHTML += `<div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-        <div class="tira-label" style="font-size:13px;font-weight:600">
-          <span class="tira-dot" style="background:${tiraColors[t.tira]||'#888'}"></span>${name}
-        </div>
-        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px">${t.efect}%</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${t.efect}%;background:${tiraColors[t.tira]||'#888'}"></div></div>
-    </div>`;
-  });
-}
-
-// ===================== EQUIPOS PAGE =====================
-function buildEquipos() {
-  const grid = document.getElementById('team-cards-grid');
-  standings.forEach(t => {
-    const color = tiraColors[t.tira] || '#888';
-    const name = t.tira.replace('Mega ', '');
-    const forms = partidos.filter(p => p.tira === t.tira).map(p => p.res).slice(-5);
-    const formHtml = forms.map(r => `<div class="form-box form-${r.toLowerCase()}">${r}</div>`).join('');
-    grid.innerHTML += `<div class="team-card">
-      <div class="team-card-header" style="background:${color}"></div>
-      <div class="team-card-body">
-        <div class="team-card-name" style="color:${color}">${name}</div>
-        <div class="team-mini-stats">
-          <div class="tm-stat"><div class="tm-val" style="color:#1B7A3E">${t.g}</div><div class="tm-lbl">V</div></div>
-          <div class="tm-stat"><div class="tm-val">${t.pj}</div><div class="tm-lbl">PJ</div></div>
-          <div class="tm-stat"><div class="tm-val" style="color:${color}">${t.pts}</div><div class="tm-lbl">Pts</div></div>
-        </div>
-        <div class="form-mini">${formHtml}</div>
-      </div>
-    </div>`;
-  });
-
-  const tiraNames = standings.map(t=>t.tira.replace('Mega ',''));
-  new Chart(document.getElementById('barResultadosTira'), {
-    type:'bar',
-    data: {
-      labels: tiraNames,
-      datasets:[
-        { label:'V', data:standings.map(t=>t.g), backgroundColor:'#1B7A3E', borderRadius:3, stack:'s' },
-        { label:'E', data:standings.map(t=>t.e), backgroundColor:'#F5C842', borderRadius:0, stack:'s' },
-        { label:'D', data:standings.map(t=>t.p), backgroundColor:'#D82B2B', borderRadius:3, stack:'s' }
-      ]
-    },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-      scales:{ x:{stacked:true,grid:{display:false}}, y:{stacked:true,grid:{color:'#F0EDE8'},beginAtZero:true} } }
-  });
-
-  new Chart(document.getElementById('barDifGoles'), {
-    type:'bar',
-    data:{
-      labels: tiraNames,
-      datasets:[{ label:'Diferencia', data:standings.map(t=>t.dif),
-        backgroundColor: standings.map(t=>t.dif>=0?'#1B7A3E':'#D82B2B'), borderRadius:4 }]
-    },
-    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
-      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F0EDE8'}} } }
-  });
-
-  // Categoria table
-  const tbody = document.getElementById('tabla-cat-body');
-  partidos.forEach(p => {
-    const res = p.res === 'G' ? '<span class="badge badge-g">G</span>' : p.res === 'E' ? '<span class="badge badge-e">E</span>' : '<span class="badge badge-p">P</span>';
-    const dif = p.gf - p.gc;
-    tbody.innerHTML += `<tr>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira]||'#888'}"></span>${p.tira}</div></td>
-      <td>${p.cat}</td><td class="center">1</td>
-      <td class="center">${p.res==='G'?1:0}</td>
-      <td class="center">${p.res==='E'?1:0}</td>
-      <td class="center">${p.res==='P'?1:0}</td>
-      <td class="num">${p.gf}</td><td class="num">${p.gc}</td>
-      <td class="num" style="${dif>0?'color:#16a34a':dif<0?'color:#dc2626':''}">${dif>0?'+'+dif:dif}</td>
-      <td class="center">${res}</td>
-    </tr>`;
-  });
-}
-
-// ===================== GOLEADORES PAGE =====================
-function buildGoleadores() {
-  const tbody = document.getElementById('goleadores-body');
-  goleadores.forEach((j,i) => {
-    const rank = i===0?'rank-gold':i===1?'rank-silver':i===2?'rank-bronze':'';
-    tbody.innerHTML += `<tr>
-      <td><span class="rank ${rank}">${i+1}</span></td>
-      <td class="name">${j.nombre}</td>
-      <td class="num" style="color:var(--rojo);font-size:20px">${j.goles}</td>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[j.tira]||'#888'}"></span>${j.tira}</div></td>
-    </tr>`;
-  });
-
-  new Chart(document.getElementById('barGolesCat'), {
-    type:'bar',
-    data:{ labels:golesCat.map(g=>g.cat), datasets:[{ data:golesCat.map(g=>g.goles),
-      backgroundColor:'#D82B2B', borderRadius:4 }] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  new Chart(document.getElementById('barGolesTira'), {
-    type:'bar',
-    data:{ labels:golesTira.map(g=>g.tira.replace('Mega ','')),
-      datasets:[{ data:golesTira.map(g=>g.goles),
-        backgroundColor:golesTira.map(g=>tiraColors[g.tira]||'#888'), borderRadius:4 }] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  // Goals por jornada (acumulado)
-  const golesJornada = [
-    { label:'21/02', goles:25 },
-    { label:'28/02', goles:25 },
-    { label:'07/03', goles:42 },
-    { label:'14/03 (múlt.)', goles:64 },
-    { label:'21/03 (múlt.)', goles:61 },
-  ];
-  new Chart(document.getElementById('lineGolesJornada'), {
-    type:'line',
-    data:{ labels:golesJornada.map(j=>j.label),
-      datasets:[{ data:golesJornada.map(j=>j.goles), borderColor:'#D82B2B', backgroundColor:'rgba(216,43,43,0.08)',
-        tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#D82B2B' }] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-}
-
-// ===================== PRESENTISMO PAGE =====================
-function buildPresentismo() {
-  const tbody = document.getElementById('pres-tabla-body');
-  presentismo.forEach((p,i) => {
-    tbody.innerHTML += `<tr>
-      <td style="font-weight:700;color:var(--rojo)">J${p.jornada}</td>
-      <td>${p.fecha}</td>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.equipo]||'#888'}"></span>${p.equipo}</div></td>
-      <td>${p.rival}</td>
-      <td class="num">${p.presentes}</td>
-      <td class="num" style="color:#1B7A3E">${p.goles}</td>
-    </tr>`;
-  });
-
-  new Chart(document.getElementById('linePresJornada'), {
-    type:'line',
-    data:{ labels:presAusPorJornada.map(p=>p.fecha),
-      datasets:[
-        { label:'Presentes', data:presAusPorJornada.map(p=>p.si), borderColor:'#1B7A3E', backgroundColor:'rgba(27,122,62,0.08)', tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#1B7A3E' },
-        { label:'Ausentes', data:presAusPorJornada.map(p=>p.no), borderColor:'#D82B2B', backgroundColor:'rgba(216,43,43,0.08)', tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#D82B2B' }
-      ] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  new Chart(document.getElementById('barPresAus'), {
-    type:'bar',
-    data:{ labels:presAusPorJornada.map(p=>p.fecha),
-      datasets:[
-        { label:'Presentes', data:presAusPorJornada.map(p=>p.si), backgroundColor:'#1B7A3E', borderRadius:3, stack:'s' },
-        { label:'Ausentes', data:presAusPorJornada.map(p=>p.no), backgroundColor:'#e2e8f0', borderRadius:3, stack:'s' }
-      ] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-}
-
-// ===================== JUGADORES PAGE =====================
-let filteredJugadores = [...jugadoresList];
-let activeCatFilter = 'all';
-
-function buildJugadores() {
-  renderJugadoresList();
-
-  const catCounts = {};
-  jugadoresList.forEach(j => {
-    catCounts[j.cat] = (catCounts[j.cat] || 0) + 1;
-  });
-  const cats = Object.entries(catCounts).sort((a,b) => b[1]-a[1]).slice(0,10);
-
-  new Chart(document.getElementById('barJugadoresCat'), {
-    type:'bar',
-    data:{ labels:cats.map(c=>c[0]), datasets:[{ data:cats.map(c=>c[1]),
-      backgroundColor:'#D82B2B', borderRadius:4 }] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  const distDiv = document.getElementById('tira-dist-bars');
-  const maxN = Math.max(...tiraDist.map(t=>t.n));
-  tiraDist.forEach(t => {
-    const pct = Math.round(t.n / maxN * 100);
-    const color = tiraColors[t.tira] || '#888';
-    distDiv.innerHTML += `<div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px">
-        <div class="tira-label"><span class="tira-dot" style="background:${color}"></span>${t.tira.replace('Mega ','')}</div>
-        <span style="font-weight:700">${t.n}</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${color}"></div></div>
-    </div>`;
-  });
-
-  document.getElementById('search-jugador').addEventListener('input', function() {
-    filterJugadores(this.value, activeCatFilter);
-  });
-
-  document.querySelectorAll('#cat-filter-jugadores .fpill').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#cat-filter-jugadores .fpill').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      activeCatFilter = this.dataset.cat;
-      filterJugadores(document.getElementById('search-jugador').value, activeCatFilter);
-    });
-  });
-}
-
-function filterJugadores(search, cat) {
-  let filtered = jugadoresList;
-  if (cat !== 'all') {
-    if (cat === 'femenino') filtered = filtered.filter(j => j.cat.includes('F') || j.cat.includes('f'));
-    else if (cat === 'peques') filtered = filtered.filter(j => ['2019','2020','2021','2022'].includes(j.cat));
-    else filtered = filtered.filter(j => j.cat === cat);
-  }
-  if (search) filtered = filtered.filter(j => j.nombre.toLowerCase().includes(search.toLowerCase()));
-  renderJugadoresList(filtered);
-}
-
-function renderJugadoresList(list) {
-  const arr = list || jugadoresList;
-  const tbody = document.getElementById('jugadores-body');
-  tbody.innerHTML = '';
-  arr.forEach(j => {
-    tbody.innerHTML += `<tr>
-      <td class="name">${j.nombre}</td>
-      <td>${j.cat}</td>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[j.tira]||'#888'}"></span>${j.tira}</div></td>
-      <td class="num" style="${j.goles>0?'color:var(--rojo)':''}">${j.goles || '—'}</td>
-    </tr>`;
-  });
-  document.getElementById('jugadores-count').textContent = `${arr.length} jugadores`;
-}
-
-// ===================== PARTIDOS PAGE =====================
+let activeTira = 'TOTAL';
 let activeResFilter = 'all';
 
-function buildPartidos() {
-  renderPartidosList();
+const tiraColors = {
+  'TOTAL': '#1A1A1A', 'Mega Rojo': '#D82B2B', 'Mega Negro': '#374151',
+  'Mega Blanco': '#475569', 'Mega Violeta': '#7c3aed', 'Mega Verde': '#16a34a', 'Mega Peques': '#0891b2'
+};
 
-  const byFecha = {};
-  partidos.forEach(p => { byFecha[p.fecha] = (byFecha[p.fecha]||0) + 1; });
-  const fechas = Object.keys(byFecha).sort();
+function init() {
+  const container = document.getElementById('dashboard-container');
+  container.innerHTML = renderDashboard();
+  renderCharts();
 
-  new Chart(document.getElementById('barPartidosFecha'), {
-    type:'bar',
-    data:{ labels:fechas, datasets:[{ data:fechas.map(f=>byFecha[f]),
-      backgroundColor:'#D82B2B', borderRadius:4 }] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  // Acumulado G/E/P
-  let acumG = 0, acumE = 0, acumP = 0;
-  const cumData = { G:[], E:[], P:[] };
-  const sortedPartidos = [...partidos].sort((a,b) => a.fecha.localeCompare(b.fecha));
-  sortedPartidos.forEach(p => {
-    if (p.res==='G') acumG++;
-    else if (p.res==='E') acumE++;
-    else acumP++;
-    cumData.G.push(acumG); cumData.E.push(acumE); cumData.P.push(acumP);
-  });
-
-  new Chart(document.getElementById('lineResultadosCum'), {
-    type:'line',
-    data:{ labels:sortedPartidos.map((_,i)=>i+1),
-      datasets:[
-        { label:'V', data:cumData.G, borderColor:'#1B7A3E', tension:0.2, fill:false, pointRadius:2 },
-        { label:'E', data:cumData.E, borderColor:'#F5C842', tension:0.2, fill:false, pointRadius:2 },
-        { label:'D', data:cumData.P, borderColor:'#D82B2B', tension:0.2, fill:false, pointRadius:2 }
-      ] },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-      scales:{x:{grid:{display:false},ticks:{maxTicksLimit:10}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
-  });
-
-  document.querySelectorAll('#partidos-filter .fpill').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('#partidos-filter .fpill').forEach(b=>b.classList.remove('active'));
-      this.classList.add('active');
-      activeResFilter = this.dataset.res;
-      renderPartidosList();
-
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
       activeTira = tab.dataset.tira;
-container.innerHTML = renderDashboard(); // Esta ya la tienes
-renderCharts(); // <--- AGREGA ESTA LÍNEA AQUÍ
+      
+      // Actualizamos color de acento dinámico
+      document.documentElement.style.setProperty('--rojo', tiraColors[activeTira] || '#D82B2B');
+      
+      container.innerHTML = renderDashboard();
+      renderCharts(); // Re-dibuja gráficos al cambiar
     });
   });
 }
 
-function renderPartidosList() {
-  const filtered = activeResFilter === 'all' ? partidos : partidos.filter(p => p.res === activeResFilter);
-  const tbody = document.getElementById('partidos-body');
-  tbody.innerHTML = '';
-  filtered.forEach(p => {
-    const badge = p.res==='G' ? '<span class="badge badge-g">G</span>' : p.res==='E' ? '<span class="badge badge-e">E</span>' : '<span class="badge badge-p">P</span>';
-    const score = `${p.gf} - ${p.gc}`;
-    tbody.innerHTML += `<tr>
-      <td>${p.fecha}</td>
-      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira]||'#888'}"></span>${p.tira}</div></td>
-      <td style="color:var(--texto-muted)">${p.liga}</td>
-      <td class="name">${p.rival}</td>
-      <td class="center" style="color:var(--texto-muted)">${p.cat}</td>
-      <td class="num">${p.gf}</td>
-      <td class="num">${p.gc}</td>
-      <td class="center">${badge}</td>
-    </tr>`;
-  });
+function renderDashboard() {
+  let html = renderHeader(activeTira);
+  html += renderKpis(activeTira);
+  html += renderChartsContainer(activeTira);
+
+  if (activeTira === 'TOTAL') {
+    html += renderComparativa();
+    html += renderJornadas();
+    html += renderFullPartidosList(); // Lista de partidos global
+  } else {
+    // AQUÍ ESTÁ LA MAGIA: Traemos las tablas del index (7)
+    html += renderTablasJugadores(activeTira);
+  }
+
+  return html;
 }
 
-// ===================== INIT =====================
-buildResumen();
-buildEquipos();
-buildGoleadores();
-buildPresentismo();
-buildJugadores();
-buildPartidos();
+function renderTablasJugadores(tiraKey) {
+  const t = TIRAS[tiraKey];
+  if (!t || !t.cats) return '';
+
+  let res = '<div style="margin-top:20px">';
+  Object.keys(t.cats).forEach(catKey => {
+    if (catKey === 'Todos') return;
+    const c = t.cats[catKey];
+    const tid = `tbl-${tiraKey}-${catKey.replace(/\s/g,'')}`;
+    
+    res += `
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header" style="background:var(--negro); color:white; padding:12px 20px; border-radius:12px 12px 0 0; display:flex; justify-content:space-between; align-items:center">
+          <h3 style="margin:0; font-size:16px">⚽ Categoría ${catKey}</h3>
+          <span style="font-size:12px; opacity:0.8">${c.players.length} Jugadores</span>
+        </div>
+        <div class="table-responsive">
+          <table class="players-table" id="${tid}">
+            <thead>
+              <tr>
+                <th onclick="srt('${tid}',0,this)" data-t="n">#</th>
+                <th onclick="srt('${tid}',1,this)" data-t="s">Jugador</th>
+                <th onclick="srt('${tid}',2,this)" data-t="n" class="center">PJ</th>
+                <th onclick="srt('${tid}',3,this)" data-t="n" class="center">Goles</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${c.players.map((p, idx) => `
+                <tr>
+                  <td class="num" style="color:#888">${idx+1}</td>
+                  <td class="name">${p.n}</td>
+                  <td class="num center">${p.pj}</td>
+                  <td class="num center" style="font-weight:bold; color:var(--rojo)">${p.g}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  });
+  res += '</div>';
+  return res;
+}
+
+// (Continuará en la Parte 2 con las funciones auxiliares y renderCharts mejorado...)
+
 </script>
 </body>
 </html>
