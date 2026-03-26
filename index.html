@@ -1324,7 +1324,7 @@ function renderPartidosItems() {
     ? partidos 
     : partidos.filter(p => p.res === activeResFilter);
 
-  tbody.innerHTML = filtered.reverse().map(p => `
+ tbody.innerHTML = filtered.reverse().map(p => `
     <tr>
       <td style="font-size:12px; color:var(--texto-muted)">${p.fecha}</td>
       <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira] || '#888'}"></span>${p.tira}</div></td>
@@ -1334,9 +1334,25 @@ function renderPartidosItems() {
       <td class="num" style="font-weight:bold">${p.gf} - ${p.gc}</td>
     </tr>
   `).join('');
+} // <--- ESTA LLAVE CIERRA renderPartidosItems
 
-// Iniciar todo al cargar la página
-window.onload = init;
+// --- FUNCIÓN DE COMPATIBILIDAD PARA TUS BOTONES VIEJOS ---
+function showPage(tiraKey) {
+  activeTira = tiraKey;
+  const container = document.getElementById('dashboard-container');
+  
+  // Actualizar visual de botones
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tira === tiraKey || t.getAttribute('onclick')?.includes(tiraKey));
+  });
+
+  container.innerHTML = renderDashboard();
+  renderCharts();
+}
+
+// LANZADOR INICIAL
+window.onload = function() {
+  init();
+};
 </script>
-</body>
 </html>
