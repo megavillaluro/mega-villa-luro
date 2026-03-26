@@ -485,26 +485,6 @@ body {
 </header>
 
 <!-- ======== RESUMEN GENERAL ======== -->
-<div class="panel">
-  <div class="ph">Resumen general</div>
-  <div class="pb">
-
-    <div style="font-size:18px;font-weight:800;margin-bottom:10px;">
-      ⚽ Efectividad general: <span id="efectividad">0%</span>
-    </div>
-
-    <div id="insights" style="font-size:13px;line-height:1.5;"></div>
-
-  </div>
-</div>
-
-<div class="panel">
-  <div class="ph">Top goleadores</div>
-  <div class="pb">
-    <div id="topGoleadores"></div>
-  </div>
-</div>
-
 <div id="page-resumen" class="page active">
   <div class="banner">
     <div class="banner-text">
@@ -831,41 +811,6 @@ body {
 </div>
 
 <script>
-
-function generarInsights(jugadores){
-  if(!jugadores || jugadores.length === 0) return;
-
-  const goleadores = [...jugadores].sort((a,b)=>b.g-a.g);
-  const asistencia = [...jugadores].sort((a,b)=>(b.pj-b.x)-(a.pj-a.x));
-  const ausencias = [...jugadores].sort((a,b)=>b.x-a.x);
-
-  document.getElementById("insights").innerHTML = `
-    🏆 Goleador: ${goleadores[0].n} (${goleadores[0].g})<br>
-    📈 Mejor asistencia: ${asistencia[0].n}<br>
-    ⚠️ Más ausencias: ${ausencias[0].n} (${ausencias[0].x})
-  `;
-}
-
-function renderTopGoleadores(jugadores){
-  if(!jugadores || jugadores.length === 0) return;
-
-  const top = [...jugadores]
-    .sort((a,b)=>b.g-a.g)
-    .slice(0,3);
-
-  const html = top.map((p,i)=>`
-    <div style="display:flex;justify-content:space-between;padding:6px 0;">
-      <div>
-        ${i===0?"🥇":i===1?"🥈":"🥉"} ${p.n}
-        ${getBadge ? getBadge(p.n) : ""}
-      </div>
-      <div style="font-weight:700">${p.g}</div>
-    </div>
-  `).join("");
-
-  document.getElementById("topGoleadores").innerHTML = html;
-}
-
 // ===================== DATA =====================
 const tiraColors = {
   'Mega Villa Luro': '#D82B2B',
@@ -997,8 +942,6 @@ const partidos = [
 ];
 
 const jugadoresList = [
-    generarInsights(jugadores);
-renderTopGoleadores(jugadores);
   { nombre:'Anfuso, Francisco', cat:'2013', tira:'Mega Blanco', goles:0 },
   { nombre:'Campos Benítez, Darío', cat:'2013', tira:'Mega Blanco', goles:0 },
   { nombre:'Díaz Steckler, Dante', cat:'2013', tira:'Mega Negro', goles:0 },
