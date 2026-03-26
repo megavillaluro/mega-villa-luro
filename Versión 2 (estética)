@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mega Villa Luro 2026 — Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,900;1,700&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo: #D82B2B;
+  --verde: #1B7A3E;
+  --negro: #1A1A1A;
+  --blanco-crema: #FAF8F3;
+  --amarillo: #F5C842;
+  --gris-claro: #F0EDE8;
+  --gris-borde: #DDD8D0;
+  --texto: #1A1A1A;
+  --texto-muted: #6B6560;
+  --bg-page: #EDECE8;
+  --violeta: #5B3FA5;
+  --azul: #2563EB;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--bg-page);
+  color: var(--texto);
+  min-height: 100vh;
+}
+ 
+/* === HEADER === */
+.site-header {
+  background: var(--negro);
+  padding: 0 32px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--rojo);
+}
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 32px 14px 0;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  margin-right: 20px;
+}
+.logo-escudo {
+  width: 44px;
+  height: 44px;
+  background: var(--rojo);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: -1px;
+  flex-shrink: 0;
+}
+.logo-text { line-height: 1; }
+.logo-text .club { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; color: #fff; letter-spacing: 0.5px; text-transform: uppercase; }
+.logo-text .year { font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+
+/* === NAV TABS === */
+.nav-tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  flex: 1;
+}
+.nav-tab {
+  padding: 0 20px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  white-space: nowrap;
+}
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--rojo);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-tab:hover { color: rgba(255,255,255,0.8); }
+.nav-tab.active { color: #fff; }
+.nav-tab.active::after { transform: scaleX(1); }
+
+/* === PAGE === */
+.page { display: none; padding: 28px 32px; max-width: 1440px; margin: 0 auto; }
+.page.active { display: block; animation: slideIn 0.3s ease; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === PAGE TITLE === */
+.page-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.page-title h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 32px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--negro);
+}
+.page-title .subtitle {
+  font-size: 13px;
+  color: var(--texto-muted);
+  font-weight: 600;
+}
+
+/* === KPI GRID === */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.kpi-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px 20px;
+  border: 1px solid var(--gris-borde);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.kpi-card.red::before { background: var(--rojo); }
+.kpi-card.green::before { background: var(--verde); }
+.kpi-card.amber::before { background: var(--amarillo); }
+.kpi-card.blue::before { background: var(--azul); }
+.kpi-card.violet::before { background: var(--violeta); }
+.kpi-card.dark::before { background: var(--negro); }
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texto-muted);
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1;
+  color: var(--negro);
+}
+.kpi-sub {
+  font-size: 11px;
+  color: var(--texto-muted);
+  margin-top: 5px;
+}
+
+/* === SECTIONS === */
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--texto-muted);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+/* === GRID LAYOUTS === */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.grid-col-l { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+.grid-col-r { display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 24px; }
+
+/* === CARD === */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--gris-borde);
+  overflow: hidden;
+}
+.card-head {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--gris-borde);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--texto-muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-body { padding: 20px; }
+
+/* === TABLES === */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  background: var(--blanco-crema);
+  padding: 10px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--texto-muted);
+  border-bottom: 1px solid var(--gris-borde);
+  text-align: left;
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #F5F3EF;
+  color: var(--texto);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--blanco-crema); }
+.data-table td.center { text-align: center; }
+.data-table td.num {
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+}
+.data-table td.name { font-weight: 600; }
+
+/* === BADGES === */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.badge-g { background: #D4EDDA; color: #155724; }
+.badge-p { background: #F8D7DA; color: #721C24; }
+.badge-e { background: #FFF3CD; color: #856404; }
+.badge-pos { background: #D4EDDA; color: #155724; }
+.badge-neg { background: #F8D7DA; color: #721C24; }
+
+/* === TIRA DOTS === */
+.tira-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.tira-label { display: flex; align-items: center; }
+
+/* === PROGRESS BAR === */
+.prog-bar {
+  height: 6px;
+  background: var(--gris-claro);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.prog-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+
+/* === CHART WRAPPER === */
+.chart-wrap { position: relative; width: 100%; }
+.chart-wrap.h220 { height: 220px; }
+.chart-wrap.h260 { height: 260px; }
+.chart-wrap.h300 { height: 300px; }
+.chart-wrap.h350 { height: 350px; }
+
+/* === TEAM STANDINGS TABLE === */
+.standing-row { transition: background 0.15s; cursor: default; }
+.standing-row:hover td { background: var(--blanco-crema); }
+
+/* === PLAYER SEARCH === */
+.search-input {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--gris-borde);
+  border-radius: 6px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  background: var(--blanco-crema);
+  margin-bottom: 12px;
+  outline: none;
+}
+.search-input:focus { border-color: var(--rojo); background: #fff; }
+
+/* === SCROLLABLE TABLE CONTAINER === */
+.table-scroll { max-height: 380px; overflow-y: auto; }
+.table-scroll::-webkit-scrollbar { width: 4px; }
+.table-scroll::-webkit-scrollbar-track { background: transparent; }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--gris-borde); border-radius: 2px; }
+
+/* === STAT ROW METRIC === */
+.stat-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #F5F3EF; }
+.stat-row:last-child { border-bottom: none; }
+.stat-key { font-size: 13px; color: var(--texto-muted); }
+.stat-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: var(--negro); }
+
+/* === FORM LINE (partido a partido) === */
+.form-box {
+  display: inline-flex;
+  width: 24px; height: 24px;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 3px;
+}
+.form-g { background: #D4EDDA; color: #155724; }
+.form-e { background: #FFF3CD; color: #856404; }
+.form-p { background: #F8D7DA; color: #721C24; }
+
+/* === FILTER PILLS === */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.fpill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--gris-borde);
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--texto-muted);
+}
+.fpill:hover { border-color: var(--rojo); color: var(--rojo); }
+.fpill.active { background: var(--rojo); color: #fff; border-color: var(--rojo); }
+
+/* === RANK NUMBER === */
+.rank { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 18px; color: var(--gris-borde); width: 24px; display: inline-block; }
+.rank-gold { color: #C49A00; }
+.rank-silver { color: #8B9AAB; }
+.rank-bronze { color: #A0714E; }
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .grid-2, .grid-col-l, .grid-col-r { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 700px) {
+  .page { padding: 16px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: 1fr; }
+  .site-header { padding: 0 16px; }
+}
+
+/* === RESUMEN GENERAL DARK BANNER === */
+.banner {
+  background: var(--negro);
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.banner-text h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.banner-text p { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.banner-stats { display: flex; gap: 32px; }
+.banner-stat { text-align: center; }
+.banner-stat .bv {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--amarillo);
+}
+.banner-stat .bl { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* === TIRA COLORS === */
+.t-blanco { background: #888; }
+.t-negro { background: #222; }
+.t-rojo { background: #D82B2B; }
+.t-violeta { background: #5B3FA5; }
+.t-verde { background: #1B7A3E; }
+.t-peques { background: #E87B3A; }
+.t-adultas { background: #2563EB; }
+.t-mvl { background: #D82B2B; }
+
+/* === DONUT LEGEND === */
+.donut-legend { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+.dl-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.dl-sq { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.dl-pct { font-weight: 700; margin-left: auto; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; }
+
+/* === JORNADA TIMELINE === */
+.jornada-timeline { display: flex; flex-direction: column; gap: 12px; }
+.jornada-item { display: flex; align-items: center; gap: 12px; }
+.jornada-dot { width: 36px; height: 36px; border-radius: 50%; background: var(--rojo); display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; color: #fff; font-size: 13px; flex-shrink: 0; }
+.jornada-info { flex: 1; }
+.jornada-date { font-size: 11px; color: var(--texto-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.jornada-rival { font-weight: 700; font-size: 14px; }
+.jornada-res { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; }
+
+/* === TEAM CARD (Tira overview) === */
+.team-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.team-card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid var(--gris-borde);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.team-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.team-card-header { height: 5px; }
+.team-card-body { padding: 16px; }
+.team-card-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+.team-mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.tm-stat { text-align: center; }
+.tm-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; line-height: 1; }
+.tm-lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-muted); margin-top: 2px; }
+.form-mini { display: flex; gap: 3px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-area">
+    <div class="logo-escudo">MVL</div>
+    <div class="logo-text">
+      <div class="club">Mega Villa Luro</div>
+      <div class="year">Temporada 2026</div>
+    </div>
+  </div>
+  <nav class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('resumen')">Resumen</button>
+    <button class="nav-tab" onclick="showPage('equipos')">Equipos</button>
+    <button class="nav-tab" onclick="showPage('goleadores')">Goleadores</button>
+    <button class="nav-tab" onclick="showPage('presentismo')">Presentismo</button>
+    <button class="nav-tab" onclick="showPage('jugadores')">Jugadores</button>
+    <button class="nav-tab" onclick="showPage('partidos')">Partidos</button>
+  </nav>
+</header>
+
+<!-- ======== RESUMEN GENERAL ======== -->
+<div id="page-resumen" class="page active">
+  <div class="banner">
+    <div class="banner-text">
+      <h2>Temporada 2026 — Amistosos</h2>
+      <p>Resultados actualizados al 21/03/2026 · 5 jornadas jugadas</p>
+    </div>
+    <div class="banner-stats">
+      <div class="banner-stat"><div class="bv">60</div><div class="bl">Partidos</div></div>
+      <div class="banner-stat"><div class="bv">217</div><div class="bl">Goles</div></div>
+      <div class="banner-stat"><div class="bv">399</div><div class="bl">Jugadores</div></div>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card red">
+      <div class="kpi-label">Victorias totales</div>
+      <div class="kpi-value">31</div>
+      <div class="kpi-sub">de 60 partidos</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">% Efectividad global</div>
+      <div class="kpi-value">55%</div>
+      <div class="kpi-sub">G / PJ totales</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Goles a favor</div>
+      <div class="kpi-value">229</div>
+      <div class="kpi-sub">Promedio 3.8 / partido</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Goles en contra</div>
+      <div class="kpi-value">186</div>
+      <div class="kpi-sub">Promedio 3.1 / partido</div>
+    </div>
+    <div class="kpi-card violet">
+      <div class="kpi-label">Mejor equipo</div>
+      <div class="kpi-value" style="font-size:22px;">Violeta</div>
+      <div class="kpi-sub">4G / 4PJ — 100%</div>
+    </div>
+    <div class="kpi-card dark">
+      <div class="kpi-label">Top Goleador</div>
+      <div class="kpi-value" style="font-size:18px; line-height:1.2;">Cortina</div>
+      <div class="kpi-sub">11 goles · Rojo</div>
+    </div>
+  </div>
+
+  <div class="grid-col-l">
+    <!-- Tabla de posiciones -->
+    <div class="card">
+      <div class="card-head">
+        Posiciones por equipo
+        <span style="font-size:11px;font-weight:400;color:var(--texto-muted)">PJ · G · E · P · GF · GC · DIF · PTS</span>
+      </div>
+      <div class="card-body" style="padding:0">
+        <table class="data-table">
+          <thead><tr>
+            <th>#</th><th>Equipo</th><th class="center">PJ</th><th class="center">G</th><th class="center">E</th><th class="center">P</th><th class="center">GF</th><th class="center">GC</th><th class="center">Dif</th><th class="center">Pts</th>
+          </tr></thead>
+          <tbody id="tabla-posiciones"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Chart resultados + donut -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="card">
+        <div class="card-head">Resultados globales</div>
+        <div class="card-body" style="display:flex;align-items:center;gap:20px">
+          <div class="chart-wrap" style="height:180px;flex:1">
+            <canvas id="donutResultados"></canvas>
+          </div>
+          <div class="donut-legend" id="legend-resultados"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">Goles GF vs GC por equipo</div>
+        <div class="card-body">
+          <div class="chart-wrap h220"><canvas id="barGolesEquipo"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Efectividad por equipo -->
+  <div class="card" style="margin-bottom:24px">
+    <div class="card-head">Rendimiento por equipo — % victorias</div>
+    <div class="card-body">
+      <div id="efect-bars"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== EQUIPOS ======== -->
+<div id="page-equipos" class="page">
+  <div class="page-title"><h1>Equipos</h1><span class="subtitle">Detalle por tira</span></div>
+
+  <div class="team-cards" id="team-cards-grid"></div>
+
+  <!-- Filtro tiras -->
+  <div class="filter-row" id="tira-filter">
+    <button class="fpill active" data-tira="all">Todos</button>
+    <button class="fpill" data-tira="Mega Villa Luro">Mega Villa Luro</button>
+    <button class="fpill" data-tira="Mega Rojo">Rojo</button>
+    <button class="fpill" data-tira="Mega Blanco">Blanco</button>
+    <button class="fpill" data-tira="Mega Negro">Negro</button>
+    <button class="fpill" data-tira="Mega Violeta">Violeta</button>
+    <button class="fpill" data-tira="Mega Verde">Verde</button>
+    <button class="fpill" data-tira="Mega Peques">Peques</button>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Resultados por equipo</div>
+      <div class="card-body">
+        <div class="chart-wrap h300"><canvas id="barResultadosTira"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Goles anotados vs recibidos</div>
+      <div class="card-body">
+        <div class="chart-wrap h300"><canvas id="barDifGoles"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Tabla completa por categoría</div>
+    <div class="card-body" style="padding:0">
+      <div class="table-scroll">
+        <table class="data-table" id="tabla-categorias">
+          <thead><tr>
+            <th>Tira</th><th>Categoría</th><th class="center">PJ</th><th class="center">G</th><th class="center">E</th><th class="center">P</th><th class="center">GF</th><th class="center">GC</th><th class="center">Dif</th><th class="center">Pts</th>
+          </tr></thead>
+          <tbody id="tabla-cat-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== GOLEADORES ======== -->
+<div id="page-goleadores" class="page">
+  <div class="page-title"><h1>Goleadores</h1><span class="subtitle">Temporada 2026</span></div>
+
+  <div class="grid-col-r">
+    <!-- Ranking -->
+    <div class="card">
+      <div class="card-head">Top 15 goleadores</div>
+      <div class="card-body" style="padding:0">
+        <table class="data-table" id="tabla-goleadores">
+          <thead><tr><th>#</th><th>Jugador</th><th class="center">Goles</th><th>Tira</th></tr></thead>
+          <tbody id="goleadores-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <!-- Chart goles por categoría -->
+      <div class="card">
+        <div class="card-head">Goles por categoría</div>
+        <div class="card-body">
+          <div class="chart-wrap h260"><canvas id="barGolesCat"></canvas></div>
+        </div>
+      </div>
+      <!-- Chart goles por tira -->
+      <div class="card">
+        <div class="card-head">Goles por equipo (tira)</div>
+        <div class="card-body">
+          <div class="chart-wrap h220"><canvas id="barGolesTira"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goles por jornada -->
+  <div class="card">
+    <div class="card-head">Goles por jornada</div>
+    <div class="card-body">
+      <div class="chart-wrap h220"><canvas id="lineGolesJornada"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PRESENTISMO ======== -->
+<div id="page-presentismo" class="page">
+  <div class="page-title"><h1>Presentismo</h1><span class="subtitle">Asistencia a partidos</span></div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card red">
+      <div class="kpi-label">Promedio asistencia</div>
+      <div class="kpi-value">81%</div>
+      <div class="kpi-sub">Por jornada</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Pico asistencia</div>
+      <div class="kpi-value">114</div>
+      <div class="kpi-sub">07/03 — Mega Villa Luro</div>
+    </div>
+    <div class="kpi-card amber">
+      <div class="kpi-label">Jornadas jugadas</div>
+      <div class="kpi-value">5</div>
+      <div class="kpi-sub">Feb — Mar 2026</div>
+    </div>
+    <div class="kpi-card blue">
+      <div class="kpi-label">Jugadores únicos</div>
+      <div class="kpi-value">399</div>
+      <div class="kpi-sub">Base de datos 2026</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-head">Evolución asistencia por jornada</div>
+      <div class="card-body">
+        <div class="chart-wrap h260"><canvas id="linePresJornada"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Distribución presentismo vs ausentismo</div>
+      <div class="card-body">
+        <div class="chart-wrap h260"><canvas id="barPresAus"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">Detalle por jornada y equipo</div>
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead><tr><th>Jornada</th><th>Fecha</th><th>Equipo</th><th>Rival</th><th class="center">Presentes</th><th class="center">Goles</th></tr></thead>
+        <tbody id="pres-tabla-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ======== JUGADORES ======== -->
+<div id="page-jugadores" class="page">
+  <div class="page-title"><h1>Jugadores</h1><span class="subtitle">399 registrados</span></div>
+
+  <div class="filter-row" id="cat-filter-jugadores">
+    <button class="fpill active" data-cat="all">Todos</button>
+    <button class="fpill" data-cat="2013">2013</button>
+    <button class="fpill" data-cat="2014">2014</button>
+    <button class="fpill" data-cat="2015">2015</button>
+    <button class="fpill" data-cat="2016">2016</button>
+    <button class="fpill" data-cat="2017">2017</button>
+    <button class="fpill" data-cat="2018">2018</button>
+    <button class="fpill" data-cat="femenino">Femenino</button>
+    <button class="fpill" data-cat="peques">Peques</button>
+  </div>
+
+  <div class="grid-col-l">
+    <div class="card">
+      <div class="card-head">Listado de jugadores</div>
+      <div style="padding:12px 20px 0">
+        <input class="search-input" type="text" id="search-jugador" placeholder="Buscar por nombre...">
+      </div>
+      <div class="table-scroll">
+        <table class="data-table">
+          <thead><tr><th>Nombre</th><th>Categoría</th><th>Tira</th><th class="center">Goles</th></tr></thead>
+          <tbody id="jugadores-body"></tbody>
+        </table>
+      </div>
+      <div style="padding:10px 20px;font-size:11px;color:var(--texto-muted);border-top:1px solid var(--gris-borde)">
+        <span id="jugadores-count">— jugadores</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="card">
+        <div class="card-head">Jugadores por categoría</div>
+        <div class="card-body">
+          <div class="chart-wrap h260"><canvas id="barJugadoresCat"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">Distribución por tira</div>
+        <div class="card-body">
+          <div id="tira-dist-bars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PARTIDOS ======== -->
+<div id="page-partidos" class="page">
+  <div class="page-title"><h1>Partidos</h1><span class="subtitle">Todos los resultados 2026</span></div>
+
+  <div class="filter-row" id="partidos-filter">
+    <button class="fpill active" data-res="all">Todos</button>
+    <button class="fpill" data-res="G">Victorias</button>
+    <button class="fpill" data-res="E">Empates</button>
+    <button class="fpill" data-res="P">Derrotas</button>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:0">
+    <div class="card">
+      <div class="card-head">Partidos por fecha</div>
+      <div class="card-body">
+        <div class="chart-wrap h220"><canvas id="barPartidosFecha"></canvas></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">Evolución resultados acumulados</div>
+      <div class="card-body">
+        <div class="chart-wrap h220"><canvas id='lineResultadosCum'></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <div class="card-head">Todos los partidos</div>
+    <div class="card-body" style="padding:0">
+      <div class="table-scroll" style="max-height:500px">
+        <table class="data-table">
+          <thead><tr><th>Fecha</th><th>Tira</th><th>Liga</th><th>Rival</th><th class="center">Cat.</th><th class="center">GF</th><th class="center">GC</th><th class="center">Res.</th></tr></thead>
+          <tbody id="partidos-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+const tiraColors = {
+  'Mega Villa Luro': '#D82B2B',
+  'Mega Rojo': '#D82B2B',
+  'Mega Blanco': '#888',
+  'Mega Negro': '#222',
+  'Mega Violeta': '#5B3FA5',
+  'Mega Verde': '#1B7A3E',
+  'Mega Peques': '#E87B3A',
+  'Mega Adultas': '#2563EB'
+};
+
+const standings = [
+  { tira:'Mega Villa Luro', pj:20, g:13, e:2, p:5, gf:83, gc:60, pts:41 },
+  { tira:'Mega Violeta',    pj:4,  g:4,  e:0, p:0, gf:18, gc:1,  pts:12 },
+  { tira:'Mega Rojo',       pj:10, g:5,  e:2, p:3, gf:53, gc:27, pts:17 },
+  { tira:'Mega Blanco',     pj:9,  g:4,  e:0, p:5, gf:35, gc:25, pts:12 },
+  { tira:'Mega Verde',      pj:5,  g:2,  e:0, p:3, gf:18, gc:26, pts:6 },
+  { tira:'Mega Negro',      pj:10, g:3,  e:0, p:7, gf:17, gc:39, pts:9 },
+  { tira:'Mega Peques',     pj:1,  g:0,  e:1, p:0, gf:4,  gc:4,  pts:1 },
+  { tira:'Mega Adultas',    pj:1,  g:0,  e:0, p:1, gf:1,  gc:4,  pts:0 },
+].map(r => ({ ...r, dif: r.gf - r.gc, efect: Math.round(r.g / r.pj * 100) }));
+
+const goleadores = [
+  { nombre:'Cortina, Luca',              goles:11, tira:'Mega Rojo',       cat:'2014' },
+  { nombre:'Martínez Saavedra, León',    goles:11, tira:'Mega Rojo',       cat:'2015' },
+  { nombre:'Gandini, Bruno',             goles:10, tira:'Mega Rojo',       cat:'2013' },
+  { nombre:'López, Lautaro',             goles:9,  tira:'Mega Rojo',       cat:'2013' },
+  { nombre:'Reck Diez, Danilo',          goles:8,  tira:'Mega Rojo',       cat:'2013' },
+  { nombre:'Carrera, Luiggi',            goles:8,  tira:'Mega Negro',      cat:'2015' },
+  { nombre:'García Orozco, Luciano',     goles:6,  tira:'Mega Rojo',       cat:'2014' },
+  { nombre:'Ramos Miranda, Benjamín',    goles:6,  tira:'Mega Rojo',       cat:'2015' },
+  { nombre:'Sande Feliu, Federico',      goles:6,  tira:'Mega Negro',      cat:'2014' },
+  { nombre:'Rocchi, Simón',              goles:6,  tira:'Mega Rojo',       cat:'2015' },
+  { nombre:'Fortunato Tobio, Marco',     goles:5,  tira:'Mega Rojo',       cat:'2013' },
+  { nombre:'Formoso, Lautaro',           goles:5,  tira:'Mega Villa Luro', cat:'2019' },
+  { nombre:'Gloazzo Rombola, Dante',     goles:5,  tira:'Mega Rojo',       cat:'2014' },
+  { nombre:'Ferrer, Mateo',              goles:5,  tira:'Mega Rojo',       cat:'2015' },
+  { nombre:'Grillo, Clementina',         goles:5,  tira:'Mega Violeta',    cat:'2016F' },
+];
+
+const golesCat = [
+  { cat:'2013', goles:43 }, { cat:'2014', goles:39 }, { cat:'2016', goles:39 },
+  { cat:'2015', goles:32 }, { cat:'2017', goles:21 }, { cat:'5ta', goles:18 },
+  { cat:'FF 2014/15', goles:7 }, { cat:'FF 2016/17', goles:6 },
+  { cat:'2019', goles:6 }, { cat:'FF 2012/13', goles:3 },
+];
+
+const golesTira = [
+  { tira:'Mega Rojo', goles:155 }, { tira:'Mega Villa Luro', goles:217 },
+  { tira:'Mega Negro', goles:42 }, { tira:'Mega Blanco', goles:67 },
+  { tira:'Mega Violeta', goles:28 }, { tira:'Mega Verde', goles:18 },
+];
+
+const presentismo = [
+  { jornada:1, fecha:'21/02', equipo:'Mega Villa Luro', rival:'Club Leones', presentes:59,  goles:25 },
+  { jornada:2, fecha:'28/02', equipo:'Mega Villa Luro', rival:'Asoc. Española', presentes:73, goles:25 },
+  { jornada:3, fecha:'07/03', equipo:'Mega Villa Luro', rival:'Agronomía Central', presentes:114, goles:42 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Adultas',    rival:'Los Canteros', presentes:13,  goles:1 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Blanco',     rival:'Toque y Toque', presentes:34,  goles:20 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Negro',      rival:'El Ideal', presentes:52,  goles:11 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Rojo',       rival:'Toque y Toque', presentes:52,  goles:13 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Verde',      rival:'Toque y Toque', presentes:11,  goles:1 },
+  { jornada:4, fecha:'14/03', equipo:'Mega Violeta',    rival:'Club Saenz Peña', presentes:34, goles:18 },
+  { jornada:5, fecha:'21/03', equipo:'Mega Blanco',     rival:'Marathon', presentes:50,  goles:11 },
+  { jornada:5, fecha:'21/03', equipo:'Mega Negro',      rival:'Flores Club', presentes:44,  goles:0 },
+  { jornada:5, fecha:'21/03', equipo:'Mega Peques',     rival:'Villa Gral. Mitre', presentes:15, goles:4 },
+  { jornada:5, fecha:'21/03', equipo:'Mega Rojo',       rival:'Villa Gral. Mitre', presentes:31, goles:40 },
+  { jornada:5, fecha:'21/03', equipo:'Mega Verde',      rival:'Villa Gral. Mitre', presentes:10, goles:6 },
+];
+
+const presAusPorJornada = [
+  { fecha:'21/02', si:59, no:11, pct:0.843 },
+  { fecha:'28/02', si:73, no:19, pct:0.793 },
+  { fecha:'07/03', si:114, no:11, pct:0.912 },
+  { fecha:'14/03', si:196, no:36, pct:0.845 },
+  { fecha:'21/03', si:150, no:14, pct:0.914 },
+];
+
+const partidos = [
+  { fecha:'21/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Club Leones', cat:'2013', gf:7, gc:3, res:'G' },
+  { fecha:'21/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Club Leones', cat:'2014', gf:5, gc:3, res:'G' },
+  { fecha:'21/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Club Leones', cat:'2015', gf:2, gc:6, res:'P' },
+  { fecha:'21/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Club Leones', cat:'2016', gf:5, gc:1, res:'G' },
+  { fecha:'21/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Club Leones', cat:'2017', gf:3, gc:1, res:'G' },
+  { fecha:'21/02', tira:'Mega Verde', liga:'Amistoso', rival:'Club Leones', cat:'5ta', gf:3, gc:6, res:'P' },
+  { fecha:'28/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Asoc. Española', cat:'2013', gf:3, gc:1, res:'G' },
+  { fecha:'28/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Asoc. Española', cat:'2014', gf:5, gc:2, res:'G' },
+  { fecha:'28/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Asoc. Española', cat:'2015', gf:6, gc:5, res:'G' },
+  { fecha:'28/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Asoc. Española', cat:'2016', gf:3, gc:2, res:'G' },
+  { fecha:'28/02', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Asoc. Española', cat:'2017', gf:3, gc:3, res:'E' },
+  { fecha:'28/02', tira:'Mega Verde', liga:'Amistoso', rival:'Asoc. Española', cat:'5ta', gf:5, gc:3, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Agronomía Central', cat:'2013', gf:9, gc:4, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Agronomía Central', cat:'2014', gf:8, gc:4, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Agronomía Central', cat:'2015', gf:5, gc:3, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Agronomía Central', cat:'2016', gf:6, gc:2, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Agronomía Central', cat:'2017', gf:3, gc:5, res:'P' },
+  { fecha:'07/03', tira:'Mega Verde', liga:'Amistoso', rival:'Agronomía Central', cat:'5ta', gf:3, gc:4, res:'P' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Flores Club', cat:'2013', gf:2, gc:6, res:'P' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Flores Club', cat:'2014', gf:4, gc:1, res:'G' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Flores Club', cat:'2015', gf:2, gc:3, res:'P' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Flores Club', cat:'2016', gf:0, gc:3, res:'P' },
+  { fecha:'07/03', tira:'Mega Villa Luro', liga:'Amistoso', rival:'Flores Club', cat:'2018', gf:2, gc:2, res:'E' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2013', gf:5, gc:3, res:'G' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2014', gf:2, gc:3, res:'P' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2015', gf:3, gc:3, res:'E' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2016', gf:2, gc:2, res:'E' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2017', gf:1, gc:5, res:'P' },
+  { fecha:'14/03', tira:'Mega Rojo', liga:'FEFI', rival:'Toque y Toque', cat:'2018', gf:0, gc:4, res:'P' },
+  { fecha:'14/03', tira:'Mega Negro', liga:'Amistoso', rival:'El Ideal', cat:'2013', gf:0, gc:1, res:'P' },
+  { fecha:'14/03', tira:'Mega Negro', liga:'Amistoso', rival:'El Ideal', cat:'2014', gf:0, gc:1, res:'P' },
+  { fecha:'14/03', tira:'Mega Negro', liga:'Amistoso', rival:'El Ideal', cat:'2015', gf:0, gc:3, res:'P' },
+  { fecha:'14/03', tira:'Mega Negro', liga:'Amistoso', rival:'El Ideal', cat:'2016', gf:0, gc:3, res:'P' },
+  { fecha:'14/03', tira:'Mega Negro', liga:'Amistoso', rival:'El Ideal', cat:'2017', gf:0, gc:3, res:'P' },
+  { fecha:'14/03', tira:'Mega Blanco', liga:'Amistoso', rival:'Toque y Toque B', cat:'Mixto', gf:11, gc:3, res:'G' },
+  { fecha:'14/03', tira:'Mega Violeta', liga:'Amistoso', rival:'Club Saenz Peña', cat:'2013F', gf:5, gc:0, res:'G' },
+  { fecha:'14/03', tira:'Mega Violeta', liga:'Amistoso', rival:'Club Saenz Peña', cat:'2016F', gf:4, gc:0, res:'G' },
+  { fecha:'14/03', tira:'Mega Adultas', liga:'Amistoso', rival:'Los Canteros', cat:'Adultas', gf:4, gc:5, res:'P' },
+  { fecha:'21/03', tira:'Mega Blanco', liga:'Amistoso', rival:'Marathon', cat:'Mixto', gf:2, gc:6, res:'P' },
+  { fecha:'21/03', tira:'Mega Negro', liga:'Amistoso', rival:'Flores Club', cat:'2013', gf:3, gc:1, res:'G' },
+  { fecha:'21/03', tira:'Mega Negro', liga:'Amistoso', rival:'Flores Club', cat:'2014', gf:5, gc:2, res:'G' },
+  { fecha:'21/03', tira:'Mega Negro', liga:'Amistoso', rival:'Flores Club', cat:'2015', gf:2, gc:2, res:'E' },
+  { fecha:'21/03', tira:'Mega Negro', liga:'Amistoso', rival:'Flores Club', cat:'2016', gf:5, gc:3, res:'G' },
+  { fecha:'21/03', tira:'Mega Rojo', liga:'Amistoso', rival:'Villa Gral. Mitre', cat:'2013', gf:6, gc:0, res:'G' },
+  { fecha:'21/03', tira:'Mega Rojo', liga:'Amistoso', rival:'Villa Gral. Mitre', cat:'2014', gf:8, gc:2, res:'G' },
+  { fecha:'21/03', tira:'Mega Rojo', liga:'Amistoso', rival:'Villa Gral. Mitre', cat:'2016', gf:9, gc:0, res:'G' },
+  { fecha:'21/03', tira:'Mega Verde', liga:'Amistoso', rival:'Villa Gral. Mitre', cat:'5ta', gf:6, gc:0, res:'G' },
+  { fecha:'21/03', tira:'Mega Peques', liga:'Amistoso', rival:'Villa Gral. Mitre', cat:'2019', gf:7, gc:0, res:'G' },
+];
+
+const jugadoresList = [
+  { nombre:'Anfuso, Francisco', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'Campos Benítez, Darío', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'Díaz Steckler, Dante', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Fortunato Tobio, Marco', cat:'2013', tira:'Mega Rojo', goles:5 },
+  { nombre:'Gandini, Bruno', cat:'2013', tira:'Mega Rojo', goles:10 },
+  { nombre:'García Lo Schiavo, Simón', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'Lencina, Santiago', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'López, Lautaro', cat:'2013', tira:'Mega Rojo', goles:9 },
+  { nombre:'Medina, Enzo', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'Moreno Bartomeu, Augusto', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Orsini, Agustín', cat:'2013', tira:'Mega Rojo', goles:4 },
+  { nombre:'Reck Diez, Danilo', cat:'2013', tira:'Mega Rojo', goles:8 },
+  { nombre:'Regina, Joaquín', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Riondini, Santiago', cat:'2013', tira:'Mega Rojo', goles:0 },
+  { nombre:'Roldán, Joaquín', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Sodini, Tomás', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Tortorello, Lautaro', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Verdugo, Tiziano', cat:'2013', tira:'Mega Blanco', goles:4 },
+  { nombre:'Villaverde Perazzo, Pedro', cat:'2013', tira:'Mega Blanco', goles:0 },
+  { nombre:'Wahlmann, Simón', cat:'2013', tira:'Mega Negro', goles:0 },
+  { nombre:'Almirón Soler, Tobías', cat:'2014', tira:'Mega Blanco', goles:0 },
+  { nombre:'Aranda Abad, Tomás', cat:'2014', tira:'Mega Blanco', goles:0 },
+  { nombre:'Azocar González, Noah', cat:'2014', tira:'Mega Rojo', goles:0 },
+  { nombre:'Chacolla, Marcos', cat:'2014', tira:'Mega Blanco', goles:0 },
+  { nombre:'Chaves, Augusto', cat:'2014', tira:'Mega Negro', goles:0 },
+  { nombre:'Cortina, Luca', cat:'2014', tira:'Mega Rojo', goles:11 },
+  { nombre:'Di Palma, Luca', cat:'2014', tira:'Mega Rojo', goles:0 },
+  { nombre:'Fusi, Agustín', cat:'2014', tira:'Mega Rojo', goles:4 },
+  { nombre:'García Orozco, Luciano', cat:'2014', tira:'Mega Rojo', goles:6 },
+  { nombre:'Garbini Seijo, Ulises', cat:'2014', tira:'Mega Negro', goles:0 },
+  { nombre:'Gennasi, Gabriel', cat:'2014', tira:'Mega Negro', goles:0 },
+  { nombre:'Gloazzo Rombola, Dante', cat:'2014', tira:'Mega Rojo', goles:5 },
+  { nombre:'Guenul, Marcos', cat:'2014', tira:'Mega Blanco', goles:0 },
+  { nombre:'Messina, Facundo', cat:'2014', tira:'Mega Blanco', goles:0 },
+  { nombre:'Álvarez, Mailo', cat:'2015', tira:'Mega Rojo', goles:0 },
+  { nombre:'Battistotti, Gino', cat:'2015', tira:'Mega Negro', goles:0 },
+  { nombre:'Carrera, Luiggi', cat:'2015', tira:'Mega Negro', goles:8 },
+  { nombre:'D\'Eramo, Ramiro', cat:'2015', tira:'Mega Negro', goles:0 },
+  { nombre:'Ferrer, Mateo', cat:'2015', tira:'Mega Rojo', goles:5 },
+  { nombre:'Gervasi, Benjamín', cat:'2015', tira:'Mega Rojo', goles:0 },
+  { nombre:'Iglesias, Simón', cat:'2015', tira:'Mega Rojo', goles:0 },
+  { nombre:'Lozano Irace, Benjamín', cat:'2015', tira:'Mega Negro', goles:0 },
+  { nombre:'Martínez Saavedra, León', cat:'2015', tira:'Mega Rojo', goles:11 },
+  { nombre:'Pulice, Ciro', cat:'2015', tira:'Mega Negro', goles:0 },
+  { nombre:'Ramos Miranda, Benjamín', cat:'2015', tira:'Mega Rojo', goles:6 },
+  { nombre:'Rocchi, Simón', cat:'2015', tira:'Mega Rojo', goles:6 },
+  { nombre:'Cugliari, Francesca', cat:'2010F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Miranda, Milena', cat:'2010F', tira:'Mega Violeta', goles:0 },
+  { nombre:'García Orozco, Belén', cat:'2011F', tira:'Mega Violeta', goles:0 },
+  { nombre:'González Couyet, Victoria', cat:'2011F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Grillo, Clementina', cat:'2016F', tira:'Mega Violeta', goles:5 },
+  { nombre:'Ducasse, Amalia', cat:'2017F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Forcinito, Francesca', cat:'2017F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Giménez, Isabella', cat:'2017F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Zapata, Camila', cat:'2017F', tira:'Mega Violeta', goles:0 },
+  { nombre:'Capurro Peralta, Tomás', cat:'2022', tira:'Mega Villa Luro', goles:0 },
+  { nombre:'Cesio Pizzoni, Gino', cat:'2022', tira:'Mega Villa Luro', goles:0 },
+  { nombre:'Negro, Tahiel', cat:'2022', tira:'Mega Villa Luro', goles:0 },
+  { nombre:'Formoso, Lautaro', cat:'2019', tira:'Mega Villa Luro', goles:5 },
+];
+
+const tiraDist = [
+  { tira:'Mega Villa Luro', n:110 },
+  { tira:'Mega Rojo', n:80 },
+  { tira:'Mega Blanco', n:75 },
+  { tira:'Mega Negro', n:70 },
+  { tira:'Mega Violeta', n:40 },
+  { tira:'Mega Verde', n:24 },
+];
+
+// ===================== TABS =====================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const map = { resumen:0, equipos:1, goleadores:2, presentismo:3, jugadores:4, partidos:5 };
+  if (map[id] !== undefined) tabs[map[id]].classList.add('active');
+}
+
+// ===================== RESUMEN PAGE =====================
+function buildResumen() {
+  const sorted = [...standings].sort((a,b) => b.pts - a.pts || b.dif - a.dif);
+  const tbody = document.getElementById('tabla-posiciones');
+  sorted.forEach((t, i) => {
+    const dif = t.dif > 0 ? '+' + t.dif : t.dif;
+    const difClass = t.dif > 0 ? 'color:#16a34a;font-weight:700' : t.dif < 0 ? 'color:#dc2626;font-weight:700' : '';
+    tbody.innerHTML += `<tr class="standing-row">
+      <td style="font-weight:700;color:#bbb;width:30px">${i+1}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[t.tira]||'#888'}"></span>${t.tira}</div></td>
+      <td class="num">${t.pj}</td><td class="num cg">${t.g}</td>
+      <td class="num" style="color:#d97706">${t.e}</td>
+      <td class="num cp">${t.p}</td>
+      <td class="num">${t.gf}</td><td class="num">${t.gc}</td>
+      <td class="num" style="${difClass}">${dif}</td>
+      <td class="num" style="color:var(--rojo);font-size:17px">${t.pts}</td>
+    </tr>`;
+  });
+
+  // Donut resultados
+  new Chart(document.getElementById('donutResultados'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Victorias','Empates','Derrotas'],
+      datasets: [{ data:[31,5,24], backgroundColor:['#1B7A3E','#F5C842','#D82B2B'], borderWidth:0, hoverOffset:4 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, cutout:'70%' }
+  });
+  document.getElementById('legend-resultados').innerHTML = `
+    <div class="dl-item"><div class="dl-sq" style="background:#1B7A3E"></div>Victorias<span class="dl-pct">51.7%</span></div>
+    <div class="dl-item"><div class="dl-sq" style="background:#F5C842"></div>Empates<span class="dl-pct">8.3%</span></div>
+    <div class="dl-item"><div class="dl-sq" style="background:#D82B2B"></div>Derrotas<span class="dl-pct">40%</span></div>
+  `;
+
+  // Bar goles por equipo
+  const tiras = standings.map(t => t.tira.replace('Mega ',''));
+  new Chart(document.getElementById('barGolesEquipo'), {
+    type:'bar',
+    data: {
+      labels: tiras,
+      datasets: [
+        { label:'GF', data: standings.map(t=>t.gf), backgroundColor:'#1B7A3E', borderRadius:3 },
+        { label:'GC', data: standings.map(t=>t.gc), backgroundColor:'#D82B2B', borderRadius:3 }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F0EDE8'},beginAtZero:true} } }
+  });
+
+  // Efectividad bars
+  const efDiv = document.getElementById('efect-bars');
+  [...standings].sort((a,b)=>b.efect-a.efect).forEach(t => {
+    const name = t.tira.replace('Mega ','');
+    efDiv.innerHTML += `<div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="tira-label" style="font-size:13px;font-weight:600">
+          <span class="tira-dot" style="background:${tiraColors[t.tira]||'#888'}"></span>${name}
+        </div>
+        <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px">${t.efect}%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${t.efect}%;background:${tiraColors[t.tira]||'#888'}"></div></div>
+    </div>`;
+  });
+}
+
+// ===================== EQUIPOS PAGE =====================
+function buildEquipos() {
+  const grid = document.getElementById('team-cards-grid');
+  standings.forEach(t => {
+    const color = tiraColors[t.tira] || '#888';
+    const name = t.tira.replace('Mega ', '');
+    const forms = partidos.filter(p => p.tira === t.tira).map(p => p.res).slice(-5);
+    const formHtml = forms.map(r => `<div class="form-box form-${r.toLowerCase()}">${r}</div>`).join('');
+    grid.innerHTML += `<div class="team-card">
+      <div class="team-card-header" style="background:${color}"></div>
+      <div class="team-card-body">
+        <div class="team-card-name" style="color:${color}">${name}</div>
+        <div class="team-mini-stats">
+          <div class="tm-stat"><div class="tm-val" style="color:#1B7A3E">${t.g}</div><div class="tm-lbl">V</div></div>
+          <div class="tm-stat"><div class="tm-val">${t.pj}</div><div class="tm-lbl">PJ</div></div>
+          <div class="tm-stat"><div class="tm-val" style="color:${color}">${t.pts}</div><div class="tm-lbl">Pts</div></div>
+        </div>
+        <div class="form-mini">${formHtml}</div>
+      </div>
+    </div>`;
+  });
+
+  const tiraNames = standings.map(t=>t.tira.replace('Mega ',''));
+  new Chart(document.getElementById('barResultadosTira'), {
+    type:'bar',
+    data: {
+      labels: tiraNames,
+      datasets:[
+        { label:'V', data:standings.map(t=>t.g), backgroundColor:'#1B7A3E', borderRadius:3, stack:'s' },
+        { label:'E', data:standings.map(t=>t.e), backgroundColor:'#F5C842', borderRadius:0, stack:'s' },
+        { label:'D', data:standings.map(t=>t.p), backgroundColor:'#D82B2B', borderRadius:3, stack:'s' }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{stacked:true,grid:{display:false}}, y:{stacked:true,grid:{color:'#F0EDE8'},beginAtZero:true} } }
+  });
+
+  new Chart(document.getElementById('barDifGoles'), {
+    type:'bar',
+    data:{
+      labels: tiraNames,
+      datasets:[{ label:'Diferencia', data:standings.map(t=>t.dif),
+        backgroundColor: standings.map(t=>t.dif>=0?'#1B7A3E':'#D82B2B'), borderRadius:4 }]
+    },
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ x:{grid:{display:false}}, y:{grid:{color:'#F0EDE8'}} } }
+  });
+
+  // Categoria table
+  const tbody = document.getElementById('tabla-cat-body');
+  partidos.forEach(p => {
+    const res = p.res === 'G' ? '<span class="badge badge-g">G</span>' : p.res === 'E' ? '<span class="badge badge-e">E</span>' : '<span class="badge badge-p">P</span>';
+    const dif = p.gf - p.gc;
+    tbody.innerHTML += `<tr>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira]||'#888'}"></span>${p.tira}</div></td>
+      <td>${p.cat}</td><td class="center">1</td>
+      <td class="center">${p.res==='G'?1:0}</td>
+      <td class="center">${p.res==='E'?1:0}</td>
+      <td class="center">${p.res==='P'?1:0}</td>
+      <td class="num">${p.gf}</td><td class="num">${p.gc}</td>
+      <td class="num" style="${dif>0?'color:#16a34a':dif<0?'color:#dc2626':''}">${dif>0?'+'+dif:dif}</td>
+      <td class="center">${res}</td>
+    </tr>`;
+  });
+}
+
+// ===================== GOLEADORES PAGE =====================
+function buildGoleadores() {
+  const tbody = document.getElementById('goleadores-body');
+  goleadores.forEach((j,i) => {
+    const rank = i===0?'rank-gold':i===1?'rank-silver':i===2?'rank-bronze':'';
+    tbody.innerHTML += `<tr>
+      <td><span class="rank ${rank}">${i+1}</span></td>
+      <td class="name">${j.nombre}</td>
+      <td class="num" style="color:var(--rojo);font-size:20px">${j.goles}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[j.tira]||'#888'}"></span>${j.tira}</div></td>
+    </tr>`;
+  });
+
+  new Chart(document.getElementById('barGolesCat'), {
+    type:'bar',
+    data:{ labels:golesCat.map(g=>g.cat), datasets:[{ data:golesCat.map(g=>g.goles),
+      backgroundColor:'#D82B2B', borderRadius:4 }] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  new Chart(document.getElementById('barGolesTira'), {
+    type:'bar',
+    data:{ labels:golesTira.map(g=>g.tira.replace('Mega ','')),
+      datasets:[{ data:golesTira.map(g=>g.goles),
+        backgroundColor:golesTira.map(g=>tiraColors[g.tira]||'#888'), borderRadius:4 }] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  // Goals por jornada (acumulado)
+  const golesJornada = [
+    { label:'21/02', goles:25 },
+    { label:'28/02', goles:25 },
+    { label:'07/03', goles:42 },
+    { label:'14/03 (múlt.)', goles:64 },
+    { label:'21/03 (múlt.)', goles:61 },
+  ];
+  new Chart(document.getElementById('lineGolesJornada'), {
+    type:'line',
+    data:{ labels:golesJornada.map(j=>j.label),
+      datasets:[{ data:golesJornada.map(j=>j.goles), borderColor:'#D82B2B', backgroundColor:'rgba(216,43,43,0.08)',
+        tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#D82B2B' }] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+}
+
+// ===================== PRESENTISMO PAGE =====================
+function buildPresentismo() {
+  const tbody = document.getElementById('pres-tabla-body');
+  presentismo.forEach((p,i) => {
+    tbody.innerHTML += `<tr>
+      <td style="font-weight:700;color:var(--rojo)">J${p.jornada}</td>
+      <td>${p.fecha}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.equipo]||'#888'}"></span>${p.equipo}</div></td>
+      <td>${p.rival}</td>
+      <td class="num">${p.presentes}</td>
+      <td class="num" style="color:#1B7A3E">${p.goles}</td>
+    </tr>`;
+  });
+
+  new Chart(document.getElementById('linePresJornada'), {
+    type:'line',
+    data:{ labels:presAusPorJornada.map(p=>p.fecha),
+      datasets:[
+        { label:'Presentes', data:presAusPorJornada.map(p=>p.si), borderColor:'#1B7A3E', backgroundColor:'rgba(27,122,62,0.08)', tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#1B7A3E' },
+        { label:'Ausentes', data:presAusPorJornada.map(p=>p.no), borderColor:'#D82B2B', backgroundColor:'rgba(216,43,43,0.08)', tension:0.3, fill:true, pointRadius:5, pointBackgroundColor:'#D82B2B' }
+      ] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  new Chart(document.getElementById('barPresAus'), {
+    type:'bar',
+    data:{ labels:presAusPorJornada.map(p=>p.fecha),
+      datasets:[
+        { label:'Presentes', data:presAusPorJornada.map(p=>p.si), backgroundColor:'#1B7A3E', borderRadius:3, stack:'s' },
+        { label:'Ausentes', data:presAusPorJornada.map(p=>p.no), backgroundColor:'#e2e8f0', borderRadius:3, stack:'s' }
+      ] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+}
+
+// ===================== JUGADORES PAGE =====================
+let filteredJugadores = [...jugadoresList];
+let activeCatFilter = 'all';
+
+function buildJugadores() {
+  renderJugadoresList();
+
+  const catCounts = {};
+  jugadoresList.forEach(j => {
+    catCounts[j.cat] = (catCounts[j.cat] || 0) + 1;
+  });
+  const cats = Object.entries(catCounts).sort((a,b) => b[1]-a[1]).slice(0,10);
+
+  new Chart(document.getElementById('barJugadoresCat'), {
+    type:'bar',
+    data:{ labels:cats.map(c=>c[0]), datasets:[{ data:cats.map(c=>c[1]),
+      backgroundColor:'#D82B2B', borderRadius:4 }] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:45}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  const distDiv = document.getElementById('tira-dist-bars');
+  const maxN = Math.max(...tiraDist.map(t=>t.n));
+  tiraDist.forEach(t => {
+    const pct = Math.round(t.n / maxN * 100);
+    const color = tiraColors[t.tira] || '#888';
+    distDiv.innerHTML += `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:3px;font-size:12px">
+        <div class="tira-label"><span class="tira-dot" style="background:${color}"></span>${t.tira.replace('Mega ','')}</div>
+        <span style="font-weight:700">${t.n}</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${color}"></div></div>
+    </div>`;
+  });
+
+  document.getElementById('search-jugador').addEventListener('input', function() {
+    filterJugadores(this.value, activeCatFilter);
+  });
+
+  document.querySelectorAll('#cat-filter-jugadores .fpill').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#cat-filter-jugadores .fpill').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      activeCatFilter = this.dataset.cat;
+      filterJugadores(document.getElementById('search-jugador').value, activeCatFilter);
+    });
+  });
+}
+
+function filterJugadores(search, cat) {
+  let filtered = jugadoresList;
+  if (cat !== 'all') {
+    if (cat === 'femenino') filtered = filtered.filter(j => j.cat.includes('F') || j.cat.includes('f'));
+    else if (cat === 'peques') filtered = filtered.filter(j => ['2019','2020','2021','2022'].includes(j.cat));
+    else filtered = filtered.filter(j => j.cat === cat);
+  }
+  if (search) filtered = filtered.filter(j => j.nombre.toLowerCase().includes(search.toLowerCase()));
+  renderJugadoresList(filtered);
+}
+
+function renderJugadoresList(list) {
+  const arr = list || jugadoresList;
+  const tbody = document.getElementById('jugadores-body');
+  tbody.innerHTML = '';
+  arr.forEach(j => {
+    tbody.innerHTML += `<tr>
+      <td class="name">${j.nombre}</td>
+      <td>${j.cat}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[j.tira]||'#888'}"></span>${j.tira}</div></td>
+      <td class="num" style="${j.goles>0?'color:var(--rojo)':''}">${j.goles || '—'}</td>
+    </tr>`;
+  });
+  document.getElementById('jugadores-count').textContent = `${arr.length} jugadores`;
+}
+
+// ===================== PARTIDOS PAGE =====================
+let activeResFilter = 'all';
+
+function buildPartidos() {
+  renderPartidosList();
+
+  const byFecha = {};
+  partidos.forEach(p => { byFecha[p.fecha] = (byFecha[p.fecha]||0) + 1; });
+  const fechas = Object.keys(byFecha).sort();
+
+  new Chart(document.getElementById('barPartidosFecha'), {
+    type:'bar',
+    data:{ labels:fechas, datasets:[{ data:fechas.map(f=>byFecha[f]),
+      backgroundColor:'#D82B2B', borderRadius:4 }] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  // Acumulado G/E/P
+  let acumG = 0, acumE = 0, acumP = 0;
+  const cumData = { G:[], E:[], P:[] };
+  const sortedPartidos = [...partidos].sort((a,b) => a.fecha.localeCompare(b.fecha));
+  sortedPartidos.forEach(p => {
+    if (p.res==='G') acumG++;
+    else if (p.res==='E') acumE++;
+    else acumP++;
+    cumData.G.push(acumG); cumData.E.push(acumE); cumData.P.push(acumP);
+  });
+
+  new Chart(document.getElementById('lineResultadosCum'), {
+    type:'line',
+    data:{ labels:sortedPartidos.map((_,i)=>i+1),
+      datasets:[
+        { label:'V', data:cumData.G, borderColor:'#1B7A3E', tension:0.2, fill:false, pointRadius:2 },
+        { label:'E', data:cumData.E, borderColor:'#F5C842', tension:0.2, fill:false, pointRadius:2 },
+        { label:'D', data:cumData.P, borderColor:'#D82B2B', tension:0.2, fill:false, pointRadius:2 }
+      ] },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{x:{grid:{display:false},ticks:{maxTicksLimit:10}},y:{grid:{color:'#F0EDE8'},beginAtZero:true}}}
+  });
+
+  document.querySelectorAll('#partidos-filter .fpill').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('#partidos-filter .fpill').forEach(b=>b.classList.remove('active'));
+      this.classList.add('active');
+      activeResFilter = this.dataset.res;
+      renderPartidosList();
+    });
+  });
+}
+
+function renderPartidosList() {
+  const filtered = activeResFilter === 'all' ? partidos : partidos.filter(p => p.res === activeResFilter);
+  const tbody = document.getElementById('partidos-body');
+  tbody.innerHTML = '';
+  filtered.forEach(p => {
+    const badge = p.res==='G' ? '<span class="badge badge-g">G</span>' : p.res==='E' ? '<span class="badge badge-e">E</span>' : '<span class="badge badge-p">P</span>';
+    const score = `${p.gf} - ${p.gc}`;
+    tbody.innerHTML += `<tr>
+      <td>${p.fecha}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira]||'#888'}"></span>${p.tira}</div></td>
+      <td style="color:var(--texto-muted)">${p.liga}</td>
+      <td class="name">${p.rival}</td>
+      <td class="center" style="color:var(--texto-muted)">${p.cat}</td>
+      <td class="num">${p.gf}</td>
+      <td class="num">${p.gc}</td>
+      <td class="center">${badge}</td>
+    </tr>`;
+  });
+}
+
+// ===================== INIT =====================
+buildResumen();
+buildEquipos();
+buildGoleadores();
+buildPresentismo();
+buildJugadores();
+buildPartidos();
+</script>
+</body>
+</html>
