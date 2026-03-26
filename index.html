@@ -1104,7 +1104,251 @@ function renderTablasJugadores(tiraKey) {
 }
 
 // (Continuará en la Parte 2 con las funciones auxiliares y renderCharts mejorado...)
+// --- PARTE 2: GRÁFICOS Y TABLAS COMPARATIVAS ---
 
+function renderHeader(tiraKey) {
+  const t = TIRAS[tiraKey];
+  return `
+    <div class="header">
+      <div class="header-content">
+        <h1>${t.label}</h1>
+        <p>${tiraKey === 'TOTAL' ? 'Resumen General Temporada 2026' : 'Estadísticas Detalladas por Tira'}</p>
+      </div>
+      <div class="badge-season">TEMPORADA 2026</div>
+    </div>`;
+}
+
+function renderKpis(tiraKey) {
+  const t = TIRAS[tiraKey];
+  const totalGoles = t.gf;
+  const promedio = (t.gf / t.pj).toFixed(1);
+  const dif = t.dg > 0 ? `+${t.dg}` : t.dg;
+
+  return `
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Partidos Jugados</div>
+        <div class="kpi-value">${t.pj}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Goles a Favor</div>
+        <div class="kpi-value" style="color:var(--rojo)">${totalGoles}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Diferencia</div>
+        <div class="kpi-value" style="color:${t.dg >= 0 ? 'var(--verde)' : 'var(--rojo)'}">${dif}</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Promedio G/P</div>
+        <div class="kpi-value">${promedio}</div>
+      </div>
+    </div>`;
+}
+
+function renderChartsContainer(tiraKey) {
+  return `
+    <div class="charts-grid">
+      <div class="chart-container">
+        <h3 class="chart-title">Distribución de Goles por Categoría</h3>
+        <canvas id="chartGoles"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3 class="chart-title">Efectividad (G/E/P)</h3>
+        <canvas id="chartResultados"></canvas>
+      </div>
+    </div>`;
+}
+
+function renderCharts() {
+  const t = TIRAS[activeTira];
+  const catLabels = Object.keys(t.cats).filter(c => c !== 'Todos');
+  const catGoles = catLabels.map(c => t.cats[c].gf);
+
+  // Gráfico de Barras (Goles)
+  new Chart(document.getElementById('chartGoles'), {
+    type: 'bar',
+    data: {
+      labels: catLabels,
+      datasets: [{
+        label: 'Goles',
+        data: catGoles,
+        backgroundColor: tiraColors[activeTira],
+        borderRadius: 6
+      }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } } }
+  });
+
+  // Gráfico de Torta (Resultados)
+  new Chart(document.getElementById('chartResultados'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Ganados', 'Empatados', 'Perdidos'],
+      datasets: [{
+        data: [t.g, t.e, t.p],
+        backgroundColor: ['#1B7A3E', '#F5C842', '#D82B2B'],
+        borderWidth: 0
+      }]
+    },
+    options: { responsive: true, cutout: '70%' }
+  });
+
+  // Si estamos en TOTAL, inicializamos los filtros de la lista de partidos
+  if (activeTira === 'TOTAL') {
+    initPartidosFilters();
+  }
+}
+
+function renderComparativa() {
+  const rows = Object.keys(TIRAS).filter(k => k !== 'TOTAL').map(tk => {
+    const t = TIRAS[tk];
+    return `
+      <tr>
+        <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[tk]}"></span>${t.label}</div></td>
+        <td class="num">${t.pj}</td>
+        <td class="num" style="color:var(--verde)">${t.g}</td>
+        <td class="num">${t.e}</td>
+        <td class="num" style="color:var(--rojo)">${t.p}</td>
+        <td class="num">${t.gf}</td>
+        <td class="num">${t.gc}</td>
+        <td class="num" style="font-weight:bold">${t.dg > 0 ? '+' + t.dg : t.dg}</td>
+      </tr>`;
+  }).join('');
+
+  return `
+    <div class="card" style="margin-top:24px">
+      <div class="card-header"><h3>Comparativa por Tira</h3></div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Tira</th><th class="num">PJ</th><th class="num">G</th><th class="num">E</th><th class="num">P</th><th class="num">GF</th><th class="num">GC</th><th class="num">DG</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+// --- LÓGICA DE ORDENAMIENTO (SORTING) ---
+let SS = {};
+function srt(tid, col, th) {
+  const k = tid + '_' + col, asc = SS[k] !== true; SS[k] = asc;
+  const tbl = document.getElementById(tid);
+  const tbody = tbl.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const type = th.dataset.t;
+
+  rows.sort((a, b) => {
+    let av = a.children[col].textContent.trim();
+    let bv = b.children[col].textContent.trim();
+    if (type === 'n') return asc ? parseFloat(av) - parseFloat(bv) : parseFloat(bv) - parseFloat(av);
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// --- PARTE 3: LISTA DE PARTIDOS, FILTROS Y CIERRE ---
+
+function renderJornadas() {
+  // Agrupamos partidos por fecha para la tabla de jornadas
+  const jornadas = {};
+  partidos.forEach(p => {
+    if (!jornadas[p.fecha]) jornadas[p.fecha] = { f: p.fecha, pj: 0, g: 0, e: 0, p: 0, gf: 0, gc: 0 };
+    const j = jornadas[p.fecha];
+    j.pj++;
+    j.gf += p.gf; j.gc += p.gc;
+    if (p.res === 'G') j.g++; else if (p.res === 'E') j.e++; else j.p++;
+  });
+
+  const rows = Object.values(jornadas).reverse().map(j => `
+    <tr>
+      <td>${j.f}</td>
+      <td class="num">${j.pj}</td>
+      <td class="num" style="color:var(--verde)">${j.g}</td>
+      <td class="num">${j.e}</td>
+      <td class="num" style="color:var(--rojo)">${j.p}</td>
+      <td class="num">${j.gf}</td>
+      <td class="num">${j.gc}</td>
+      <td class="num" style="font-weight:bold">${j.gf - j.gc > 0 ? '+' + (j.gf - j.gc) : (j.gf - j.gc)}</td>
+    </tr>`).join('');
+
+  return `
+    <div class="card" style="margin-top:24px">
+      <div class="card-header"><h3>Partidos jugados por Jornada</h3></div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>Fecha</th><th class="num">PJ</th><th class="num">G</th><th class="num">E</th><th class="num">P</th><th class="num">GF</th><th class="num">GC</th><th class="num">Dif.</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderFullPartidosList() {
+  return `
+    <div class="card" style="margin-top:24px">
+      <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px">
+        <h3 style="margin:0">Historial de Partidos</h3>
+        <div id="partidos-filter" class="filter-pills">
+          <div class="fpill active" data-res="all">Todos</div>
+          <div class="fpill" data-res="G">Ganados</div>
+          <div class="fpill" data-res="E">Empatados</div>
+          <div class="fpill" data-res="P">Perdidos</div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th><th>Tira</th><th>Rival</th><th class="center">Cat.</th><th class="num">Res.</th><th class="num">Goles</th>
+            </tr>
+          </thead>
+          <tbody id="partidos-body">
+            </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function initPartidosFilters() {
+  const pills = document.querySelectorAll('#partidos-filter .fpill');
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeResFilter = pill.dataset.res;
+      renderPartidosItems();
+    });
+  });
+  renderPartidosItems();
+}
+
+function renderPartidosItems() {
+  const tbody = document.getElementById('partidos-body');
+  if (!tbody) return;
+
+  const filtered = activeResFilter === 'all' 
+    ? partidos 
+    : partidos.filter(p => p.res === activeResFilter);
+
+  tbody.innerHTML = filtered.reverse().map(p => `
+    <tr>
+      <td style="font-size:12px; color:var(--texto-muted)">${p.fecha}</td>
+      <td><div class="tira-label"><span class="tira-dot" style="background:${tiraColors[p.tira] || '#888'}"></span>${p.tira}</div></td>
+      <td class="name">${p.rival}</td>
+      <td class="center" style="color:var(--texto-muted)">${p.cat}</td>
+      <td class="num"><span class="badge badge-${p.res.toLowerCase()}">${p.res}</span></td>
+      <td class="num" style="font-weight:bold">${p.gf} - ${p.gc}</td>
+    </tr>
+  `).join('');
+}
+
+// Iniciar todo al cargar la página
+window.onload = init;
 </script>
 </body>
 </html>
