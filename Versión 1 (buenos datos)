@@ -38,30 +38,9 @@ body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #334155; }
 
 /* Pills (Filtros) */
 .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
-.pill {
-    padding: 8px 16px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    border-radius: 999px; /* Botones tipo cápsula */
-    font-size: 12px;
-    font-weight: 600;
-    color: #64748b;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.pill:hover {
-    background: #f1f5f9;
-    border-color: #cbd5e1;
-}
-
-.pill.active {
-    background: var(--tc); /* Usa el color de la tira */
-    color: white;
-    border-color: var(--tc);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
+.pill { padding: 8px 16px; border-radius: 20px; border: 1px solid #cbd5e1; background: #fff; color: #475569; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.pill:hover { border-color: var(--tc); color: var(--tc); }
+.pill.active { background: var(--tc); color: #fff; border-color: var(--tc); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
 /* Panels / Cards */
 .panel { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 24px; }
@@ -114,6 +93,55 @@ table.pt td.z { color: #cbd5e1; text-align: center; }
 @media(max-width: 1024px) { .kpis, .catkpis { grid-template-columns: repeat(3, 1fr); } .sg { grid-template-columns: 1fr; } }
 @media(max-width: 600px) { .kpis, .catkpis { grid-template-columns: repeat(2, 1fr); } .dash { padding: 12px; } }
 
+/* --- ARREGLOS PARA LA PESTAÑA TOTAL (FONDO OSCURO) --- */
+
+/* 1. Ponemos el título "Resumen General" en blanco */
+#dash-total .hn {
+    color: #ffffff !important;
+}
+
+/* 2. Ponemos el subtítulo "Villa Luro 2026" en un gris muy clarito */
+#dash-total .hs {
+    color: #cbd5e1 !important;
+}
+
+/* 3. Todos los títulos de los paneles y tablas en blanco */
+#dash-total .ph, 
+#dash-total .ssh {
+    color: #ffffff !important;
+}
+
+/* 4. Los nombres de las columnas (#, Jugador, PJ, Goles) en blanco */
+#dash-total .pt thead th {
+    color: #ffffff !important;
+}
+
+/* 5. El texto que dice "Total goles" o "Total ausentismos" abajo de las tablas */
+#dash-total .tf {
+    color: #cbd5e1 !important;
+}
+
+/* Tooltips */
+.has-tip { position: relative; cursor: help; text-decoration: underline dotted #cbd5e1; }
+.has-tip::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1e293b; color: #fff; font-size: 12px; padding: 6px 12px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 99; margin-bottom: 5px; }
+.has-tip:hover::after { opacity: 1; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+
+/* Modifiers */
+table.pt td.n { text-align: center; font-weight: 600; color: #0f172a; }
+table.pt td.g { color: var(--tc); font-weight: 700; text-align: center; font-size: 14px; }
+table.pt td.no { color: #dc2626; font-weight: 700; text-align: center; }
+table.pt td.x { color: #d97706; font-weight: 700; text-align: center; }
+table.pt td.sm { color: #475569; font-weight: 700; text-align: center; }
+table.pt td.z { color: #cbd5e1; text-align: center; }
+
+/* Responsive */
+.cv { display: none; }
+.cv.active { display: block; }
+@media(max-width: 1024px) { .kpis, .catkpis { grid-template-columns: repeat(3, 1fr); } .sg { grid-template-columns: 1fr; } }
+@media(max-width: 600px) { .kpis, .catkpis { grid-template-columns: repeat(2, 1fr); } .dash { padding: 12px; } }
+
+    
 </style>
 </head>
 <body>
@@ -410,7 +438,7 @@ function buildTira(key, T) {
   const catKeys = Object.keys(T.cats);
   const nonTodo = catKeys.filter(k => k !== 'Todos');
 
-  // 1. Mapeo de categorías para los nombres
+  // --- Mapeo automático de categorías por jugador ---
   const playerCatMap = {};
   nonTodo.forEach(c => {
     if (T.cats[c] && T.cats[c].players) {
@@ -421,14 +449,27 @@ function buildTira(key, T) {
     }
   });
 
+  // Estilo para el "badge" de categoría
   const getBadge = (name) => {
     const cats = playerCatMap[name];
     if(!cats || cats.length === 0) return '';
-    return `<span style="display:inline-block; margin-left:6px; padding:1px 5px; background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; border-radius:4px; font-size:9px; font-weight:700; vertical-align:middle;">${cats.join(', ')}</span>`;
+    // Estilo: gris clarito, borde redondeado, texto chiquito y un poco de margen a la izquierda
+    return `<span style="display:inline-block; margin-left:6px; padding:1px 5px; background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; border-radius:4px; font-size:9px; font-weight:700; vertical-align:middle; text-transform:uppercase;">${cats.join(', ')}</span>`;
   };
 
-  // 2. Títulos de pestañas dinámicos (Total Blanco, etc.)
+  const kpiHtml = o ? `<div class="kpis">
+    <div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div>
+    <div class="kpi"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">${o.g}</div></div>
+    <div class="kpi"><div class="kl">Empates</div><div class="kv" style="color:#d97706">${o.e}</div></div>
+    <div class="kpi"><div class="kl">Perdidos</div><div class="kv" style="color:#dc2626">${o.p}</div></div>
+    <div class="kpi"><div class="kl">Goles a favor</div><div class="kv">${o.gf}</div><div class="ks">Prom: ${(o.gf/o.pj).toFixed(1)}/partido</div></div>
+    <div class="kpi"><div class="kl">Goles en contra</div><div class="kv">${o.gc}</div><div class="ks">Prom: ${(o.gc/o.pj).toFixed(1)}/partido</div></div>
+  </div>` : '';
+
+// Modificamos el nombre del botón "Todos" según la tira
   const nombreTotalTira = key === 'total' ? 'TOTAL MEGA' : 'Total ' + T.label;
+
+  // pills
   const pillsHtml = nonTodo.length > 0 ? `<div class="pills">
     <button class="pill active" onclick="switchCat('${key}','Todos')">${nombreTotalTira}</button>
     ${nonTodo.map(c => `<button class="pill" onclick="switchCat('${key}','${c}')">${c}</button>`).join('')}
@@ -441,85 +482,170 @@ function buildTira(key, T) {
     const cat = T.cats[ck];
     const players = isTodos ? T.allPlayers : (cat ? cat.players : []);
 
-    // 3. Tabla de Partidos con Victorias/Derrotas en palabras
     let mSlotContent = '';
     if (!isTodos && cat && cat.matches) {
       const mrows = cat.matches.map(m => {
-        let txt='', cls='';
-        if(m.res==='G'){txt='Victoria'; cls='background:#dcfce7;color:#166534;border:1px solid #bbf7d0;';}
-        else if(m.res==='E'){txt='Empate'; cls='background:#fef9c3;color:#854d0e;border:1px solid #fef08a;';}
-        else {txt='Derrota'; cls='background:#fee2e2;color:#991b1b;border:1px solid #fecaca;';}
-        return `<tr><td>${m.f}</td><td>${m.r}</td><td class="c">${m.gf}</td><td class="c">${m.gc}</td><td class="c"><span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;${cls}">${txt}</span></td></tr>`;
-      }).join('');
-      mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb"><table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table></div></div>`;
+  let textoRes = '';
+  let colorRes = '';
+  
+  // Mapeo de leyendas y colores claros
+  if (m.res === 'G') { 
+    textoRes = 'Victoria'; 
+    colorRes = 'background:#dcfce7; color:#166534; border:1px solid #bbf7d0;'; // Verde claro
+  } else if (m.res === 'E') { 
+    textoRes = 'Empate'; 
+    colorRes = 'background:#fef9c3; color:#854d0e; border:1px solid #fef08a;'; // Amarillo claro
+  } else if (m.res === 'P') { 
+    textoRes = 'Derrota'; 
+    colorRes = 'background:#fee2e2; color:#991b1b; border:1px solid #fecaca;'; // Rojo claro
+  }
+
+  return `<tr>
+    <td>${m.f}</td>
+    <td>${m.r}</td>
+    <td class="c">${m.gf}</td>
+    <td class="c">${m.gc}</td>
+    <td class="c">
+      <span style="display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; ${colorRes}">
+        ${textoRes}
+      </span>
+    </td>
+  </tr>`;
+}).join('');
+      mSlotContent = `<div class="panel" style="margin-bottom:0"><div class="ph">Partidos</div><div class="pb" style="padding:8px 12px">
+        <table class="ct"><thead><tr><th>Fecha</th><th>Rival</th><th class="c">GF</th><th class="c">GC</th><th class="c">Res.</th></tr></thead><tbody>${mrows}</tbody></table>
+      </div></div>`;
     }
 
-// --- LÓGICA DE ANÁLISIS AUTOMÁTICO (Ajustada para ser más sensible) ---
-    let analitica = { altos: [], bajos: [] };
-    if (cat && cat.pj > 0) {
-        // 1. Análisis de Resultados
-        const winRate = (cat.g / cat.pj);
-        if (winRate >= 0.5) analitica.altos.push("Buen ritmo: El equipo gana el 50% o más de lo que juega.");
-        if (winRate < 0.25 && cat.pj >= 2) analitica.bajos.push("Alerta de resultados: Cuesta cerrar los partidos con victoria.");
-
-        // 2. Análisis de Goles
-        const promGF = cat.gf / cat.pj;
-        const promGC = cat.gc / cat.pj;
-        if (promGF >= 2.5) analitica.altos.push("Eficacia: Promedio goleador saludable.");
-        if (promGC <= 2) analitica.altos.push("Seguridad: Reciben 2 goles o menos por partido.");
-        if (promGC > 3.5) analitica.bajos.push("Ajuste defensivo: Se están recibiendo demasiados goles.");
-
-        // 3. Análisis de Jugadores (Dependencia)
-        const goleador = [...players].sort((a,b) => b.g - a.g)[0];
-        // Si el goleador tiene más del 35% de los goles (antes era 50%)
-        if (goleador && goleador.g > (cat.gf * 0.35) && cat.gf > 3) {
-            analitica.bajos.push(`Foco en ${goleador.n}: Concentra gran parte del poder de gol.`);
-        }
-        
-        // 4. Análisis de Compromiso (Ausentismos)
-        const totalFaltas = players.reduce((s, p) => s + (p.no + p.x), 0);
-        if (totalFaltas > (players.length * 0.8)) {
-            analitica.bajos.push("Asistencia: Se registran baches de concurrencia en el plantel.");
-        }
+    let ckHtml = '';
+    if (!isTodos && cat) {
+      const donutId = `ch-donut-${key}-${safe}`;
+      CHART_QUEUE.push({id1: donutId, id2: null, g: cat.g, e: cat.e, p: cat.p, labels: [], gf: [], gc: []});
+      ckHtml = `
+        <div class="catkpis">
+          <div class="ck"><div class="l">PJ</div><div class="v">${cat.pj}</div></div>
+          <div class="ck"><div class="l">G</div><div class="v" style="color:#16a34a">${cat.g}</div></div>
+          <div class="ck"><div class="l">E</div><div class="v" style="color:#d97706">${cat.e}</div></div>
+          <div class="ck"><div class="l">P</div><div class="v" style="color:#dc2626">${cat.p}</div></div>
+          <div class="ck"><div class="l">GF</div><div class="v">${cat.gf}</div><div class="s">Prom ${cat.pj>0?(cat.gf/cat.pj).toFixed(1):'-'}</div></div>
+          <div class="ck"><div class="l">GC</div><div class="v">${cat.gc}</div><div class="s">Prom ${cat.pj>0?(cat.gc/cat.pj).toFixed(1):'-'}</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin-bottom:12px;align-items:start">
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">G / E / P</div>
+            <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
+              <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
+            </div>
+          </div>
+          <div style="align-self:start">${mSlotContent}</div>
+        </div>`;
     }
 
-    // Mensajes si la lista sigue vacía
-    if (analitica.altos.length === 0) analitica.altos.push("Equipo en etapa de consolidación.");
-    if (analitica.bajos.length === 0) analitica.bajos.push("Estabilidad: No se detectan desbalances estadísticos.");
-    // 5. Tabla de Jugadores con Tooltip Prolijo
-    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g);
+    let csHtml = '';
+    if (isTodos && nonTodo.length > 0) {
+      const donutId = `dn-${key}`;
+      const barId = `bn-${key}`;
+      const catLabels = nonTodo;
+      const catGF = nonTodo.map(k => T.cats[k]?.gf || 0);
+      const catGC = nonTodo.map(k => T.cats[k]?.gc || 0);
+      CHART_QUEUE.push({id1: donutId, id2: barId, g: o?.g||0, e: o?.e||0, p: o?.p||0, labels: catLabels, gf: catGF, gc: catGC});
+
+      csHtml = `
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:12px;margin-bottom:12px">
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">G / E / P</div>
+            <div style="display:flex;flex-direction:column;align-items:center;padding:10px 8px">
+              <div style="position:relative;width:110px;height:110px"><canvas id="${donutId}"></canvas></div>
+            </div>
+          </div>
+          <div class="panel" style="margin-bottom:0">
+            <div class="ph">GF vs GC por categoría</div>
+            <div style="padding:10px 12px">
+              <div style="position:relative;height:180px"><canvas id="${barId}"></canvas></div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    const sorted_pj = [...players].map(p=>({...p,rpj:p.pj-p.x})).sort((a,b)=>b.rpj-a.rpj||b.g-a.g||a.n.localeCompare(b.n,'es'));
+    const absent = [...players].filter(p=>p.no>0||p.x>0).sort((a,b)=>(b.no+b.x)-(a.no+a.x)||a.n.localeCompare(b.n,'es'));
+    const tNO = players.reduce((s,r)=>s+r.no,0);
+    const tX = players.reduce((s,r)=>s+r.x,0);
+    const totalGoles = players.reduce((s,r)=>s+r.g,0);
+
     const tid = `t-${key}-${safe}`;
     const pjRows = sorted_pj.filter(p=>p.rpj>0).map((p,i)=>{
-      let gCol = `<td class="z">—</td>`;
-      if(p.g>0) {
-        const detHtml = p.rv ? p.rv.split(',').map(item => {
-            const t = item.trim(); const match = t.match(/(\d+)-(\d+)/);
-            let c = 'color:#94a3b8';
-            if(match){ if(parseInt(match[1])>parseInt(match[2])) c='color:#4ade80;font-weight:bold;'; else if(parseInt(match[1])<parseInt(match[2])) c='color:#f87171;font-weight:bold;'; }
-            return `<div style="margin-bottom:2px;${c}">• ${t}</div>`;
-        }).join('') : 'Goles anotados';
-        gCol = `<td class="g has-tip-html" style="position:relative;cursor:help;font-weight:700;">${p.g}<div class="custom-tooltip">${detHtml}</div></td>`;
-      }
-      return `<tr><td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td><td>${p.n}${getBadge(p.n)}</td><td class="n">${p.rpj}</td>${gCol}</tr>`;
+      let golesCell = `<td class="z">—</td>`;
+if (p.g > 0) {
+    // Si tiene rivales anotados, formateamos el texto para que sea más prolijo
+    // Reemplazamos las comas por saltos de línea o puntos si vienen del JSON
+    const detalleGoles = p.rv ? p.rv.split(',').map(item => '• ' + item.trim()).join('\n') : '';
+    
+    golesCell = `<td class="g has-tip" data-tip="${detalleGoles || 'Goles anotados'}" 
+                 style="position:relative; cursor:help; font-weight:700;">
+                    ${p.g}
+                 </td>`;
+}
+      return `<tr data-n="${p.n.toLowerCase()}">
+      <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
+      <td>${p.n} ${getBadge(p.n)}</td> <td class="n">${p.rpj}</td>
+      ${golesCell}
+    </tr>`;
     }).join('');
 
-    cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
-      ${isTodos && o ? `<div class="kpis"><div class="kpi"><div class="kl">Partidos</div><div class="kv">${o.pj}</div></div><div class="kpi"><div class="kl">Ganados</div><div class="kv" style="color:#16a34a">${o.g}</div></div><div class="kpi"><div class="kl">Goles</div><div class="kv">${o.gf}</div></div></div>` : ''}
-      ${mSlotContent}
-      <div class="sg"><div class="sb" style="grid-column:span 2"><div class="ssh">⚽ Jugadores</div><div class="tw"><table class="pt"><thead><tr><th>#</th><th>Jugador</th><th class="c">PJ</th><th class="c">Goles</th></tr></thead><tbody>${pjRows}</tbody></table></div></div></div>
-      <div class="panel" style="margin-top:20px; border-left:4px solid var(--tc);">
-          <div class="ph">📊 Análisis Automático</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:15px;">
-              <div style="background:#f0fdf4;padding:12px;border-radius:12px;color:#14532d;font-size:12px;"><strong>🚀 Puntos Altos:</strong><br>${analitica.altos.join('<br>')}</div>
-              <div style="background:#fef2f2;padding:12px;border-radius:12px;color:#7f1d1d;font-size:12px;"><strong>⚠️ A Mejorar:</strong><br>${analitica.bajos.join('<br>')}</div>
-          </div>
+    const aRows = absent.length>0 ? absent.map((p,i)=>{
+      return `<tr data-n="${p.n.toLowerCase()}">
+        <td style="color:#ccc;font-size:10px;text-align:center">${i+1}</td>
+        <td>${p.n} ${getBadge(p.n)}</td> <td class="${p.no>0?'no':'z'}">${p.no>0?p.no:'—'}</td>
+        <td class="${p.x>0?'x':'z'}">${p.x>0?p.x:'—'}</td>
+        <td class="sm">${p.no+p.x}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="5" class="nd">Sin ausentismos</td></tr>`;
+
+    const playerHtml = `<div class="sg">
+      <div class="sb" style="grid-column:span 2">
+        <div class="ssh">⚽ Partidos jugados y goles (${sorted_pj.filter(p=>p.rpj>0).length})</div>
+        <input class="srch" placeholder="Buscar jugador${jug}..." oninput="flt('${tid}-pj',this.value)">
+        <div class="tw"><table class="pt" id="${tid}-pj">
+          <thead><tr>
+            <th onclick="srt('${tid}-pj',0,this)" data-t="s"># <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-pj',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
+            <th class="srt" onclick="srt('${tid}-pj',2,this)" data-t="n" class="c">PJ <span class="sa">↓</span></th>
+            <th onclick="srt('${tid}-pj',3,this)" data-t="n" class="c">Goles <span class="sa">↕</span></th>
+          </tr></thead>
+          <tbody>${pjRows}</tbody>
+        </table></div>
+        <div class="tf">${sorted_pj.filter(p=>p.rpj>0).length} jugador${jug}es · Total goles: ${totalGoles}</div>
       </div>
+      <div class="sb">
+        <div class="ssh">❌ Ausentismos (${absent.length})</div>
+        <input class="srch" placeholder="Buscar jugador${jug}..." oninput="flt('${tid}-aus',this.value)">
+        <div class="tw"><table class="pt" id="${tid}-aus">
+          <thead><tr>
+            <th onclick="srt('${tid}-aus',0,this)" data-t="s"># <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',1,this)" data-t="s">Jugador${jug} <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',2,this)" data-t="n" class="c">NO <span class="sa">↕</span></th>
+            <th onclick="srt('${tid}-aus',3,this)" data-t="n" class="c">X <span class="sa">↕</span></th>
+            <th class="srt" onclick="srt('${tid}-aus',4,this)" data-t="n" class="c">Total <span class="sa">↓</span></th>
+          </tr></thead>
+          <tbody>${aRows}</tbody>
+        </table></div>
+        <div class="tf">NO: ${tNO} · X: ${tX} · Total: ${tNO+tX}</div>
+      </div>
+    </div>`;
+
+    cvsHtml += `<div class="cv${isTodos?' active':''}" id="cv-${key}-${safe}">
+      ${isTodos ? kpiHtml : ''}
+      ${ckHtml}
+      ${csHtml}
+      ${playerHtml}
     </div>`;
   });
 
   return `<div class="dash${key==='total'?' active':''}" id="dash-${key}" style="--tc:${color}">
     <div class="header"><div class="hn">${T.label}</div><div class="hs">${T.sub}</div></div>
-    ${pillsHtml}${cvsHtml}
+    ${pillsHtml}
+    ${cvsHtml}
   </div>`;
 }
   
