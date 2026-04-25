@@ -282,6 +282,43 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
 .st-libre    { background: var(--bg3); color: var(--mu); }
 .st-suspendido{ background: #FEE2E2; color: var(--rd); }
 
+
+/* ── CATEGORY ANALYSIS CARDS ── */
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.cat-card {
+  background: var(--bg2); border: 1px solid var(--brd);
+  border-radius: var(--r); overflow: hidden; box-shadow: var(--sh);
+}
+.cat-card-header {
+  padding: 10px 14px 9px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--brd);
+}
+.cat-card-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--tx); }
+.cat-card-pct {
+  font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700;
+  padding: 2px 9px; border-radius: 4px;
+}
+.pct-high   { background: #DCFCE7; color: var(--gr); }
+.pct-mid    { background: #FEF9C3; color: var(--yw); }
+.pct-low    { background: #FEE2E2; color: var(--rd); }
+.cat-card-body { padding: 12px 14px; }
+.cat-mini-stats {
+  display: flex; gap: 8px; margin-bottom: 10px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+}
+.cms { text-align: center; flex: 1; }
+.cms-val { font-size: 16px; font-weight: 700; line-height: 1; }
+.cms-lbl { font-size: 9px; color: var(--mu); text-transform: uppercase; letter-spacing: .6px; margin-top: 2px; }
+.cms-g .cms-val { color: var(--gr); }
+.cms-e .cms-val { color: var(--yw); }
+.cms-p .cms-val { color: var(--rd); }
+.cms-gf .cms-val, .cms-gc .cms-val { color: var(--tx); }
+.cat-bar-wrap { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 10px; }
+.cat-bar-fill { height: 100%; border-radius: 2px; }
+.cat-analysis { font-size: 12px; color: var(--mu); line-height: 1.6; }
+.cat-analysis strong { color: var(--tx); font-weight: 600; }
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .kpis { grid-template-columns: repeat(3, 1fr); }
@@ -609,6 +646,47 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2019</span>
+          <span class="cat-card-pct pct-low">25%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">2</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">11</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">13</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:25%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Proceso de aprendizaje.</strong> Única victoria en el torneo (6–2 vs Tigres DAOM, 11/04). El empate 4–4 ante Villa Gral. Mitre mostró capacidad de remontada. Promedia 2.75 goles por partido.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2020/2021</span>
+          <span class="cat-card-pct pct-low">0%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">3</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">0</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">0</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">8</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:0%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Los más chicos del club.</strong> Todavía sin goles ni victorias, pero compitiendo. 0–1, 0–3 y 0–4 son resultados esperables para su primer año. El foco debe estar en la experiencia, no los resultados.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadores del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Formoso, Lautaro</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">2</span></div>
@@ -708,6 +786,98 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2013</span>
+          <span class="cat-card-pct pct-low">20%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">4</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">17</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">22</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:20%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Racha complicada.</strong> Sola victoria ante CS Claridad (8–6). Necesita mejorar la defensa: promedia 4.4 goles en contra por partido. La goleada ante Claridad muestra potencial ofensivo que no se sostiene.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2014</span>
+          <span class="cat-card-pct pct-high">80%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">18</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">8</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:80%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>La categoría más sólida del equipo.</strong> 4 de 5 victorias, solo 8 goles recibidos. La única derrota fue ante Asociación Española (25/04). Diferencia de goles positiva de +10, la mejor de Blanco.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2015</span>
+          <span class="cat-card-pct pct-low">20%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">4</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">9</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">21</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:20%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>La categoría más débil.</strong> Solo 9 goles a favor en 5 partidos. Recibió 21. Necesita refuerzo en ataque y en línea defensiva. La única victoria fue ante CS Claridad (3–1).</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2016</span>
+          <span class="cat-card-pct pct-low">25%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">2</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">14</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">12</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:25%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Rendimiento irregular.</strong> Gana cuando está en zona de confort: 8–1 vs Toque y Toque. Empató el último partido con Asoc. Española (4–4). Buena producción ofensiva pero inconsistente.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2017</span>
+          <span class="cat-card-pct pct-low">25%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">2</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">13</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">10</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:25%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>La más equilibrada.</strong> Dos empates consecutivos (3–3 vs San Martín, 2–2 vs CS Claridad) y una victoria ante Marathon (8–1). No perdió en las últimas 3 fechas, señal de progreso.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadores del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Sande Feliu, Federico</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">6</span></div>
@@ -816,6 +986,98 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2013</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">10</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">10</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Diferencia de goles neutra.</strong> GF=GC=10. Ganó en las fechas más recientes (6–1 vs Tigres DAOM el 25/04), señal de recuperación. 3 derrotas en etapas tempranas de temporada.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2014</span>
+          <span class="cat-card-pct pct-high">80%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">39</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">12</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:80%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>La más dominante del equipo.</strong> 39 goles a favor en 5 partidos, incluida la goleada histórica 17–2 ante Tigres DAOM (25/04). Solo perdió ante El Ideal (1–4). Diferencia de +27.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2015</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">16</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">17</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Pareja en resultados.</strong> Ganó los dos últimos partidos (5–0 y 7–0 vs Tigres DAOM). Tendencia positiva reciente. Las derrotas fueron por amplios márgenes (0–9 vs El Ideal).</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2016</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">15</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">21</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Defensa vulnerable.</strong> Recibió 21 goles, el peor registro del equipo. Pero reaccionó fuerte: 8–0 ante Tigres DAOM el 25/04. El 0–9 ante Flores Club marca el punto más bajo.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2017</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">2</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">12</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">15</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Resultados mixtos.</strong> Único empate del equipo (2–2 vs Tigres DAOM, 25/04). Ganó 2 de los últimos 3. Diferencia de –3, recuperable. Necesita consolidar victorias en casa.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadores del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Chaves, Augusto</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">15</span></div>
@@ -927,6 +1189,115 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2013</span>
+          <span class="cat-card-pct pct-high">80%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">0</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">38</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">14</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:80%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Invicta en toda la temporada.</strong> 4 victorias y 1 empate, sin conocer la derrota. Promedia 7.6 goles por partido. La goleada 14–4 ante Villa Gral. Mitre marca el nivel de esta categoría.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2014</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">15</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">16</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Temporada irregular.</strong> Brilló en los amistosos (8–2 vs Villa Gral. Mitre) pero cedió en partidos de liga. Última fecha perdida ante Parque Chas (1–3). Necesita consistencia.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2015</span>
+          <span class="cat-card-pct pct-high">60%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">3</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">22</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">9</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:60%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Buen rendimiento defensivo.</strong> Solo 9 goles recibidos, la mejor marca del equipo. Ganó la fecha más reciente (4–1 vs Parque Chas). Diferencia de +13, segunda mejor de Rojo.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2016</span>
+          <span class="cat-card-pct pct-low">20%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">2</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">2</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">13</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">9</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:20%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Mejoró en el cierre.</strong> Dos empates consecutivos ante All Boys (0–2) y Nuevos Guerreros (1–4) muy complicados, pero empató la última (1–1 vs Parque Chas). Potencial para crecer.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2017</span>
+          <span class="cat-card-pct pct-low">0%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">0</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">4</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">3</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">13</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:0%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>Sin victorias aún.</strong> La categoría más joven en el equipo. 4 derrotas en 4 partidos, todas por 1–2, 0–1, 1–5 y 1–5. Aun en proceso de adaptación. Requiere refuerzo táctico.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Categoría 2018</span>
+          <span class="cat-card-pct pct-low">25%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">1</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">2</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">9</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">12</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:25%;background:var(--rd)"></div></div>
+          <div class="cat-analysis"><strong>En desarrollo.</strong> Los más chicos del equipo. Ganó 6–1 ante Parque Chas en la última fecha. Un empate ante Nuevos Guerreros (1–1). Tendencia positiva al cierre de la fecha 3.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadores del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Martínez Saavedra, León</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">14</span></div>
@@ -1025,6 +1396,81 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">FF 2010/2011</span>
+          <span class="cat-card-pct pct-high">100%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">0</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">16</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">3</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:100%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Invicta perfecta.</strong> 4 victorias en 4 partidos, solo 3 goles recibidos. Ganó los 4 encuentros sin perder ni empatar. El 8–0 ante CA Atlanta (25/04) es el mejor resultado de la franja.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">FF 2012/2013</span>
+          <span class="cat-card-pct pct-high">75%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">3</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">10</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">5</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:75%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Una sola derrota.</strong> Cedió 0–2 ante CA Atlanta (25/04), su único tropiezo. En las 3 victorias recibió solo 3 goles. Recuperación total del tropiezo inicial esperada en la próxima fecha.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">FF 2014/2015</span>
+          <span class="cat-card-pct pct-high">100%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">0</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">31</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">1</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:100%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>La mejor franja del club.</strong> Invicta, 31 goles a favor y solo 1 en contra. 12–0 ante Saenz Peña y 7–0 ante 17 de Agosto. Nivel de dominio excepcional en toda la temporada.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">FF 2016/2017</span>
+          <span class="cat-card-pct pct-high">75%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">4</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">3</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">1</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">12</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">4</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:75%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Sólida con un tropiezo.</strong> Perdió 1–2 ante 17 de Agosto (11/04), pero respondió con 6–0 (Saenz Peña) y 3–2 (CA Atlanta). Diferencia de +8. La más joven y ya muestra gran nivel.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadoras del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Salvatierra, Isabella</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">12</span></div>
@@ -1113,6 +1559,47 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">4ta División</span>
+          <span class="cat-card-pct pct-high">100%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">1</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">1</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">0</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">6</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">4</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:100%;background:var(--gr)"></div></div>
+          <div class="cat-analysis"><strong>Debut exitoso en 4ta.</strong> Primera aparición en esta categoría: victoria 6–4 ante Asociación Española (25/04). Buena señal para el crecimiento del equipo. Habrá que ver si se sostiene en próximas fechas.</div>
+        </div>
+      </div>      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">5ta División</span>
+          <span class="cat-card-pct pct-mid">50%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">8</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">4</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">4</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">38</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">45</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:50%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>50% de rendimiento.</strong> Potencial ofensivo alto (38 goles) pero defensa permeable (45 recibidos). Las derrotas fueron por amplios márgenes (1–9, 6–9). Necesita mejorar la solidez atrás.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadores del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Carrera, Nicolás</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">16</span></div>
@@ -1264,6 +1751,30 @@ tbody tr:hover td { background: rgba(27,67,50,.03); }
   </div>
 
   <div class="sec">
+    <div class="stt">Análisis por categoría</div>
+    <div class="cat-grid">
+      <div class="cat-card">
+        <div class="cat-card-header">
+          <span class="cat-card-name">Adultas</span>
+          <span class="cat-card-pct pct-mid">40%</span>
+        </div>
+        <div class="cat-card-body">
+          <div class="cat-mini-stats">
+            <div class="cms"><div class="cms-val">5</div><div class="cms-lbl">PJ</div></div>
+            <div class="cms cms-g"><div class="cms-val">2</div><div class="cms-lbl">G</div></div>
+            <div class="cms cms-e"><div class="cms-val">0</div><div class="cms-lbl">E</div></div>
+            <div class="cms cms-p"><div class="cms-val">3</div><div class="cms-lbl">P</div></div>
+            <div class="cms cms-gf"><div class="cms-val">14</div><div class="cms-lbl">GF</div></div>
+            <div class="cms cms-gc"><div class="cms-val">12</div><div class="cms-lbl">GC</div></div>
+          </div>
+          <div class="cat-bar-wrap"><div class="cat-bar-fill" style="width:40%;background:var(--yw)"></div></div>
+          <div class="cat-analysis"><strong>Arranque disparejo.</strong> Derrota inicial 1–4 ante Los Canteros, pero luego reaccionaron con una goleada 6–1 ante Acuariano. Cayeron 2–3 ante 25 de Mayo en doble fecha. La diferencia de +2 muestra que el equipo tiene nivel ofensivo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="sec">
     <div class="stt">Goleadoras del equipo</div>
     <div class="card">
       <div class="gol-row"><span class="gol-pos">1</span><span class="gol-name">Retamozo, Evelyn</span><div class="gol-bar-wrap"><div class="gol-bar-fill" style="width:100%"></div></div><span class="gol-num">4</span></div>
